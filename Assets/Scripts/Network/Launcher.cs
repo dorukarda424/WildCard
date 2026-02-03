@@ -1,58 +1,59 @@
 using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
     [SerializeField] Transform[] spawnPoints;
+    public string playerPrefabName = "Player";
+
     void Start()
     {
-
-        if (GameManager.instance != null)
+        if (PhotonNetwork.InRoom)
         {
-            PhotonNetwork.NickName = GameManager.instance.loggedInPlayerName;
+            SpawnPlayer();
         }
         else
         {
-
-            PhotonNetwork.NickName = "EditorPlayer";
+            Debug.LogWarning("Not in a room. Connecting to server...");
+            PhotonNetwork.ConnectUsingSettings();
         }
-
-        Debug.Log("player connecting... player: " + PhotonNetwork.NickName);
-        PhotonNetwork.ConnectUsingSettings();
     }
-
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("Connected");
-        PhotonNetwork.JoinLobby(); 
+        Debug.Log("Connected to Master.");
+        PhotonNetwork.JoinLobby();
     }
-
 
     public override void OnJoinedLobby()
     {
-        Debug.Log("Joined to lobby");
+        Debug.Log("Joined Lobby. Joining random room...");
         PhotonNetwork.JoinRandomRoom();
     }
 
-
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("No room to join creating a room");
-
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4 });
+        Debug.Log("Join random failed. Creating room...");
+        PhotonNetwork.CreateRoom(null, new Photon.Realtime.RoomOptions { MaxPlayers = 4 });
     }
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("Joined to the room! current player count: " + PhotonNetwork.CurrentRoom.PlayerCount);
+        Debug.Log("Joined room.");
+        SpawnPlayer();
+    }
 
+    void SpawnPlayer()
+    {
+        Vector3 spawnPos = Vector3.zero;
 
-        int randomIndex = Random.Range(0, spawnPoints.Length);
+        if (spawnPoints != null && spawnPoints.Length > 0)
+        {
+            int randomIndex = Random.Range(0, spawnPoints.Length);
+            spawnPos = spawnPoints[randomIndex].position;
+        }
 
-        Vector3 spawnPos = spawnPoints[randomIndex].position;
-
-        PhotonNetwork.Instantiate("Player", spawnPos, Quaternion.identity);
+        PhotonNetwork.Instantiate(playerPrefabName, spawnPos, Quaternion.identity);
+        Debug.Log("Player instantiated at: " + spawnPos);
     }
 }

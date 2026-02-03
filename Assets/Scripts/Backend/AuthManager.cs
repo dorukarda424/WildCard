@@ -7,9 +7,8 @@ using UnityEngine.UI;
 
 public class AuthManager : MonoBehaviour
 {
-
+ 
     private string baseUrl = "https://doruk-rogue-api-hcd2ckbyavdhgbdh.swedencentral-01.azurewebsites.net/";
-
 
     public TMP_InputField usernameField;
     public TMP_InputField passwordField;
@@ -37,29 +36,46 @@ public class AuthManager : MonoBehaviour
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError("Hata: " + www.error);
+                Debug.LogError("Network Error: " + www.error);
                 if (feedbackText) feedbackText.text = "Error connecting to server.";
             }
             else
             {
                 string response = www.downloadHandler.text;
-                Debug.Log(response);
+                Debug.Log("Server Response: " + response);
 
-                if (response.Contains("SUCCESS"))
+                if (response.Contains("SUCCESS") || response.Contains("Login Successful"))
                 {
                     if (feedbackText) feedbackText.text = "Success!";
-
+                    Debug.Log("Operation Successful!");
 
                     if (phpFile == "login.php")
                     {
+
+                        string[] parts = response.Split(':');
+
+
+                        int money = 0;
+                        if (parts.Length > 1)
+                        {
+
+                            int.TryParse(parts[1].Trim(), out money);
+                        }
+
+                        Debug.Log("Player Money: " + money);
+
+                        // GameManager.instance.playerMoney = money;
+                        Photon.Pun.PhotonNetwork.NickName = username; 
                         GameManager.instance.loggedInPlayerName = username;
-                        SceneManager.LoadScene("SampleScene");
+                        SceneManager.LoadScene("LobbyScene");
                     }
                 }
                 else
                 {
-                    if (feedbackText) feedbackText.text = "Error: " + response;
+                    if (feedbackText) feedbackText.text = response;
+                    Debug.LogError("Server Error: " + response);
                 }
+
             }
         }
     }
