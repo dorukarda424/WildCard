@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering;
 
 #if UNITY_EDITOR
@@ -10,7 +10,7 @@ public class ArenaGenerator : MonoBehaviour
     [Header("Arena Settings")]
     public Vector2 arenaSize = new Vector2(160, 240);
     public int layoutSeed = 55; 
-    public float buildingDensity = 0.65f;
+    public float buildingDensity = 0.40f;
     public float wallHeight = 22f;
     
     [Header("Colors & Materials")]
@@ -122,7 +122,7 @@ public class ArenaGenerator : MonoBehaviour
         PopulateUrbanEnvironment();
 
         // 7. Symmetrical Bases
-        CreateFortifiedBases();
+        //CreateFortifiedBases();
         
         // 8. Perimeter walls
         CreateBorderWalls();
