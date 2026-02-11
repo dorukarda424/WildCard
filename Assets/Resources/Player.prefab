@@ -359,6 +359,8 @@ MonoBehaviour:
   cameraTransform: {fileID: 158679542293011119}
   sensitivity: 100
   lookLimit: 90
+  playerCamera: {fileID: 0}
+  playerAudioListener: {fileID: 0}
   bobAmplitude: 0.1
   bobFrequency: 18
   _testing: 0

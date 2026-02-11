@@ -35,31 +35,31 @@ public class HazardLaser : MonoBehaviour
 
         if (isOn)
         {
-            UpdateLaser();
+            //UpdateLaser();
         }
     }
 
-    void UpdateLaser()
-    {
-        RaycastHit hit;
-        Vector3 direction = transform.forward;
-        lineRenderer.SetPosition(0, transform.position);
+    //void UpdateLaser()
+    //{
+    //    RaycastHit hit;
+    //    Vector3 direction = transform.forward;
+    //    lineRenderer.SetPosition(0, transform.position);
 
-        if (Physics.Raycast(transform.position, direction, out hit, 100f, hitLayers))
-        {
-            lineRenderer.SetPosition(1, hit.point);
+    //    if (Physics.Raycast(transform.position, direction, out hit, 100f, hitLayers))
+    //    {
+    //        lineRenderer.SetPosition(1, hit.point);
             
-            // Apply damage if it hits a player
-            PlayerHealth health = hit.collider.GetComponent<PlayerHealth>();
-            if (health != null)
-            {
-                // Simple cooldown to avoid instant death
-                health.TakeDamage(damage * Time.deltaTime);
-            }
-        }
-        else
-        {
-            lineRenderer.SetPosition(1, transform.position + direction * 100f);
-        }
-    }
+    //        // Apply damage if it hits a player
+    //        PlayerHealth health = hit.collider.GetComponent<PlayerHealth>();
+    //        if (health != null)
+    //        {
+    //            // Simple cooldown to avoid instant death
+    //            health.TakeDamage(damage * Time.deltaTime);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        lineRenderer.SetPosition(1, transform.position + direction * 100f);
+    //    }
+    //}
 }
