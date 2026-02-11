@@ -118,7 +118,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
 
-            PhotonNetwork.LoadLevel("SampleScene1");
+            PhotonNetwork.LoadLevel("Level 2");
         }
     }
 
