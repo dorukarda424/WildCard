@@ -92,7 +92,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             GameObject newPlayerItem = Instantiate(playerItemPrefab, playerListContent);
 
-            newPlayerItem.GetComponent<TextMeshProUGUI>().text = player.NickName;
+            newPlayerItem.GetComponentInChildren<TextMeshProUGUI>().text = player.NickName;
         }
 
 
@@ -118,7 +118,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
 
-            PhotonNetwork.LoadLevel("SampleScene");
+            PhotonNetwork.LoadLevel("SampleScene1");
         }
     }
 
