@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 5165365}
   - component: {fileID: 5165364}
   - component: {fileID: 5165363}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +243,7 @@ GameObject:
   - component: {fileID: 9247460}
   - component: {fileID: 9247459}
   - component: {fileID: 9247458}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 14019858}
   - component: {fileID: 14019857}
   - component: {fileID: 14019856}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 25475156}
   - component: {fileID: 25475155}
   - component: {fileID: 25475154}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -579,7 +579,7 @@ GameObject:
   - component: {fileID: 26342357}
   - component: {fileID: 26342356}
   - component: {fileID: 26342355}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -691,7 +691,7 @@ GameObject:
   - component: {fileID: 26613321}
   - component: {fileID: 26613320}
   - component: {fileID: 26613319}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -803,7 +803,7 @@ GameObject:
   - component: {fileID: 27400339}
   - component: {fileID: 27400338}
   - component: {fileID: 27400337}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -915,7 +915,7 @@ GameObject:
   - component: {fileID: 28388998}
   - component: {fileID: 28388997}
   - component: {fileID: 28388996}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1027,7 +1027,7 @@ GameObject:
   - component: {fileID: 33067987}
   - component: {fileID: 33067986}
   - component: {fileID: 33067985}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1127,6 +1127,39 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 33067983}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &35913469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 35913470}
+  m_Layer: 0
+  m_Name: bridge1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &35913470
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35913469}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 152073440}
+  - {fileID: 1002140938}
+  m_Father: {fileID: 1838253112}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &37897142
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,7 +1172,7 @@ GameObject:
   - component: {fileID: 37897146}
   - component: {fileID: 37897145}
   - component: {fileID: 37897144}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1251,7 +1284,7 @@ GameObject:
   - component: {fileID: 38052924}
   - component: {fileID: 38052923}
   - component: {fileID: 38052922}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1363,7 +1396,7 @@ GameObject:
   - component: {fileID: 39685269}
   - component: {fileID: 39685268}
   - component: {fileID: 39685267}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1475,7 +1508,7 @@ GameObject:
   - component: {fileID: 46591928}
   - component: {fileID: 46591927}
   - component: {fileID: 46591926}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1587,7 +1620,7 @@ GameObject:
   - component: {fileID: 55592635}
   - component: {fileID: 55592634}
   - component: {fileID: 55592633}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1699,7 +1732,7 @@ GameObject:
   - component: {fileID: 64886066}
   - component: {fileID: 64886065}
   - component: {fileID: 64886064}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1811,7 +1844,7 @@ GameObject:
   - component: {fileID: 65463256}
   - component: {fileID: 65463255}
   - component: {fileID: 65463254}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Holo_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1925,7 +1958,7 @@ GameObject:
   - component: {fileID: 73482781}
   - component: {fileID: 73482780}
   - component: {fileID: 73482779}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2037,7 +2070,7 @@ GameObject:
   - component: {fileID: 81812388}
   - component: {fileID: 81812387}
   - component: {fileID: 81812386}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2149,7 +2182,7 @@ GameObject:
   - component: {fileID: 84293548}
   - component: {fileID: 84293547}
   - component: {fileID: 84293546}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2261,7 +2294,7 @@ GameObject:
   - component: {fileID: 87237295}
   - component: {fileID: 87237294}
   - component: {fileID: 87237293}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2373,7 +2406,7 @@ GameObject:
   - component: {fileID: 90398053}
   - component: {fileID: 90398052}
   - component: {fileID: 90398051}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2485,7 +2518,7 @@ GameObject:
   - component: {fileID: 90841756}
   - component: {fileID: 90841755}
   - component: {fileID: 90841754}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2597,7 +2630,7 @@ GameObject:
   - component: {fileID: 93014091}
   - component: {fileID: 93014090}
   - component: {fileID: 93014089}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2709,7 +2742,7 @@ GameObject:
   - component: {fileID: 95663731}
   - component: {fileID: 95663730}
   - component: {fileID: 95663729}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2821,7 +2854,7 @@ GameObject:
   - component: {fileID: 98925263}
   - component: {fileID: 98925262}
   - component: {fileID: 98925261}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2933,7 +2966,7 @@ GameObject:
   - component: {fileID: 99227563}
   - component: {fileID: 99227562}
   - component: {fileID: 99227561}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3045,7 +3078,7 @@ GameObject:
   - component: {fileID: 100223291}
   - component: {fileID: 100223290}
   - component: {fileID: 100223289}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3157,7 +3190,7 @@ GameObject:
   - component: {fileID: 100718013}
   - component: {fileID: 100718012}
   - component: {fileID: 100718011}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3269,7 +3302,7 @@ GameObject:
   - component: {fileID: 109157061}
   - component: {fileID: 109157060}
   - component: {fileID: 109157059}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3381,7 +3414,7 @@ GameObject:
   - component: {fileID: 116384581}
   - component: {fileID: 116384580}
   - component: {fileID: 116384579}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3493,7 +3526,7 @@ GameObject:
   - component: {fileID: 124400696}
   - component: {fileID: 124400695}
   - component: {fileID: 124400694}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (16)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3605,7 +3638,7 @@ GameObject:
   - component: {fileID: 125136248}
   - component: {fileID: 125136247}
   - component: {fileID: 125136246}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3717,7 +3750,7 @@ GameObject:
   - component: {fileID: 127007725}
   - component: {fileID: 127007724}
   - component: {fileID: 127007723}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3829,7 +3862,7 @@ GameObject:
   - component: {fileID: 131806115}
   - component: {fileID: 131806114}
   - component: {fileID: 131806113}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3941,7 +3974,7 @@ GameObject:
   - component: {fileID: 135540649}
   - component: {fileID: 135540648}
   - component: {fileID: 135540647}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4053,7 +4086,7 @@ GameObject:
   - component: {fileID: 138802224}
   - component: {fileID: 138802223}
   - component: {fileID: 138802222}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4165,7 +4198,7 @@ GameObject:
   - component: {fileID: 140549751}
   - component: {fileID: 140549750}
   - component: {fileID: 140549749}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4277,7 +4310,7 @@ GameObject:
   - component: {fileID: 141180496}
   - component: {fileID: 141180495}
   - component: {fileID: 141180494}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4389,7 +4422,7 @@ GameObject:
   - component: {fileID: 145824382}
   - component: {fileID: 145824381}
   - component: {fileID: 145824380}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4501,7 +4534,7 @@ GameObject:
   - component: {fileID: 151150284}
   - component: {fileID: 151150283}
   - component: {fileID: 151150282}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4601,6 +4634,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 151150280}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &152073439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 152073440}
+  m_Layer: 0
+  m_Name: Point_A
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &152073440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152073439}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 44.54, y: -3.9937105, z: 58.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 35913470}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &153188637
 GameObject:
   m_ObjectHideFlags: 0
@@ -4613,7 +4677,7 @@ GameObject:
   - component: {fileID: 153188641}
   - component: {fileID: 153188640}
   - component: {fileID: 153188639}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4725,7 +4789,7 @@ GameObject:
   - component: {fileID: 154435994}
   - component: {fileID: 154435993}
   - component: {fileID: 154435992}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4837,7 +4901,7 @@ GameObject:
   - component: {fileID: 161705711}
   - component: {fileID: 161705710}
   - component: {fileID: 161705709}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4949,7 +5013,7 @@ GameObject:
   - component: {fileID: 165331497}
   - component: {fileID: 165331496}
   - component: {fileID: 165331495}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5061,7 +5125,7 @@ GameObject:
   - component: {fileID: 165498212}
   - component: {fileID: 165498211}
   - component: {fileID: 165498210}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5173,7 +5237,7 @@ GameObject:
   - component: {fileID: 168502647}
   - component: {fileID: 168502646}
   - component: {fileID: 168502645}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5285,7 +5349,7 @@ GameObject:
   - component: {fileID: 173934358}
   - component: {fileID: 173934357}
   - component: {fileID: 173934356}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5397,7 +5461,7 @@ GameObject:
   - component: {fileID: 175435137}
   - component: {fileID: 175435136}
   - component: {fileID: 175435135}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5509,7 +5573,7 @@ GameObject:
   - component: {fileID: 176195621}
   - component: {fileID: 176195620}
   - component: {fileID: 176195619}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5621,7 +5685,7 @@ GameObject:
   - component: {fileID: 177733092}
   - component: {fileID: 177733091}
   - component: {fileID: 177733090}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5733,7 +5797,7 @@ GameObject:
   - component: {fileID: 184718686}
   - component: {fileID: 184718685}
   - component: {fileID: 184718684}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5845,7 +5909,7 @@ GameObject:
   - component: {fileID: 185505787}
   - component: {fileID: 185505786}
   - component: {fileID: 185505785}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5957,7 +6021,7 @@ GameObject:
   - component: {fileID: 185537764}
   - component: {fileID: 185537763}
   - component: {fileID: 185537762}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6069,7 +6133,7 @@ GameObject:
   - component: {fileID: 186317414}
   - component: {fileID: 186317413}
   - component: {fileID: 186317412}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6181,7 +6245,7 @@ GameObject:
   - component: {fileID: 192579227}
   - component: {fileID: 192579226}
   - component: {fileID: 192579225}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6293,7 +6357,7 @@ GameObject:
   - component: {fileID: 193681692}
   - component: {fileID: 193681691}
   - component: {fileID: 193681690}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6405,7 +6469,7 @@ GameObject:
   - component: {fileID: 204000026}
   - component: {fileID: 204000025}
   - component: {fileID: 204000024}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6517,7 +6581,7 @@ GameObject:
   - component: {fileID: 211275302}
   - component: {fileID: 211275301}
   - component: {fileID: 211275300}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6629,7 +6693,7 @@ GameObject:
   - component: {fileID: 211387598}
   - component: {fileID: 211387597}
   - component: {fileID: 211387596}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6741,7 +6805,7 @@ GameObject:
   - component: {fileID: 212749815}
   - component: {fileID: 212749814}
   - component: {fileID: 212749813}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6853,7 +6917,7 @@ GameObject:
   - component: {fileID: 221643797}
   - component: {fileID: 221643796}
   - component: {fileID: 221643795}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7295,17 +7359,9 @@ Transform:
   - {fileID: 65463253}
   - {fileID: 498045306}
   - {fileID: 935593265}
-  - {fileID: 795203607}
-  - {fileID: 1178795537}
   - {fileID: 405557075}
-  - {fileID: 426780988}
-  - {fileID: 894140607}
   - {fileID: 1340222022}
-  - {fileID: 2002698368}
-  - {fileID: 886249621}
   - {fileID: 1553258728}
-  - {fileID: 859928738}
-  - {fileID: 797804658}
   - {fileID: 852184198}
   - {fileID: 1559758085}
   - {fileID: 748038565}
@@ -7584,7 +7640,7 @@ GameObject:
   - component: {fileID: 226948385}
   - component: {fileID: 226948384}
   - component: {fileID: 226948383}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7696,7 +7752,7 @@ GameObject:
   - component: {fileID: 246166584}
   - component: {fileID: 246166583}
   - component: {fileID: 246166582}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7808,7 +7864,7 @@ GameObject:
   - component: {fileID: 260968454}
   - component: {fileID: 260968453}
   - component: {fileID: 260968452}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7920,7 +7976,7 @@ GameObject:
   - component: {fileID: 260998745}
   - component: {fileID: 260998744}
   - component: {fileID: 260998743}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8032,7 +8088,7 @@ GameObject:
   - component: {fileID: 267168083}
   - component: {fileID: 267168082}
   - component: {fileID: 267168081}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8144,7 +8200,7 @@ GameObject:
   - component: {fileID: 278231652}
   - component: {fileID: 278231651}
   - component: {fileID: 278231650}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8256,7 +8312,7 @@ GameObject:
   - component: {fileID: 281011964}
   - component: {fileID: 281011963}
   - component: {fileID: 281011962}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8368,7 +8424,7 @@ GameObject:
   - component: {fileID: 287997291}
   - component: {fileID: 287997290}
   - component: {fileID: 287997289}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8480,7 +8536,7 @@ GameObject:
   - component: {fileID: 289067570}
   - component: {fileID: 289067569}
   - component: {fileID: 289067568}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8592,7 +8648,7 @@ GameObject:
   - component: {fileID: 289137484}
   - component: {fileID: 289137483}
   - component: {fileID: 289137482}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8704,7 +8760,7 @@ GameObject:
   - component: {fileID: 295517683}
   - component: {fileID: 295517682}
   - component: {fileID: 295517681}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8816,7 +8872,7 @@ GameObject:
   - component: {fileID: 297518122}
   - component: {fileID: 297518121}
   - component: {fileID: 297518120}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8916,6 +8972,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 297518118}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &300187566
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 300187567}
+  m_Layer: 0
+  m_Name: point b
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &300187567
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300187566}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 36.36, z: 21.87}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1516954192}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &303101414
 GameObject:
   m_ObjectHideFlags: 0
@@ -8928,7 +9015,7 @@ GameObject:
   - component: {fileID: 303101418}
   - component: {fileID: 303101417}
   - component: {fileID: 303101416}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9040,7 +9127,7 @@ GameObject:
   - component: {fileID: 305342973}
   - component: {fileID: 305342972}
   - component: {fileID: 305342971}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9152,7 +9239,7 @@ GameObject:
   - component: {fileID: 309574305}
   - component: {fileID: 309574304}
   - component: {fileID: 309574303}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9264,7 +9351,7 @@ GameObject:
   - component: {fileID: 322515808}
   - component: {fileID: 322515807}
   - component: {fileID: 322515806}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9498,7 +9585,7 @@ GameObject:
   - component: {fileID: 328633227}
   - component: {fileID: 328633226}
   - component: {fileID: 328633225}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9610,7 +9697,7 @@ GameObject:
   - component: {fileID: 329625045}
   - component: {fileID: 329625044}
   - component: {fileID: 329625043}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9722,7 +9809,7 @@ GameObject:
   - component: {fileID: 330455172}
   - component: {fileID: 330455171}
   - component: {fileID: 330455170}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9822,6 +9909,144 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330455168}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &330585543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 330585546}
+  - component: {fileID: 330585545}
+  - component: {fileID: 330585544}
+  - component: {fileID: 330585547}
+  m_Layer: 0
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &330585544
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+--- !u!20 &330585545
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &330585546
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 34.2, z: -85.46}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 944411932}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &330585547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &332081189
 GameObject:
   m_ObjectHideFlags: 0
@@ -9834,7 +10059,7 @@ GameObject:
   - component: {fileID: 332081193}
   - component: {fileID: 332081192}
   - component: {fileID: 332081191}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9946,7 +10171,7 @@ GameObject:
   - component: {fileID: 333556134}
   - component: {fileID: 333556133}
   - component: {fileID: 333556132}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10058,7 +10283,7 @@ GameObject:
   - component: {fileID: 333739060}
   - component: {fileID: 333739059}
   - component: {fileID: 333739058}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10170,7 +10395,7 @@ GameObject:
   - component: {fileID: 333929594}
   - component: {fileID: 333929593}
   - component: {fileID: 333929592}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10282,7 +10507,7 @@ GameObject:
   - component: {fileID: 340771435}
   - component: {fileID: 340771434}
   - component: {fileID: 340771433}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10394,7 +10619,7 @@ GameObject:
   - component: {fileID: 341704923}
   - component: {fileID: 341704922}
   - component: {fileID: 341704921}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10506,7 +10731,7 @@ GameObject:
   - component: {fileID: 343893627}
   - component: {fileID: 343893626}
   - component: {fileID: 343893625}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10618,7 +10843,7 @@ GameObject:
   - component: {fileID: 346720645}
   - component: {fileID: 346720644}
   - component: {fileID: 346720643}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10730,7 +10955,7 @@ GameObject:
   - component: {fileID: 346952568}
   - component: {fileID: 346952567}
   - component: {fileID: 346952566}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10842,7 +11067,7 @@ GameObject:
   - component: {fileID: 348420362}
   - component: {fileID: 348420361}
   - component: {fileID: 348420360}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10954,7 +11179,7 @@ GameObject:
   - component: {fileID: 348779464}
   - component: {fileID: 348779463}
   - component: {fileID: 348779462}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11066,7 +11291,7 @@ GameObject:
   - component: {fileID: 353808462}
   - component: {fileID: 353808461}
   - component: {fileID: 353808460}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11178,7 +11403,7 @@ GameObject:
   - component: {fileID: 364738521}
   - component: {fileID: 364738520}
   - component: {fileID: 364738519}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (19)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11290,7 +11515,7 @@ GameObject:
   - component: {fileID: 365284214}
   - component: {fileID: 365284213}
   - component: {fileID: 365284212}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11402,7 +11627,7 @@ GameObject:
   - component: {fileID: 368229613}
   - component: {fileID: 368229612}
   - component: {fileID: 368229611}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11514,7 +11739,7 @@ GameObject:
   - component: {fileID: 368563357}
   - component: {fileID: 368563356}
   - component: {fileID: 368563355}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11626,7 +11851,7 @@ GameObject:
   - component: {fileID: 375732913}
   - component: {fileID: 375732912}
   - component: {fileID: 375732911}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11738,7 +11963,7 @@ GameObject:
   - component: {fileID: 382167497}
   - component: {fileID: 382167496}
   - component: {fileID: 382167495}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11850,7 +12075,7 @@ GameObject:
   - component: {fileID: 384064140}
   - component: {fileID: 384064139}
   - component: {fileID: 384064138}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11962,7 +12187,7 @@ GameObject:
   - component: {fileID: 388986413}
   - component: {fileID: 388986412}
   - component: {fileID: 388986411}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12062,6 +12287,39 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 388986409}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &392025675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 392025676}
+  m_Layer: 0
+  m_Name: bridge1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &392025676
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392025675}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 719013905}
+  - {fileID: 1730546117}
+  m_Father: {fileID: 1858892845}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &395278380
 GameObject:
   m_ObjectHideFlags: 0
@@ -12074,7 +12332,7 @@ GameObject:
   - component: {fileID: 395278384}
   - component: {fileID: 395278383}
   - component: {fileID: 395278382}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12186,7 +12444,7 @@ GameObject:
   - component: {fileID: 403274412}
   - component: {fileID: 403274411}
   - component: {fileID: 403274410}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12298,7 +12556,7 @@ GameObject:
   - component: {fileID: 405036760}
   - component: {fileID: 405036759}
   - component: {fileID: 405036758}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12408,9 +12666,10 @@ GameObject:
   m_Component:
   - component: {fileID: 405557075}
   - component: {fileID: 405557078}
+  - component: {fileID: 405557079}
   - component: {fileID: 405557077}
   - component: {fileID: 405557076}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Skyway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12429,7 +12688,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 16, z: 0}
   m_LocalScale: {x: 147.13501, y: 0.5, z: 8}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 426780988}
+  - {fileID: 894140607}
   m_Father: {fileID: 223935307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &405557076
@@ -12510,6 +12771,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 405557074}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &405557079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405557074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 828abf5812543824aa6a5436c175766a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
+  waypoints:
+  - {fileID: 577055668}
+  - {fileID: 300187567}
+  speed: 5
+  waitTime: 5
+  isActive: 1
 --- !u!1 &408660510
 GameObject:
   m_ObjectHideFlags: 0
@@ -12522,7 +12801,7 @@ GameObject:
   - component: {fileID: 408660514}
   - component: {fileID: 408660513}
   - component: {fileID: 408660512}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12761,7 +13040,7 @@ GameObject:
   - component: {fileID: 412212865}
   - component: {fileID: 412212864}
   - component: {fileID: 412212863}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12873,7 +13152,7 @@ GameObject:
   - component: {fileID: 412972237}
   - component: {fileID: 412972236}
   - component: {fileID: 412972235}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12985,7 +13264,7 @@ GameObject:
   - component: {fileID: 418067420}
   - component: {fileID: 418067419}
   - component: {fileID: 418067418}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13097,7 +13376,7 @@ GameObject:
   - component: {fileID: 419255240}
   - component: {fileID: 419255239}
   - component: {fileID: 419255238}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13209,7 +13488,7 @@ GameObject:
   - component: {fileID: 426780991}
   - component: {fileID: 426780990}
   - component: {fileID: 426780989}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13225,11 +13504,11 @@ Transform:
   m_GameObject: {fileID: 426780987}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 17, z: 4}
-  m_LocalScale: {x: 147.13501, y: 1.5, z: 0.2}
+  m_LocalPosition: {x: 0, y: 2, z: 0.5}
+  m_LocalScale: {x: 1, y: 3, z: 0.025}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 223935307}
+  m_Father: {fileID: 405557075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &426780989
 MeshRenderer:
@@ -13321,7 +13600,7 @@ GameObject:
   - component: {fileID: 427322106}
   - component: {fileID: 427322105}
   - component: {fileID: 427322104}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13433,7 +13712,7 @@ GameObject:
   - component: {fileID: 429676010}
   - component: {fileID: 429676009}
   - component: {fileID: 429676008}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13545,7 +13824,7 @@ GameObject:
   - component: {fileID: 432102438}
   - component: {fileID: 432102437}
   - component: {fileID: 432102436}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13779,7 +14058,7 @@ GameObject:
   - component: {fileID: 438126237}
   - component: {fileID: 438126236}
   - component: {fileID: 438126235}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13891,7 +14170,7 @@ GameObject:
   - component: {fileID: 441603540}
   - component: {fileID: 441603539}
   - component: {fileID: 441603538}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14003,7 +14282,7 @@ GameObject:
   - component: {fileID: 441696001}
   - component: {fileID: 441696000}
   - component: {fileID: 441695999}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14115,7 +14394,7 @@ GameObject:
   - component: {fileID: 444901853}
   - component: {fileID: 444901852}
   - component: {fileID: 444901851}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14227,7 +14506,7 @@ GameObject:
   - component: {fileID: 446497754}
   - component: {fileID: 446497753}
   - component: {fileID: 446497752}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14339,7 +14618,7 @@ GameObject:
   - component: {fileID: 448617375}
   - component: {fileID: 448617374}
   - component: {fileID: 448617373}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14451,7 +14730,7 @@ GameObject:
   - component: {fileID: 450095660}
   - component: {fileID: 450095659}
   - component: {fileID: 450095658}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14563,7 +14842,7 @@ GameObject:
   - component: {fileID: 454119653}
   - component: {fileID: 454119652}
   - component: {fileID: 454119651}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14675,7 +14954,7 @@ GameObject:
   - component: {fileID: 454260499}
   - component: {fileID: 454260498}
   - component: {fileID: 454260497}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14787,7 +15066,7 @@ GameObject:
   - component: {fileID: 457400383}
   - component: {fileID: 457400382}
   - component: {fileID: 457400381}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14899,7 +15178,7 @@ GameObject:
   - component: {fileID: 461373158}
   - component: {fileID: 461373157}
   - component: {fileID: 461373156}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15011,7 +15290,7 @@ GameObject:
   - component: {fileID: 461669097}
   - component: {fileID: 461669096}
   - component: {fileID: 461669095}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15123,7 +15402,7 @@ GameObject:
   - component: {fileID: 463390854}
   - component: {fileID: 463390853}
   - component: {fileID: 463390852}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15235,7 +15514,7 @@ GameObject:
   - component: {fileID: 464452225}
   - component: {fileID: 464452224}
   - component: {fileID: 464452223}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15347,7 +15626,7 @@ GameObject:
   - component: {fileID: 475399057}
   - component: {fileID: 475399056}
   - component: {fileID: 475399055}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15459,7 +15738,7 @@ GameObject:
   - component: {fileID: 478891930}
   - component: {fileID: 478891929}
   - component: {fileID: 478891928}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15571,7 +15850,7 @@ GameObject:
   - component: {fileID: 489223809}
   - component: {fileID: 489223808}
   - component: {fileID: 489223807}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15683,7 +15962,7 @@ GameObject:
   - component: {fileID: 490160796}
   - component: {fileID: 490160795}
   - component: {fileID: 490160794}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15795,7 +16074,7 @@ GameObject:
   - component: {fileID: 490391315}
   - component: {fileID: 490391314}
   - component: {fileID: 490391313}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15907,7 +16186,7 @@ GameObject:
   - component: {fileID: 491553592}
   - component: {fileID: 491553591}
   - component: {fileID: 491553590}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16019,7 +16298,7 @@ GameObject:
   - component: {fileID: 495876642}
   - component: {fileID: 495876641}
   - component: {fileID: 495876640}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16131,7 +16410,7 @@ GameObject:
   - component: {fileID: 495961942}
   - component: {fileID: 495961941}
   - component: {fileID: 495961940}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16244,7 +16523,7 @@ GameObject:
   - component: {fileID: 498045310}
   - component: {fileID: 498045308}
   - component: {fileID: 498045307}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Skyway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16376,7 +16655,7 @@ GameObject:
   - component: {fileID: 501184599}
   - component: {fileID: 501184598}
   - component: {fileID: 501184597}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16488,7 +16767,7 @@ GameObject:
   - component: {fileID: 501646042}
   - component: {fileID: 501646041}
   - component: {fileID: 501646040}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16600,7 +16879,7 @@ GameObject:
   - component: {fileID: 504208312}
   - component: {fileID: 504208311}
   - component: {fileID: 504208310}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16712,7 +16991,7 @@ GameObject:
   - component: {fileID: 514734456}
   - component: {fileID: 514734455}
   - component: {fileID: 514734454}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16824,7 +17103,7 @@ GameObject:
   - component: {fileID: 519241207}
   - component: {fileID: 519241206}
   - component: {fileID: 519241205}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16936,7 +17215,7 @@ GameObject:
   - component: {fileID: 521410226}
   - component: {fileID: 521410225}
   - component: {fileID: 521410224}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17048,7 +17327,7 @@ GameObject:
   - component: {fileID: 523678550}
   - component: {fileID: 523678549}
   - component: {fileID: 523678548}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17160,7 +17439,7 @@ GameObject:
   - component: {fileID: 528175059}
   - component: {fileID: 528175058}
   - component: {fileID: 528175057}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17272,7 +17551,7 @@ GameObject:
   - component: {fileID: 534795784}
   - component: {fileID: 534795783}
   - component: {fileID: 534795782}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17384,7 +17663,7 @@ GameObject:
   - component: {fileID: 535178025}
   - component: {fileID: 535178024}
   - component: {fileID: 535178023}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17496,7 +17775,7 @@ GameObject:
   - component: {fileID: 535331893}
   - component: {fileID: 535331892}
   - component: {fileID: 535331891}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17608,7 +17887,7 @@ GameObject:
   - component: {fileID: 535915290}
   - component: {fileID: 535915289}
   - component: {fileID: 535915288}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17720,7 +17999,7 @@ GameObject:
   - component: {fileID: 537881427}
   - component: {fileID: 537881426}
   - component: {fileID: 537881425}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17832,7 +18111,7 @@ GameObject:
   - component: {fileID: 538603695}
   - component: {fileID: 538603694}
   - component: {fileID: 538603693}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17944,7 +18223,7 @@ GameObject:
   - component: {fileID: 542099371}
   - component: {fileID: 542099370}
   - component: {fileID: 542099369}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18056,7 +18335,7 @@ GameObject:
   - component: {fileID: 550945411}
   - component: {fileID: 550945410}
   - component: {fileID: 550945409}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18168,7 +18447,7 @@ GameObject:
   - component: {fileID: 555838291}
   - component: {fileID: 555838290}
   - component: {fileID: 555838289}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18268,6 +18547,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 555838287}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &558374172
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 558374173}
+  m_Layer: 0
+  m_Name: point b
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &558374173
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558374172}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 23.29, y: 36.36, z: 58.64}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 688983596}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &559990091
 GameObject:
   m_ObjectHideFlags: 0
@@ -18280,7 +18590,7 @@ GameObject:
   - component: {fileID: 559990095}
   - component: {fileID: 559990094}
   - component: {fileID: 559990093}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18392,7 +18702,7 @@ GameObject:
   - component: {fileID: 564803834}
   - component: {fileID: 564803833}
   - component: {fileID: 564803832}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18504,7 +18814,7 @@ GameObject:
   - component: {fileID: 567716494}
   - component: {fileID: 567716493}
   - component: {fileID: 567716492}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18616,7 +18926,7 @@ GameObject:
   - component: {fileID: 572359426}
   - component: {fileID: 572359425}
   - component: {fileID: 572359424}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18728,7 +19038,7 @@ GameObject:
   - component: {fileID: 574783193}
   - component: {fileID: 574783192}
   - component: {fileID: 574783191}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18840,7 +19150,7 @@ GameObject:
   - component: {fileID: 576220329}
   - component: {fileID: 576220328}
   - component: {fileID: 576220327}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18952,7 +19262,7 @@ GameObject:
   - component: {fileID: 576589553}
   - component: {fileID: 576589552}
   - component: {fileID: 576589551}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19052,6 +19362,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576589549}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &577055667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 577055668}
+  m_Layer: 0
+  m_Name: 'point a '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &577055668
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577055667}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -6.74, z: 22.09}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1516954192}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &589029527
 GameObject:
   m_ObjectHideFlags: 0
@@ -19064,7 +19405,7 @@ GameObject:
   - component: {fileID: 589029531}
   - component: {fileID: 589029530}
   - component: {fileID: 589029529}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19176,7 +19517,7 @@ GameObject:
   - component: {fileID: 591768034}
   - component: {fileID: 591768033}
   - component: {fileID: 591768032}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19288,7 +19629,7 @@ GameObject:
   - component: {fileID: 594288936}
   - component: {fileID: 594288935}
   - component: {fileID: 594288934}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19520,7 +19861,7 @@ GameObject:
   - component: {fileID: 616110689}
   - component: {fileID: 616110688}
   - component: {fileID: 616110687}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19632,7 +19973,7 @@ GameObject:
   - component: {fileID: 617193662}
   - component: {fileID: 617193661}
   - component: {fileID: 617193660}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19744,7 +20085,7 @@ GameObject:
   - component: {fileID: 617752840}
   - component: {fileID: 617752839}
   - component: {fileID: 617752838}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19856,7 +20197,7 @@ GameObject:
   - component: {fileID: 622446686}
   - component: {fileID: 622446685}
   - component: {fileID: 622446684}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19968,7 +20309,7 @@ GameObject:
   - component: {fileID: 627102075}
   - component: {fileID: 627102074}
   - component: {fileID: 627102073}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20080,7 +20421,7 @@ GameObject:
   - component: {fileID: 628591549}
   - component: {fileID: 628591548}
   - component: {fileID: 628591547}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20192,7 +20533,7 @@ GameObject:
   - component: {fileID: 632628657}
   - component: {fileID: 632628656}
   - component: {fileID: 632628655}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20304,7 +20645,7 @@ GameObject:
   - component: {fileID: 633308469}
   - component: {fileID: 633308468}
   - component: {fileID: 633308467}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20416,7 +20757,7 @@ GameObject:
   - component: {fileID: 633497415}
   - component: {fileID: 633497414}
   - component: {fileID: 633497413}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20528,7 +20869,7 @@ GameObject:
   - component: {fileID: 636071569}
   - component: {fileID: 636071568}
   - component: {fileID: 636071567}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20640,7 +20981,7 @@ GameObject:
   - component: {fileID: 644480369}
   - component: {fileID: 644480368}
   - component: {fileID: 644480367}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20752,7 +21093,7 @@ GameObject:
   - component: {fileID: 645689251}
   - component: {fileID: 645689250}
   - component: {fileID: 645689249}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20864,7 +21205,7 @@ GameObject:
   - component: {fileID: 655413710}
   - component: {fileID: 655413709}
   - component: {fileID: 655413708}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20976,7 +21317,7 @@ GameObject:
   - component: {fileID: 656570948}
   - component: {fileID: 656570947}
   - component: {fileID: 656570946}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21088,7 +21429,7 @@ GameObject:
   - component: {fileID: 665580518}
   - component: {fileID: 665580517}
   - component: {fileID: 665580516}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21200,7 +21541,7 @@ GameObject:
   - component: {fileID: 671129559}
   - component: {fileID: 671129558}
   - component: {fileID: 671129557}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21312,7 +21653,7 @@ GameObject:
   - component: {fileID: 672040676}
   - component: {fileID: 672040675}
   - component: {fileID: 672040674}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21424,7 +21765,7 @@ GameObject:
   - component: {fileID: 672697517}
   - component: {fileID: 672697516}
   - component: {fileID: 672697515}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21536,7 +21877,7 @@ GameObject:
   - component: {fileID: 675274607}
   - component: {fileID: 675274606}
   - component: {fileID: 675274605}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21648,7 +21989,7 @@ GameObject:
   - component: {fileID: 677372825}
   - component: {fileID: 677372824}
   - component: {fileID: 677372823}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21760,7 +22101,7 @@ GameObject:
   - component: {fileID: 681788310}
   - component: {fileID: 681788309}
   - component: {fileID: 681788308}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21872,7 +22213,7 @@ GameObject:
   - component: {fileID: 684458163}
   - component: {fileID: 684458162}
   - component: {fileID: 684458161}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21984,7 +22325,7 @@ GameObject:
   - component: {fileID: 686370587}
   - component: {fileID: 686370586}
   - component: {fileID: 686370585}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22096,7 +22437,7 @@ GameObject:
   - component: {fileID: 687717663}
   - component: {fileID: 687717662}
   - component: {fileID: 687717661}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22196,6 +22537,39 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687717659}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &688983595
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 688983596}
+  m_Layer: 0
+  m_Name: bridge3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &688983596
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688983595}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 13.761161, y: 1.8379688, z: 16.943321}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 842969686}
+  - {fileID: 558374173}
+  m_Father: {fileID: 1838253112}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &689207940
 GameObject:
   m_ObjectHideFlags: 0
@@ -22208,7 +22582,7 @@ GameObject:
   - component: {fileID: 689207944}
   - component: {fileID: 689207943}
   - component: {fileID: 689207942}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22320,7 +22694,7 @@ GameObject:
   - component: {fileID: 693610505}
   - component: {fileID: 693610504}
   - component: {fileID: 693610503}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22432,7 +22806,7 @@ GameObject:
   - component: {fileID: 701664220}
   - component: {fileID: 701664219}
   - component: {fileID: 701664218}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22544,7 +22918,7 @@ GameObject:
   - component: {fileID: 705669743}
   - component: {fileID: 705669742}
   - component: {fileID: 705669741}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22656,7 +23030,7 @@ GameObject:
   - component: {fileID: 706647136}
   - component: {fileID: 706647135}
   - component: {fileID: 706647134}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22756,87 +23130,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706647132}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &708544090
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1947976267100510030, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: sceneViewId
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5086194701131988379, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: gravity
-      value: -30
-      objectReference: {fileID: 0}
-    - target: {fileID: 5086194701131988379, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: runSpeed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5086194701131988379, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: jumpForce
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5086194701131988379, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: walkSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5086194701131988379, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: maxFallSpeed
-      value: -30
-      objectReference: {fileID: 0}
-    - target: {fileID: 8622365362640465882, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8999324302616172852, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 36.54919
-      objectReference: {fileID: 0}
-    - target: {fileID: 8999324302616172852, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 35.44
-      objectReference: {fileID: 0}
-    - target: {fileID: 8999324302616172852, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -78.03095
-      objectReference: {fileID: 0}
-    - target: {fileID: 8999324302616172852, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8999324302616172852, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8999324302616172852, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8999324302616172852, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8999324302616172852, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8999324302616172852, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8999324302616172852, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
 --- !u!1 &713959340
 GameObject:
   m_ObjectHideFlags: 0
@@ -22849,7 +23142,7 @@ GameObject:
   - component: {fileID: 713959344}
   - component: {fileID: 713959343}
   - component: {fileID: 713959342}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22961,7 +23254,7 @@ GameObject:
   - component: {fileID: 716536590}
   - component: {fileID: 716536589}
   - component: {fileID: 716536588}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23073,7 +23366,7 @@ GameObject:
   - component: {fileID: 716840496}
   - component: {fileID: 716840495}
   - component: {fileID: 716840494}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23197,12 +23490,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 719013904}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.14, y: 15.95, z: -53.88}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 15.71, y: -3.9937105, z: -14.87418}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 392025676}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &721267824
 GameObject:
@@ -23216,7 +23509,7 @@ GameObject:
   - component: {fileID: 721267828}
   - component: {fileID: 721267827}
   - component: {fileID: 721267826}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23328,7 +23621,7 @@ GameObject:
   - component: {fileID: 726042177}
   - component: {fileID: 726042176}
   - component: {fileID: 726042175}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23440,7 +23733,7 @@ GameObject:
   - component: {fileID: 730105689}
   - component: {fileID: 730105688}
   - component: {fileID: 730105687}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23552,7 +23845,7 @@ GameObject:
   - component: {fileID: 732105139}
   - component: {fileID: 732105138}
   - component: {fileID: 732105137}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23664,7 +23957,7 @@ GameObject:
   - component: {fileID: 748038568}
   - component: {fileID: 748038567}
   - component: {fileID: 748038566}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23776,7 +24069,7 @@ GameObject:
   - component: {fileID: 751555096}
   - component: {fileID: 751555095}
   - component: {fileID: 751555094}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23888,7 +24181,7 @@ GameObject:
   - component: {fileID: 769277993}
   - component: {fileID: 769277992}
   - component: {fileID: 769277991}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24000,7 +24293,7 @@ GameObject:
   - component: {fileID: 773311824}
   - component: {fileID: 773311823}
   - component: {fileID: 773311822}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24112,7 +24405,7 @@ GameObject:
   - component: {fileID: 773780813}
   - component: {fileID: 773780812}
   - component: {fileID: 773780811}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24224,7 +24517,7 @@ GameObject:
   - component: {fileID: 778893103}
   - component: {fileID: 778893102}
   - component: {fileID: 778893101}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24336,7 +24629,7 @@ GameObject:
   - component: {fileID: 780299141}
   - component: {fileID: 780299140}
   - component: {fileID: 780299139}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24448,7 +24741,7 @@ GameObject:
   - component: {fileID: 790571622}
   - component: {fileID: 790571621}
   - component: {fileID: 790571620}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24560,7 +24853,7 @@ GameObject:
   - component: {fileID: 792697834}
   - component: {fileID: 792697833}
   - component: {fileID: 792697832}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24672,7 +24965,7 @@ GameObject:
   - component: {fileID: 795203610}
   - component: {fileID: 795203609}
   - component: {fileID: 795203608}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24688,11 +24981,11 @@ Transform:
   m_GameObject: {fileID: 795203606}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 17, z: -21}
-  m_LocalScale: {x: 127.5, y: 1.5, z: 0.2}
+  m_LocalPosition: {x: 0, y: 2, z: 0.5}
+  m_LocalScale: {x: 1, y: 3, z: 0.025}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 223935307}
+  m_Father: {fileID: 935593265}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &795203608
 MeshRenderer:
@@ -24784,7 +25077,7 @@ GameObject:
   - component: {fileID: 797804661}
   - component: {fileID: 797804660}
   - component: {fileID: 797804659}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24800,11 +25093,11 @@ Transform:
   m_GameObject: {fileID: 797804657}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 17, z: 46}
-  m_LocalScale: {x: 127.5, y: 1.5, z: 0.2}
+  m_LocalPosition: {x: 0, y: 2, z: -0.5}
+  m_LocalScale: {x: 1, y: 3, z: 0.025}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 223935307}
+  m_Father: {fileID: 1553258728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &797804659
 MeshRenderer:
@@ -24896,7 +25189,7 @@ GameObject:
   - component: {fileID: 801411181}
   - component: {fileID: 801411180}
   - component: {fileID: 801411179}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25008,7 +25301,7 @@ GameObject:
   - component: {fileID: 803032494}
   - component: {fileID: 803032493}
   - component: {fileID: 803032492}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25120,7 +25413,7 @@ GameObject:
   - component: {fileID: 808096812}
   - component: {fileID: 808096811}
   - component: {fileID: 808096810}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25232,7 +25525,7 @@ GameObject:
   - component: {fileID: 812490685}
   - component: {fileID: 812490684}
   - component: {fileID: 812490683}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25344,7 +25637,7 @@ GameObject:
   - component: {fileID: 817572269}
   - component: {fileID: 817572268}
   - component: {fileID: 817572267}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25456,7 +25749,7 @@ GameObject:
   - component: {fileID: 818857554}
   - component: {fileID: 818857553}
   - component: {fileID: 818857552}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25568,7 +25861,7 @@ GameObject:
   - component: {fileID: 819648344}
   - component: {fileID: 819648343}
   - component: {fileID: 819648342}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25680,7 +25973,7 @@ GameObject:
   - component: {fileID: 820486135}
   - component: {fileID: 820486134}
   - component: {fileID: 820486133}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25792,7 +26085,7 @@ GameObject:
   - component: {fileID: 821459177}
   - component: {fileID: 821459176}
   - component: {fileID: 821459175}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25904,7 +26197,7 @@ GameObject:
   - component: {fileID: 825205842}
   - component: {fileID: 825205841}
   - component: {fileID: 825205840}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26016,7 +26309,7 @@ GameObject:
   - component: {fileID: 825296965}
   - component: {fileID: 825296964}
   - component: {fileID: 825296963}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26128,7 +26421,7 @@ GameObject:
   - component: {fileID: 827127067}
   - component: {fileID: 827127066}
   - component: {fileID: 827127065}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26240,7 +26533,7 @@ GameObject:
   - component: {fileID: 828545274}
   - component: {fileID: 828545273}
   - component: {fileID: 828545272}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26352,7 +26645,7 @@ GameObject:
   - component: {fileID: 828597319}
   - component: {fileID: 828597318}
   - component: {fileID: 828597317}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26513,7 +26806,7 @@ GameObject:
   - component: {fileID: 833330904}
   - component: {fileID: 833330903}
   - component: {fileID: 833330902}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26625,7 +26918,7 @@ GameObject:
   - component: {fileID: 834340729}
   - component: {fileID: 834340728}
   - component: {fileID: 834340727}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26737,7 +27030,7 @@ GameObject:
   - component: {fileID: 834481789}
   - component: {fileID: 834481788}
   - component: {fileID: 834481787}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26849,7 +27142,7 @@ GameObject:
   - component: {fileID: 841225883}
   - component: {fileID: 841225882}
   - component: {fileID: 841225881}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26949,6 +27242,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 841225879}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &842969685
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 842969686}
+  m_Layer: 0
+  m_Name: 'point a '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &842969686
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842969685}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 15.62, y: -6.74, z: 71.33}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 688983596}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &845042874
 GameObject:
   m_ObjectHideFlags: 0
@@ -26961,7 +27285,7 @@ GameObject:
   - component: {fileID: 845042878}
   - component: {fileID: 845042877}
   - component: {fileID: 845042876}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27073,7 +27397,7 @@ GameObject:
   - component: {fileID: 847213368}
   - component: {fileID: 847213367}
   - component: {fileID: 847213366}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27185,7 +27509,7 @@ GameObject:
   - component: {fileID: 852184201}
   - component: {fileID: 852184200}
   - component: {fileID: 852184199}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27297,7 +27621,7 @@ GameObject:
   - component: {fileID: 855106456}
   - component: {fileID: 855106455}
   - component: {fileID: 855106454}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27409,7 +27733,7 @@ GameObject:
   - component: {fileID: 855213440}
   - component: {fileID: 855213439}
   - component: {fileID: 855213438}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27521,7 +27845,7 @@ GameObject:
   - component: {fileID: 856430487}
   - component: {fileID: 856430486}
   - component: {fileID: 856430485}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27633,7 +27957,7 @@ GameObject:
   - component: {fileID: 859928741}
   - component: {fileID: 859928740}
   - component: {fileID: 859928739}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27649,11 +27973,11 @@ Transform:
   m_GameObject: {fileID: 859928737}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 17, z: 54}
-  m_LocalScale: {x: 127.5, y: 1.5, z: 0.2}
+  m_LocalPosition: {x: 0, y: 2, z: 0.5}
+  m_LocalScale: {x: 1, y: 3, z: 0.025}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 223935307}
+  m_Father: {fileID: 1553258728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &859928739
 MeshRenderer:
@@ -27871,7 +28195,7 @@ GameObject:
   - component: {fileID: 865098865}
   - component: {fileID: 865098864}
   - component: {fileID: 865098863}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27983,7 +28307,7 @@ GameObject:
   - component: {fileID: 867486339}
   - component: {fileID: 867486338}
   - component: {fileID: 867486337}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28095,7 +28419,7 @@ GameObject:
   - component: {fileID: 867575170}
   - component: {fileID: 867575169}
   - component: {fileID: 867575168}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28207,7 +28531,7 @@ GameObject:
   - component: {fileID: 868775956}
   - component: {fileID: 868775955}
   - component: {fileID: 868775954}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28319,7 +28643,7 @@ GameObject:
   - component: {fileID: 871254948}
   - component: {fileID: 871254947}
   - component: {fileID: 871254946}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28431,7 +28755,7 @@ GameObject:
   - component: {fileID: 871511888}
   - component: {fileID: 871511887}
   - component: {fileID: 871511886}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28543,7 +28867,7 @@ GameObject:
   - component: {fileID: 874412434}
   - component: {fileID: 874412433}
   - component: {fileID: 874412432}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28655,7 +28979,7 @@ GameObject:
   - component: {fileID: 886249624}
   - component: {fileID: 886249623}
   - component: {fileID: 886249622}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28671,11 +28995,11 @@ Transform:
   m_GameObject: {fileID: 886249620}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 17, z: 21}
-  m_LocalScale: {x: 127.5, y: 1.5, z: 0.2}
+  m_LocalPosition: {x: 0, y: 2, z: -0.5}
+  m_LocalScale: {x: 1, y: 3, z: 0.025}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 223935307}
+  m_Father: {fileID: 1340222022}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &886249622
 MeshRenderer:
@@ -28767,7 +29091,7 @@ GameObject:
   - component: {fileID: 890479448}
   - component: {fileID: 890479447}
   - component: {fileID: 890479446}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28879,7 +29203,7 @@ GameObject:
   - component: {fileID: 894140610}
   - component: {fileID: 894140609}
   - component: {fileID: 894140608}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28895,11 +29219,11 @@ Transform:
   m_GameObject: {fileID: 894140606}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 17, z: -4}
-  m_LocalScale: {x: 147.13501, y: 1.5, z: 0.2}
+  m_LocalPosition: {x: 0, y: 2, z: -0.5}
+  m_LocalScale: {x: 1, y: 3, z: 0.025}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 223935307}
+  m_Father: {fileID: 405557075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &894140608
 MeshRenderer:
@@ -28991,7 +29315,7 @@ GameObject:
   - component: {fileID: 895919714}
   - component: {fileID: 895919713}
   - component: {fileID: 895919712}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29103,7 +29427,7 @@ GameObject:
   - component: {fileID: 897422631}
   - component: {fileID: 897422630}
   - component: {fileID: 897422629}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29215,7 +29539,7 @@ GameObject:
   - component: {fileID: 904321677}
   - component: {fileID: 904321676}
   - component: {fileID: 904321675}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29327,7 +29651,7 @@ GameObject:
   - component: {fileID: 907321132}
   - component: {fileID: 907321131}
   - component: {fileID: 907321130}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29439,7 +29763,7 @@ GameObject:
   - component: {fileID: 909164281}
   - component: {fileID: 909164280}
   - component: {fileID: 909164279}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29551,7 +29875,7 @@ GameObject:
   - component: {fileID: 912171232}
   - component: {fileID: 912171231}
   - component: {fileID: 912171230}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29663,7 +29987,7 @@ GameObject:
   - component: {fileID: 914377094}
   - component: {fileID: 914377093}
   - component: {fileID: 914377092}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29775,7 +30099,7 @@ GameObject:
   - component: {fileID: 925149703}
   - component: {fileID: 925149702}
   - component: {fileID: 925149701}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29887,7 +30211,7 @@ GameObject:
   - component: {fileID: 932696494}
   - component: {fileID: 932696493}
   - component: {fileID: 932696492}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29997,9 +30321,10 @@ GameObject:
   m_Component:
   - component: {fileID: 935593265}
   - component: {fileID: 935593268}
+  - component: {fileID: 935593269}
   - component: {fileID: 935593267}
   - component: {fileID: 935593266}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Skyway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30018,7 +30343,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 16, z: -25}
   m_LocalScale: {x: 127.5, y: 0.5, z: 8}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 795203607}
+  - {fileID: 1178795537}
   m_Father: {fileID: 223935307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &935593266
@@ -30099,6 +30426,160 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 935593264}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &935593269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935593264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 828abf5812543824aa6a5436c175766a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
+  waypoints:
+  - {fileID: 1061925225}
+  - {fileID: 1255037803}
+  speed: 3
+  waitTime: 13
+  isActive: 1
+--- !u!1 &944411931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 944411932}
+  - component: {fileID: 944411935}
+  - component: {fileID: 944411934}
+  - component: {fileID: 944411933}
+  - component: {fileID: 944411936}
+  m_Layer: 0
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &944411932
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944411931}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0156, y: -0.3087, z: 0.1414}
+  m_LocalScale: {x: 0.15985355, y: 0.2030861, z: 1.2829}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1331978881}
+  m_Father: {fileID: 330585546}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &944411933
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944411931}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &944411934
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944411931}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &944411935
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944411931}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &944411936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944411931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 409a833641140084fbc3c812a74dcf38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gun
+  damage: 10
+  range: 100
+  fireRate: 10
+  impactForce: 30
+  fpsCamera: {fileID: 330585545}
+  muzzleFlash: {fileID: 0}
+  impactEffect: {fileID: 0}
+  bulletPrefab: {fileID: 6991787329417681355, guid: da9e3f9e1a608e1419883a1558879b61, type: 3}
+  firePoint: {fileID: 1331978881}
+  usePhysicalBullets: 1
 --- !u!1 &945787871
 GameObject:
   m_ObjectHideFlags: 0
@@ -30111,7 +30592,7 @@ GameObject:
   - component: {fileID: 945787875}
   - component: {fileID: 945787874}
   - component: {fileID: 945787873}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30223,7 +30704,7 @@ GameObject:
   - component: {fileID: 947190710}
   - component: {fileID: 947190709}
   - component: {fileID: 947190708}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30335,7 +30816,7 @@ GameObject:
   - component: {fileID: 950566074}
   - component: {fileID: 950566073}
   - component: {fileID: 950566072}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30447,7 +30928,7 @@ GameObject:
   - component: {fileID: 952421187}
   - component: {fileID: 952421186}
   - component: {fileID: 952421185}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30559,7 +31040,7 @@ GameObject:
   - component: {fileID: 953228918}
   - component: {fileID: 953228917}
   - component: {fileID: 953228916}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30671,7 +31152,7 @@ GameObject:
   - component: {fileID: 954928523}
   - component: {fileID: 954928522}
   - component: {fileID: 954928521}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30783,7 +31264,7 @@ GameObject:
   - component: {fileID: 956349346}
   - component: {fileID: 956349345}
   - component: {fileID: 956349344}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30895,7 +31376,7 @@ GameObject:
   - component: {fileID: 972215237}
   - component: {fileID: 972215236}
   - component: {fileID: 972215235}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31007,7 +31488,7 @@ GameObject:
   - component: {fileID: 976642581}
   - component: {fileID: 976642580}
   - component: {fileID: 976642579}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31119,7 +31600,7 @@ GameObject:
   - component: {fileID: 984132054}
   - component: {fileID: 984132053}
   - component: {fileID: 984132052}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31231,7 +31712,7 @@ GameObject:
   - component: {fileID: 989826210}
   - component: {fileID: 989826209}
   - component: {fileID: 989826208}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31343,7 +31824,7 @@ GameObject:
   - component: {fileID: 999427453}
   - component: {fileID: 999427452}
   - component: {fileID: 999427451}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31443,6 +31924,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999427449}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1002140937
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1002140938}
+  m_Layer: 0
+  m_Name: Point_B
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1002140938
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002140937}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 41.33, y: -3.9837103, z: 94.97}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 35913470}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1004584470
 GameObject:
   m_ObjectHideFlags: 0
@@ -31455,7 +31967,7 @@ GameObject:
   - component: {fileID: 1004584474}
   - component: {fileID: 1004584473}
   - component: {fileID: 1004584472}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31567,7 +32079,7 @@ GameObject:
   - component: {fileID: 1006053110}
   - component: {fileID: 1006053109}
   - component: {fileID: 1006053108}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31679,7 +32191,7 @@ GameObject:
   - component: {fileID: 1017936393}
   - component: {fileID: 1017936392}
   - component: {fileID: 1017936391}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31791,7 +32303,7 @@ GameObject:
   - component: {fileID: 1021306371}
   - component: {fileID: 1021306370}
   - component: {fileID: 1021306369}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31903,7 +32415,7 @@ GameObject:
   - component: {fileID: 1021861165}
   - component: {fileID: 1021861164}
   - component: {fileID: 1021861163}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32015,7 +32527,7 @@ GameObject:
   - component: {fileID: 1022517658}
   - component: {fileID: 1022517657}
   - component: {fileID: 1022517656}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32127,7 +32639,7 @@ GameObject:
   - component: {fileID: 1028264817}
   - component: {fileID: 1028264816}
   - component: {fileID: 1028264815}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32239,7 +32751,7 @@ GameObject:
   - component: {fileID: 1029347694}
   - component: {fileID: 1029347693}
   - component: {fileID: 1029347692}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32351,7 +32863,7 @@ GameObject:
   - component: {fileID: 1030633332}
   - component: {fileID: 1030633331}
   - component: {fileID: 1030633330}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32463,7 +32975,7 @@ GameObject:
   - component: {fileID: 1030891505}
   - component: {fileID: 1030891504}
   - component: {fileID: 1030891503}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32575,7 +33087,7 @@ GameObject:
   - component: {fileID: 1035485466}
   - component: {fileID: 1035485465}
   - component: {fileID: 1035485464}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32687,7 +33199,7 @@ GameObject:
   - component: {fileID: 1037554219}
   - component: {fileID: 1037554218}
   - component: {fileID: 1037554217}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32799,7 +33311,7 @@ GameObject:
   - component: {fileID: 1040499800}
   - component: {fileID: 1040499799}
   - component: {fileID: 1040499798}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32911,7 +33423,7 @@ GameObject:
   - component: {fileID: 1043298255}
   - component: {fileID: 1043298254}
   - component: {fileID: 1043298253}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33023,7 +33535,7 @@ GameObject:
   - component: {fileID: 1044810379}
   - component: {fileID: 1044810378}
   - component: {fileID: 1044810377}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33135,7 +33647,7 @@ GameObject:
   - component: {fileID: 1045071020}
   - component: {fileID: 1045071019}
   - component: {fileID: 1045071018}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33247,7 +33759,7 @@ GameObject:
   - component: {fileID: 1045345482}
   - component: {fileID: 1045345481}
   - component: {fileID: 1045345480}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33359,7 +33871,7 @@ GameObject:
   - component: {fileID: 1051036921}
   - component: {fileID: 1051036920}
   - component: {fileID: 1051036919}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33471,7 +33983,7 @@ GameObject:
   - component: {fileID: 1051548578}
   - component: {fileID: 1051548577}
   - component: {fileID: 1051548576}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33583,7 +34095,7 @@ GameObject:
   - component: {fileID: 1052190672}
   - component: {fileID: 1052190671}
   - component: {fileID: 1052190670}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33695,7 +34207,7 @@ GameObject:
   - component: {fileID: 1059407286}
   - component: {fileID: 1059407285}
   - component: {fileID: 1059407284}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33807,7 +34319,7 @@ GameObject:
   - component: {fileID: 1060537185}
   - component: {fileID: 1060537184}
   - component: {fileID: 1060537183}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33907,6 +34419,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1060537181}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1061925224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1061925225}
+  m_Layer: 0
+  m_Name: 'point a '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1061925225
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1061925224}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -6.74, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1704173418}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1062271179
 GameObject:
   m_ObjectHideFlags: 0
@@ -33919,7 +34462,7 @@ GameObject:
   - component: {fileID: 1062271183}
   - component: {fileID: 1062271182}
   - component: {fileID: 1062271181}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34031,7 +34574,7 @@ GameObject:
   - component: {fileID: 1069925662}
   - component: {fileID: 1069925661}
   - component: {fileID: 1069925660}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34143,7 +34686,7 @@ GameObject:
   - component: {fileID: 1071683781}
   - component: {fileID: 1071683780}
   - component: {fileID: 1071683779}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34255,7 +34798,7 @@ GameObject:
   - component: {fileID: 1081963341}
   - component: {fileID: 1081963340}
   - component: {fileID: 1081963339}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34367,7 +34910,7 @@ GameObject:
   - component: {fileID: 1084103781}
   - component: {fileID: 1084103780}
   - component: {fileID: 1084103779}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34479,7 +35022,7 @@ GameObject:
   - component: {fileID: 1084983228}
   - component: {fileID: 1084983227}
   - component: {fileID: 1084983226}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34591,7 +35134,7 @@ GameObject:
   - component: {fileID: 1090171166}
   - component: {fileID: 1090171165}
   - component: {fileID: 1090171164}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34703,7 +35246,7 @@ GameObject:
   - component: {fileID: 1090378250}
   - component: {fileID: 1090378249}
   - component: {fileID: 1090378248}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34815,7 +35358,7 @@ GameObject:
   - component: {fileID: 1091661722}
   - component: {fileID: 1091661721}
   - component: {fileID: 1091661720}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34927,7 +35470,7 @@ GameObject:
   - component: {fileID: 1096681784}
   - component: {fileID: 1096681783}
   - component: {fileID: 1096681782}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35039,7 +35582,7 @@ GameObject:
   - component: {fileID: 1105576083}
   - component: {fileID: 1105576082}
   - component: {fileID: 1105576081}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35151,7 +35694,7 @@ GameObject:
   - component: {fileID: 1109195292}
   - component: {fileID: 1109195291}
   - component: {fileID: 1109195290}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35263,7 +35806,7 @@ GameObject:
   - component: {fileID: 1113314997}
   - component: {fileID: 1113314996}
   - component: {fileID: 1113314995}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35375,7 +35918,7 @@ GameObject:
   - component: {fileID: 1114872449}
   - component: {fileID: 1114872448}
   - component: {fileID: 1114872447}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35487,7 +36030,7 @@ GameObject:
   - component: {fileID: 1125439378}
   - component: {fileID: 1125439377}
   - component: {fileID: 1125439376}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35599,7 +36142,7 @@ GameObject:
   - component: {fileID: 1130945902}
   - component: {fileID: 1130945901}
   - component: {fileID: 1130945900}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35711,7 +36254,7 @@ GameObject:
   - component: {fileID: 1141890375}
   - component: {fileID: 1141890374}
   - component: {fileID: 1141890373}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35823,7 +36366,7 @@ GameObject:
   - component: {fileID: 1142597330}
   - component: {fileID: 1142597329}
   - component: {fileID: 1142597328}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35935,7 +36478,7 @@ GameObject:
   - component: {fileID: 1146203353}
   - component: {fileID: 1146203352}
   - component: {fileID: 1146203351}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36047,7 +36590,7 @@ GameObject:
   - component: {fileID: 1148579773}
   - component: {fileID: 1148579772}
   - component: {fileID: 1148579771}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36159,7 +36702,7 @@ GameObject:
   - component: {fileID: 1150172512}
   - component: {fileID: 1150172511}
   - component: {fileID: 1150172510}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36271,7 +36814,7 @@ GameObject:
   - component: {fileID: 1152701666}
   - component: {fileID: 1152701665}
   - component: {fileID: 1152701664}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36383,7 +36926,7 @@ GameObject:
   - component: {fileID: 1156288832}
   - component: {fileID: 1156288831}
   - component: {fileID: 1156288830}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36495,7 +37038,7 @@ GameObject:
   - component: {fileID: 1157435675}
   - component: {fileID: 1157435674}
   - component: {fileID: 1157435673}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36607,7 +37150,7 @@ GameObject:
   - component: {fileID: 1169873223}
   - component: {fileID: 1169873222}
   - component: {fileID: 1169873221}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36719,7 +37262,7 @@ GameObject:
   - component: {fileID: 1171778501}
   - component: {fileID: 1171778500}
   - component: {fileID: 1171778499}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Holo_Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36833,7 +37376,7 @@ GameObject:
   - component: {fileID: 1174361920}
   - component: {fileID: 1174361919}
   - component: {fileID: 1174361918}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37067,7 +37610,7 @@ GameObject:
   - component: {fileID: 1178795540}
   - component: {fileID: 1178795539}
   - component: {fileID: 1178795538}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37083,11 +37626,11 @@ Transform:
   m_GameObject: {fileID: 1178795536}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 17, z: -29}
-  m_LocalScale: {x: 127.5, y: 1.5, z: 0.2}
+  m_LocalPosition: {x: 0, y: 2, z: -0.5}
+  m_LocalScale: {x: 1, y: 3, z: 0.025}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 223935307}
+  m_Father: {fileID: 935593265}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1178795538
 MeshRenderer:
@@ -37179,7 +37722,7 @@ GameObject:
   - component: {fileID: 1184434356}
   - component: {fileID: 1184434355}
   - component: {fileID: 1184434354}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37291,7 +37834,7 @@ GameObject:
   - component: {fileID: 1185257592}
   - component: {fileID: 1185257591}
   - component: {fileID: 1185257590}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37403,7 +37946,7 @@ GameObject:
   - component: {fileID: 1200810128}
   - component: {fileID: 1200810127}
   - component: {fileID: 1200810126}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37515,7 +38058,7 @@ GameObject:
   - component: {fileID: 1201300282}
   - component: {fileID: 1201300281}
   - component: {fileID: 1201300280}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37627,7 +38170,7 @@ GameObject:
   - component: {fileID: 1201597292}
   - component: {fileID: 1201597291}
   - component: {fileID: 1201597290}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37739,7 +38282,7 @@ GameObject:
   - component: {fileID: 1206807511}
   - component: {fileID: 1206807510}
   - component: {fileID: 1206807509}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37851,7 +38394,7 @@ GameObject:
   - component: {fileID: 1211334451}
   - component: {fileID: 1211334450}
   - component: {fileID: 1211334449}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37963,7 +38506,7 @@ GameObject:
   - component: {fileID: 1220478625}
   - component: {fileID: 1220478624}
   - component: {fileID: 1220478623}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38075,7 +38618,7 @@ GameObject:
   - component: {fileID: 1221965815}
   - component: {fileID: 1221965814}
   - component: {fileID: 1221965813}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38187,7 +38730,7 @@ GameObject:
   - component: {fileID: 1230291548}
   - component: {fileID: 1230291547}
   - component: {fileID: 1230291546}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38287,6 +38830,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1230291544}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1255037802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1255037803}
+  m_Layer: 0
+  m_Name: point b
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1255037803
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255037802}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 26.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1704173418}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1255538668
 GameObject:
   m_ObjectHideFlags: 0
@@ -38299,7 +38873,7 @@ GameObject:
   - component: {fileID: 1255538672}
   - component: {fileID: 1255538671}
   - component: {fileID: 1255538670}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38411,7 +38985,7 @@ GameObject:
   - component: {fileID: 1260812285}
   - component: {fileID: 1260812284}
   - component: {fileID: 1260812283}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38523,7 +39097,7 @@ GameObject:
   - component: {fileID: 1264613948}
   - component: {fileID: 1264613947}
   - component: {fileID: 1264613946}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38635,7 +39209,7 @@ GameObject:
   - component: {fileID: 1267697005}
   - component: {fileID: 1267697004}
   - component: {fileID: 1267697003}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38747,7 +39321,7 @@ GameObject:
   - component: {fileID: 1268411833}
   - component: {fileID: 1268411832}
   - component: {fileID: 1268411831}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38859,7 +39433,7 @@ GameObject:
   - component: {fileID: 1278275783}
   - component: {fileID: 1278275782}
   - component: {fileID: 1278275781}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38971,7 +39545,7 @@ GameObject:
   - component: {fileID: 1280933325}
   - component: {fileID: 1280933324}
   - component: {fileID: 1280933323}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39083,7 +39657,7 @@ GameObject:
   - component: {fileID: 1285926965}
   - component: {fileID: 1285926964}
   - component: {fileID: 1285926963}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39195,7 +39769,7 @@ GameObject:
   - component: {fileID: 1288612885}
   - component: {fileID: 1288612884}
   - component: {fileID: 1288612883}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39307,7 +39881,7 @@ GameObject:
   - component: {fileID: 1293431374}
   - component: {fileID: 1293431373}
   - component: {fileID: 1293431372}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39419,7 +39993,7 @@ GameObject:
   - component: {fileID: 1299578381}
   - component: {fileID: 1299578380}
   - component: {fileID: 1299578379}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39531,7 +40105,7 @@ GameObject:
   - component: {fileID: 1307085385}
   - component: {fileID: 1307085384}
   - component: {fileID: 1307085383}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39643,7 +40217,7 @@ GameObject:
   - component: {fileID: 1307156239}
   - component: {fileID: 1307156238}
   - component: {fileID: 1307156237}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39755,7 +40329,7 @@ GameObject:
   - component: {fileID: 1309541900}
   - component: {fileID: 1309541899}
   - component: {fileID: 1309541898}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39867,7 +40441,7 @@ GameObject:
   - component: {fileID: 1309834787}
   - component: {fileID: 1309834786}
   - component: {fileID: 1309834785}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39979,7 +40553,7 @@ GameObject:
   - component: {fileID: 1309937905}
   - component: {fileID: 1309937904}
   - component: {fileID: 1309937903}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40091,7 +40665,7 @@ GameObject:
   - component: {fileID: 1314539786}
   - component: {fileID: 1314539785}
   - component: {fileID: 1314539784}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40203,7 +40777,7 @@ GameObject:
   - component: {fileID: 1316485205}
   - component: {fileID: 1316485204}
   - component: {fileID: 1316485203}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40315,7 +40889,7 @@ GameObject:
   - component: {fileID: 1317896611}
   - component: {fileID: 1317896610}
   - component: {fileID: 1317896609}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40427,7 +41001,7 @@ GameObject:
   - component: {fileID: 1328802001}
   - component: {fileID: 1328802000}
   - component: {fileID: 1328801999}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40527,6 +41101,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1328801997}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1331978880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1331978881}
+  m_Layer: 0
+  m_Name: Muzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1331978881
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331978880}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.484}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 944411932}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1334770094
 GameObject:
   m_ObjectHideFlags: 0
@@ -40539,7 +41144,7 @@ GameObject:
   - component: {fileID: 1334770098}
   - component: {fileID: 1334770097}
   - component: {fileID: 1334770096}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40649,9 +41254,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1340222022}
   - component: {fileID: 1340222025}
+  - component: {fileID: 1340222026}
   - component: {fileID: 1340222024}
   - component: {fileID: 1340222023}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Skyway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40670,7 +41276,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 16, z: 25}
   m_LocalScale: {x: 127.5, y: 0.5, z: 8}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2002698368}
+  - {fileID: 886249621}
   m_Father: {fileID: 223935307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1340222023
@@ -40751,6 +41359,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1340222021}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1340222026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340222021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 828abf5812543824aa6a5436c175766a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
+  waypoints:
+  - {fileID: 152073440}
+  - {fileID: 1002140938}
+  speed: 3
+  waitTime: 4
+  isActive: 1
 --- !u!1 &1342445939
 GameObject:
   m_ObjectHideFlags: 0
@@ -40763,7 +41389,7 @@ GameObject:
   - component: {fileID: 1342445943}
   - component: {fileID: 1342445942}
   - component: {fileID: 1342445941}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40875,7 +41501,7 @@ GameObject:
   - component: {fileID: 1343704007}
   - component: {fileID: 1343704006}
   - component: {fileID: 1343704005}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40987,7 +41613,7 @@ GameObject:
   - component: {fileID: 1344447548}
   - component: {fileID: 1344447547}
   - component: {fileID: 1344447546}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41099,7 +41725,7 @@ GameObject:
   - component: {fileID: 1360648198}
   - component: {fileID: 1360648197}
   - component: {fileID: 1360648196}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41211,7 +41837,7 @@ GameObject:
   - component: {fileID: 1360686669}
   - component: {fileID: 1360686668}
   - component: {fileID: 1360686667}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41323,7 +41949,7 @@ GameObject:
   - component: {fileID: 1364004420}
   - component: {fileID: 1364004419}
   - component: {fileID: 1364004418}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41435,7 +42061,7 @@ GameObject:
   - component: {fileID: 1365291878}
   - component: {fileID: 1365291877}
   - component: {fileID: 1365291876}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41547,7 +42173,7 @@ GameObject:
   - component: {fileID: 1367746981}
   - component: {fileID: 1367746980}
   - component: {fileID: 1367746979}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41659,7 +42285,7 @@ GameObject:
   - component: {fileID: 1371153472}
   - component: {fileID: 1371153471}
   - component: {fileID: 1371153470}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41771,7 +42397,7 @@ GameObject:
   - component: {fileID: 1372502306}
   - component: {fileID: 1372502305}
   - component: {fileID: 1372502304}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41883,7 +42509,7 @@ GameObject:
   - component: {fileID: 1372802017}
   - component: {fileID: 1372802016}
   - component: {fileID: 1372802015}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41995,7 +42621,7 @@ GameObject:
   - component: {fileID: 1373539943}
   - component: {fileID: 1373539942}
   - component: {fileID: 1373539941}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42107,7 +42733,7 @@ GameObject:
   - component: {fileID: 1393360698}
   - component: {fileID: 1393360697}
   - component: {fileID: 1393360696}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42219,7 +42845,7 @@ GameObject:
   - component: {fileID: 1393619544}
   - component: {fileID: 1393619543}
   - component: {fileID: 1393619542}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42331,7 +42957,7 @@ GameObject:
   - component: {fileID: 1396336975}
   - component: {fileID: 1396336974}
   - component: {fileID: 1396336973}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42443,7 +43069,7 @@ GameObject:
   - component: {fileID: 1404015157}
   - component: {fileID: 1404015156}
   - component: {fileID: 1404015155}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42555,7 +43181,7 @@ GameObject:
   - component: {fileID: 1414900521}
   - component: {fileID: 1414900520}
   - component: {fileID: 1414900519}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42667,7 +43293,7 @@ GameObject:
   - component: {fileID: 1415890489}
   - component: {fileID: 1415890488}
   - component: {fileID: 1415890487}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42779,7 +43405,7 @@ GameObject:
   - component: {fileID: 1416484779}
   - component: {fileID: 1416484778}
   - component: {fileID: 1416484777}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42891,7 +43517,7 @@ GameObject:
   - component: {fileID: 1422905524}
   - component: {fileID: 1422905523}
   - component: {fileID: 1422905522}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43003,7 +43629,7 @@ GameObject:
   - component: {fileID: 1424221989}
   - component: {fileID: 1424221988}
   - component: {fileID: 1424221987}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43115,7 +43741,7 @@ GameObject:
   - component: {fileID: 1429443670}
   - component: {fileID: 1429443669}
   - component: {fileID: 1429443668}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43227,7 +43853,7 @@ GameObject:
   - component: {fileID: 1431939008}
   - component: {fileID: 1431939007}
   - component: {fileID: 1431939006}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43339,7 +43965,7 @@ GameObject:
   - component: {fileID: 1432839270}
   - component: {fileID: 1432839269}
   - component: {fileID: 1432839268}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43451,7 +44077,7 @@ GameObject:
   - component: {fileID: 1433919634}
   - component: {fileID: 1433919633}
   - component: {fileID: 1433919632}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43563,7 +44189,7 @@ GameObject:
   - component: {fileID: 1435014341}
   - component: {fileID: 1435014340}
   - component: {fileID: 1435014339}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43675,7 +44301,7 @@ GameObject:
   - component: {fileID: 1436789958}
   - component: {fileID: 1436789957}
   - component: {fileID: 1436789956}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43787,7 +44413,7 @@ GameObject:
   - component: {fileID: 1438212816}
   - component: {fileID: 1438212815}
   - component: {fileID: 1438212814}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43899,7 +44525,7 @@ GameObject:
   - component: {fileID: 1442574472}
   - component: {fileID: 1442574471}
   - component: {fileID: 1442574470}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44011,7 +44637,7 @@ GameObject:
   - component: {fileID: 1446649970}
   - component: {fileID: 1446649969}
   - component: {fileID: 1446649968}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44123,7 +44749,7 @@ GameObject:
   - component: {fileID: 1447192894}
   - component: {fileID: 1447192893}
   - component: {fileID: 1447192892}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44235,7 +44861,7 @@ GameObject:
   - component: {fileID: 1447556064}
   - component: {fileID: 1447556063}
   - component: {fileID: 1447556062}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44347,7 +44973,7 @@ GameObject:
   - component: {fileID: 1448739108}
   - component: {fileID: 1448739107}
   - component: {fileID: 1448739106}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44459,7 +45085,7 @@ GameObject:
   - component: {fileID: 1449265583}
   - component: {fileID: 1449265582}
   - component: {fileID: 1449265581}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44571,7 +45197,7 @@ GameObject:
   - component: {fileID: 1451952594}
   - component: {fileID: 1451952593}
   - component: {fileID: 1451952592}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44683,7 +45309,7 @@ GameObject:
   - component: {fileID: 1453097397}
   - component: {fileID: 1453097396}
   - component: {fileID: 1453097395}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44795,7 +45421,7 @@ GameObject:
   - component: {fileID: 1456461023}
   - component: {fileID: 1456461022}
   - component: {fileID: 1456461021}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44907,7 +45533,7 @@ GameObject:
   - component: {fileID: 1460709245}
   - component: {fileID: 1460709244}
   - component: {fileID: 1460709243}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45019,7 +45645,7 @@ GameObject:
   - component: {fileID: 1469663097}
   - component: {fileID: 1469663096}
   - component: {fileID: 1469663095}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45131,7 +45757,7 @@ GameObject:
   - component: {fileID: 1473203914}
   - component: {fileID: 1473203913}
   - component: {fileID: 1473203912}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45243,7 +45869,7 @@ GameObject:
   - component: {fileID: 1495619880}
   - component: {fileID: 1495619879}
   - component: {fileID: 1495619878}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45355,7 +45981,7 @@ GameObject:
   - component: {fileID: 1503917780}
   - component: {fileID: 1503917779}
   - component: {fileID: 1503917778}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45467,7 +46093,7 @@ GameObject:
   - component: {fileID: 1505207092}
   - component: {fileID: 1505207091}
   - component: {fileID: 1505207090}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45579,7 +46205,7 @@ GameObject:
   - component: {fileID: 1510248071}
   - component: {fileID: 1510248070}
   - component: {fileID: 1510248069}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45691,7 +46317,7 @@ GameObject:
   - component: {fileID: 1510287994}
   - component: {fileID: 1510287993}
   - component: {fileID: 1510287992}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45803,7 +46429,7 @@ GameObject:
   - component: {fileID: 1510757515}
   - component: {fileID: 1510757514}
   - component: {fileID: 1510757513}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45915,7 +46541,7 @@ GameObject:
   - component: {fileID: 1512406080}
   - component: {fileID: 1512406079}
   - component: {fileID: 1512406078}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46027,7 +46653,7 @@ GameObject:
   - component: {fileID: 1515275930}
   - component: {fileID: 1515275929}
   - component: {fileID: 1515275928}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46127,6 +46753,39 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1515275926}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1516954191
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1516954192}
+  m_Layer: 0
+  m_Name: bridge2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1516954192
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516954191}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 13.761161, y: 1.8379688, z: 16.943321}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 577055668}
+  - {fileID: 300187567}
+  m_Father: {fileID: 1838253112}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1523226798
 GameObject:
   m_ObjectHideFlags: 0
@@ -46139,7 +46798,7 @@ GameObject:
   - component: {fileID: 1523226802}
   - component: {fileID: 1523226801}
   - component: {fileID: 1523226800}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46251,7 +46910,7 @@ GameObject:
   - component: {fileID: 1525133281}
   - component: {fileID: 1525133280}
   - component: {fileID: 1525133279}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46363,7 +47022,7 @@ GameObject:
   - component: {fileID: 1526045691}
   - component: {fileID: 1526045690}
   - component: {fileID: 1526045689}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46475,7 +47134,7 @@ GameObject:
   - component: {fileID: 1529455858}
   - component: {fileID: 1529455857}
   - component: {fileID: 1529455856}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46587,7 +47246,7 @@ GameObject:
   - component: {fileID: 1540022432}
   - component: {fileID: 1540022431}
   - component: {fileID: 1540022430}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46699,7 +47358,7 @@ GameObject:
   - component: {fileID: 1543283688}
   - component: {fileID: 1543283687}
   - component: {fileID: 1543283686}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46811,7 +47470,7 @@ GameObject:
   - component: {fileID: 1547983045}
   - component: {fileID: 1547983044}
   - component: {fileID: 1547983043}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46921,9 +47580,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1553258728}
   - component: {fileID: 1553258731}
+  - component: {fileID: 1553258732}
   - component: {fileID: 1553258730}
   - component: {fileID: 1553258729}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Skyway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46942,7 +47602,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 16, z: 50}
   m_LocalScale: {x: 127.5, y: 0.5, z: 8}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 859928738}
+  - {fileID: 797804658}
   m_Father: {fileID: 223935307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1553258729
@@ -47023,6 +47685,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553258727}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1553258732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553258727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 828abf5812543824aa6a5436c175766a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
+  waypoints:
+  - {fileID: 842969686}
+  - {fileID: 558374173}
+  speed: 3
+  waitTime: 1
+  isActive: 1
 --- !u!1 &1559758084
 GameObject:
   m_ObjectHideFlags: 0
@@ -47035,7 +47715,7 @@ GameObject:
   - component: {fileID: 1559758088}
   - component: {fileID: 1559758087}
   - component: {fileID: 1559758086}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47147,7 +47827,7 @@ GameObject:
   - component: {fileID: 1562742346}
   - component: {fileID: 1562742345}
   - component: {fileID: 1562742344}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47259,7 +47939,7 @@ GameObject:
   - component: {fileID: 1564219799}
   - component: {fileID: 1564219798}
   - component: {fileID: 1564219797}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47371,7 +48051,7 @@ GameObject:
   - component: {fileID: 1566055669}
   - component: {fileID: 1566055668}
   - component: {fileID: 1566055667}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47483,7 +48163,7 @@ GameObject:
   - component: {fileID: 1569595644}
   - component: {fileID: 1569595643}
   - component: {fileID: 1569595642}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47595,7 +48275,7 @@ GameObject:
   - component: {fileID: 1569671964}
   - component: {fileID: 1569671963}
   - component: {fileID: 1569671962}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47707,7 +48387,7 @@ GameObject:
   - component: {fileID: 1573383576}
   - component: {fileID: 1573383575}
   - component: {fileID: 1573383574}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47819,7 +48499,7 @@ GameObject:
   - component: {fileID: 1575079898}
   - component: {fileID: 1575079897}
   - component: {fileID: 1575079896}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47931,7 +48611,7 @@ GameObject:
   - component: {fileID: 1578552880}
   - component: {fileID: 1578552879}
   - component: {fileID: 1578552878}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48043,7 +48723,7 @@ GameObject:
   - component: {fileID: 1580829397}
   - component: {fileID: 1580829396}
   - component: {fileID: 1580829395}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48155,7 +48835,7 @@ GameObject:
   - component: {fileID: 1584763952}
   - component: {fileID: 1584763951}
   - component: {fileID: 1584763950}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48267,7 +48947,7 @@ GameObject:
   - component: {fileID: 1585094345}
   - component: {fileID: 1585094344}
   - component: {fileID: 1585094343}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48379,7 +49059,7 @@ GameObject:
   - component: {fileID: 1586833686}
   - component: {fileID: 1586833685}
   - component: {fileID: 1586833684}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48491,7 +49171,7 @@ GameObject:
   - component: {fileID: 1588216047}
   - component: {fileID: 1588216046}
   - component: {fileID: 1588216045}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48603,7 +49283,7 @@ GameObject:
   - component: {fileID: 1603263712}
   - component: {fileID: 1603263711}
   - component: {fileID: 1603263710}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48715,7 +49395,7 @@ GameObject:
   - component: {fileID: 1603339419}
   - component: {fileID: 1603339418}
   - component: {fileID: 1603339417}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48827,7 +49507,7 @@ GameObject:
   - component: {fileID: 1611137350}
   - component: {fileID: 1611137349}
   - component: {fileID: 1611137348}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48939,7 +49619,7 @@ GameObject:
   - component: {fileID: 1617529401}
   - component: {fileID: 1617529400}
   - component: {fileID: 1617529399}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49051,7 +49731,7 @@ GameObject:
   - component: {fileID: 1623035901}
   - component: {fileID: 1623035900}
   - component: {fileID: 1623035899}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49163,7 +49843,7 @@ GameObject:
   - component: {fileID: 1623812618}
   - component: {fileID: 1623812617}
   - component: {fileID: 1623812616}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49275,7 +49955,7 @@ GameObject:
   - component: {fileID: 1628337541}
   - component: {fileID: 1628337540}
   - component: {fileID: 1628337539}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49387,7 +50067,7 @@ GameObject:
   - component: {fileID: 1633457637}
   - component: {fileID: 1633457636}
   - component: {fileID: 1633457635}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49499,7 +50179,7 @@ GameObject:
   - component: {fileID: 1638242341}
   - component: {fileID: 1638242340}
   - component: {fileID: 1638242339}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49611,7 +50291,7 @@ GameObject:
   - component: {fileID: 1640194913}
   - component: {fileID: 1640194912}
   - component: {fileID: 1640194911}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49723,7 +50403,7 @@ GameObject:
   - component: {fileID: 1641708460}
   - component: {fileID: 1641708459}
   - component: {fileID: 1641708458}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49835,7 +50515,7 @@ GameObject:
   - component: {fileID: 1642129769}
   - component: {fileID: 1642129768}
   - component: {fileID: 1642129767}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49947,7 +50627,7 @@ GameObject:
   - component: {fileID: 1642541394}
   - component: {fileID: 1642541393}
   - component: {fileID: 1642541392}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50059,7 +50739,7 @@ GameObject:
   - component: {fileID: 1642977677}
   - component: {fileID: 1642977676}
   - component: {fileID: 1642977675}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50171,7 +50851,7 @@ GameObject:
   - component: {fileID: 1645570182}
   - component: {fileID: 1645570181}
   - component: {fileID: 1645570180}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50283,7 +50963,7 @@ GameObject:
   - component: {fileID: 1649611767}
   - component: {fileID: 1649611766}
   - component: {fileID: 1649611765}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50395,7 +51075,7 @@ GameObject:
   - component: {fileID: 1650297362}
   - component: {fileID: 1650297361}
   - component: {fileID: 1650297360}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50507,7 +51187,7 @@ GameObject:
   - component: {fileID: 1653961299}
   - component: {fileID: 1653961298}
   - component: {fileID: 1653961297}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50619,7 +51299,7 @@ GameObject:
   - component: {fileID: 1658681281}
   - component: {fileID: 1658681280}
   - component: {fileID: 1658681279}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50731,7 +51411,7 @@ GameObject:
   - component: {fileID: 1659442213}
   - component: {fileID: 1659442212}
   - component: {fileID: 1659442211}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50843,7 +51523,7 @@ GameObject:
   - component: {fileID: 1670202137}
   - component: {fileID: 1670202136}
   - component: {fileID: 1670202135}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50955,7 +51635,7 @@ GameObject:
   - component: {fileID: 1675509512}
   - component: {fileID: 1675509511}
   - component: {fileID: 1675509510}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (17)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51067,7 +51747,7 @@ GameObject:
   - component: {fileID: 1681878279}
   - component: {fileID: 1681878278}
   - component: {fileID: 1681878277}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51179,7 +51859,7 @@ GameObject:
   - component: {fileID: 1682821696}
   - component: {fileID: 1682821695}
   - component: {fileID: 1682821694}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51291,7 +51971,7 @@ GameObject:
   - component: {fileID: 1684184969}
   - component: {fileID: 1684184968}
   - component: {fileID: 1684184967}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51403,7 +52083,7 @@ GameObject:
   - component: {fileID: 1684503892}
   - component: {fileID: 1684503891}
   - component: {fileID: 1684503890}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51514,7 +52194,7 @@ GameObject:
   - component: {fileID: 1692061034}
   - component: {fileID: 1692061036}
   - component: {fileID: 1692061035}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cyber_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51642,7 +52322,7 @@ GameObject:
   - component: {fileID: 1692422787}
   - component: {fileID: 1692422786}
   - component: {fileID: 1692422785}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51754,7 +52434,7 @@ GameObject:
   - component: {fileID: 1693195054}
   - component: {fileID: 1693195053}
   - component: {fileID: 1693195052}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51866,7 +52546,7 @@ GameObject:
   - component: {fileID: 1698123296}
   - component: {fileID: 1698123295}
   - component: {fileID: 1698123294}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51978,7 +52658,7 @@ GameObject:
   - component: {fileID: 1702802093}
   - component: {fileID: 1702802092}
   - component: {fileID: 1702802091}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52090,7 +52770,7 @@ GameObject:
   - component: {fileID: 1703393316}
   - component: {fileID: 1703393315}
   - component: {fileID: 1703393314}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52190,6 +52870,39 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1703393312}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1704173417
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1704173418}
+  m_Layer: 0
+  m_Name: bridge2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1704173418
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704173417}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 13.761161, y: 1.8379688, z: 16.943321}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1061925225}
+  - {fileID: 1255037803}
+  m_Father: {fileID: 1858892845}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1710141219
 GameObject:
   m_ObjectHideFlags: 0
@@ -52202,7 +52915,7 @@ GameObject:
   - component: {fileID: 1710141223}
   - component: {fileID: 1710141222}
   - component: {fileID: 1710141221}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52314,7 +53027,7 @@ GameObject:
   - component: {fileID: 1722209747}
   - component: {fileID: 1722209746}
   - component: {fileID: 1722209745}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52426,7 +53139,7 @@ GameObject:
   - component: {fileID: 1726678170}
   - component: {fileID: 1726678169}
   - component: {fileID: 1726678168}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52550,12 +53263,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1730546116}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.84, y: 15.96, z: -14.6}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 19.01, y: -3.9837103, z: 24.40582}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 392025676}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1761968703
 GameObject:
@@ -52569,7 +53282,7 @@ GameObject:
   - component: {fileID: 1761968707}
   - component: {fileID: 1761968706}
   - component: {fileID: 1761968705}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52681,7 +53394,7 @@ GameObject:
   - component: {fileID: 1763773336}
   - component: {fileID: 1763773335}
   - component: {fileID: 1763773334}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52793,7 +53506,7 @@ GameObject:
   - component: {fileID: 1764238288}
   - component: {fileID: 1764238287}
   - component: {fileID: 1764238286}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52905,7 +53618,7 @@ GameObject:
   - component: {fileID: 1766754544}
   - component: {fileID: 1766754543}
   - component: {fileID: 1766754542}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53017,7 +53730,7 @@ GameObject:
   - component: {fileID: 1776022173}
   - component: {fileID: 1776022172}
   - component: {fileID: 1776022171}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53129,7 +53842,7 @@ GameObject:
   - component: {fileID: 1779227625}
   - component: {fileID: 1779227624}
   - component: {fileID: 1779227623}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53306,7 +54019,7 @@ GameObject:
   - component: {fileID: 1779966069}
   - component: {fileID: 1779966068}
   - component: {fileID: 1779966067}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53418,7 +54131,7 @@ GameObject:
   - component: {fileID: 1783815347}
   - component: {fileID: 1783815346}
   - component: {fileID: 1783815345}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53530,7 +54243,7 @@ GameObject:
   - component: {fileID: 1786116635}
   - component: {fileID: 1786116634}
   - component: {fileID: 1786116633}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53642,7 +54355,7 @@ GameObject:
   - component: {fileID: 1791250132}
   - component: {fileID: 1791250131}
   - component: {fileID: 1791250130}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53754,7 +54467,7 @@ GameObject:
   - component: {fileID: 1792338596}
   - component: {fileID: 1792338595}
   - component: {fileID: 1792338594}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53866,7 +54579,7 @@ GameObject:
   - component: {fileID: 1796508394}
   - component: {fileID: 1796508393}
   - component: {fileID: 1796508392}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53978,7 +54691,7 @@ GameObject:
   - component: {fileID: 1798998210}
   - component: {fileID: 1798998209}
   - component: {fileID: 1798998208}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54090,7 +54803,7 @@ GameObject:
   - component: {fileID: 1801770754}
   - component: {fileID: 1801770753}
   - component: {fileID: 1801770752}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54202,7 +54915,7 @@ GameObject:
   - component: {fileID: 1808011335}
   - component: {fileID: 1808011334}
   - component: {fileID: 1808011333}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54314,7 +55027,7 @@ GameObject:
   - component: {fileID: 1821520547}
   - component: {fileID: 1821520546}
   - component: {fileID: 1821520545}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54426,7 +55139,7 @@ GameObject:
   - component: {fileID: 1821533947}
   - component: {fileID: 1821533946}
   - component: {fileID: 1821533945}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54526,6 +55239,185 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1821533943}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1821660728
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1821660732}
+  - component: {fileID: 1821660731}
+  - component: {fileID: 1821660730}
+  - component: {fileID: 1821660729}
+  - component: {fileID: 1821660734}
+  - component: {fileID: 1821660733}
+  - component: {fileID: 1821660735}
+  m_Layer: 0
+  m_Name: f
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1821660729
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821660728}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1821660730
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821660728}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1821660731
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821660728}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1821660732
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821660728}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 38.7, y: 34.53, z: -74.48}
+  m_LocalScale: {x: 0.58428, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1821660733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821660728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af9908a1261bf3c429e5c6af2fff29ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FPSPlayerController
+  walkSpeed: 10
+  runSpeed: 15
+  jumpHeight: 3
+  gravity: -9.81
+  playerCamera: {fileID: 330585545}
+  lookSpeed: 2
+  lookXLimit: 80
+  runKey: 304
+  interactKey: 101
+  interactRange: 3
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!143 &1821660734
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821660728}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1821660735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821660728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04b277015e52be54d99b0faf19780324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 100
+  currentHealth: 0
 --- !u!1 &1824744148
 GameObject:
   m_ObjectHideFlags: 0
@@ -54538,7 +55430,7 @@ GameObject:
   - component: {fileID: 1824744152}
   - component: {fileID: 1824744151}
   - component: {fileID: 1824744150}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54650,7 +55542,7 @@ GameObject:
   - component: {fileID: 1833869597}
   - component: {fileID: 1833869596}
   - component: {fileID: 1833869595}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54762,7 +55654,7 @@ GameObject:
   - component: {fileID: 1836187759}
   - component: {fileID: 1836187758}
   - component: {fileID: 1836187757}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54874,7 +55766,7 @@ GameObject:
   - component: {fileID: 1836589621}
   - component: {fileID: 1836589620}
   - component: {fileID: 1836589619}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54974,6 +55866,40 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1836589617}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1838253111
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1838253112}
+  m_Layer: 0
+  m_Name: 'Blue_Movements '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1838253112
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838253111}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -28.85, y: 19.94371, z: -39.00582}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 35913470}
+  - {fileID: 1516954192}
+  - {fileID: 688983596}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1841866459
 GameObject:
   m_ObjectHideFlags: 0
@@ -54986,7 +55912,7 @@ GameObject:
   - component: {fileID: 1841866463}
   - component: {fileID: 1841866462}
   - component: {fileID: 1841866461}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55098,7 +56024,7 @@ GameObject:
   - component: {fileID: 1842100050}
   - component: {fileID: 1842100049}
   - component: {fileID: 1842100048}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55336,7 +56262,7 @@ GameObject:
   - component: {fileID: 1843921584}
   - component: {fileID: 1843921583}
   - component: {fileID: 1843921582}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55448,7 +56374,7 @@ GameObject:
   - component: {fileID: 1844503144}
   - component: {fileID: 1844503143}
   - component: {fileID: 1844503142}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55560,7 +56486,7 @@ GameObject:
   - component: {fileID: 1846110701}
   - component: {fileID: 1846110700}
   - component: {fileID: 1846110699}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55672,7 +56598,7 @@ GameObject:
   - component: {fileID: 1846213484}
   - component: {fileID: 1846213483}
   - component: {fileID: 1846213482}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55784,7 +56710,7 @@ GameObject:
   - component: {fileID: 1850730800}
   - component: {fileID: 1850730799}
   - component: {fileID: 1850730798}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55896,7 +56822,7 @@ GameObject:
   - component: {fileID: 1851404365}
   - component: {fileID: 1851404364}
   - component: {fileID: 1851404363}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56008,7 +56934,7 @@ GameObject:
   - component: {fileID: 1851976026}
   - component: {fileID: 1851976025}
   - component: {fileID: 1851976024}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56120,7 +57046,7 @@ GameObject:
   - component: {fileID: 1857089147}
   - component: {fileID: 1857089146}
   - component: {fileID: 1857089145}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56232,7 +57158,7 @@ GameObject:
   - component: {fileID: 1857461648}
   - component: {fileID: 1857461647}
   - component: {fileID: 1857461646}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56344,7 +57270,7 @@ GameObject:
   - component: {fileID: 1858616351}
   - component: {fileID: 1858616350}
   - component: {fileID: 1858616349}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56444,6 +57370,39 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1858616347}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1858892844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1858892845}
+  m_Layer: 0
+  m_Name: 'Red_Movements '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1858892845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858892844}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -28.85, y: 19.94371, z: -39.00582}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 392025676}
+  - {fileID: 1704173418}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1862130848
 GameObject:
   m_ObjectHideFlags: 0
@@ -56456,7 +57415,7 @@ GameObject:
   - component: {fileID: 1862130852}
   - component: {fileID: 1862130851}
   - component: {fileID: 1862130850}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56568,7 +57527,7 @@ GameObject:
   - component: {fileID: 1867479421}
   - component: {fileID: 1867479420}
   - component: {fileID: 1867479419}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56680,7 +57639,7 @@ GameObject:
   - component: {fileID: 1867905483}
   - component: {fileID: 1867905482}
   - component: {fileID: 1867905481}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56792,7 +57751,7 @@ GameObject:
   - component: {fileID: 1877403301}
   - component: {fileID: 1877403300}
   - component: {fileID: 1877403299}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56904,7 +57863,7 @@ GameObject:
   - component: {fileID: 1894789430}
   - component: {fileID: 1894789429}
   - component: {fileID: 1894789428}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57016,7 +57975,7 @@ GameObject:
   - component: {fileID: 1898491054}
   - component: {fileID: 1898491053}
   - component: {fileID: 1898491052}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57128,7 +58087,7 @@ GameObject:
   - component: {fileID: 1903003662}
   - component: {fileID: 1903003661}
   - component: {fileID: 1903003660}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57240,7 +58199,7 @@ GameObject:
   - component: {fileID: 1904401545}
   - component: {fileID: 1904401544}
   - component: {fileID: 1904401543}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57352,7 +58311,7 @@ GameObject:
   - component: {fileID: 1904653273}
   - component: {fileID: 1904653272}
   - component: {fileID: 1904653271}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57464,7 +58423,7 @@ GameObject:
   - component: {fileID: 1904717777}
   - component: {fileID: 1904717776}
   - component: {fileID: 1904717775}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57576,7 +58535,7 @@ GameObject:
   - component: {fileID: 1910504698}
   - component: {fileID: 1910504697}
   - component: {fileID: 1910504696}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57688,7 +58647,7 @@ GameObject:
   - component: {fileID: 1915082476}
   - component: {fileID: 1915082475}
   - component: {fileID: 1915082474}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57800,7 +58759,7 @@ GameObject:
   - component: {fileID: 1916753362}
   - component: {fileID: 1916753361}
   - component: {fileID: 1916753360}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57912,7 +58871,7 @@ GameObject:
   - component: {fileID: 1925339663}
   - component: {fileID: 1925339662}
   - component: {fileID: 1925339661}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58024,7 +58983,7 @@ GameObject:
   - component: {fileID: 1927060781}
   - component: {fileID: 1927060780}
   - component: {fileID: 1927060779}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58136,7 +59095,7 @@ GameObject:
   - component: {fileID: 1938278066}
   - component: {fileID: 1938278065}
   - component: {fileID: 1938278064}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58248,7 +59207,7 @@ GameObject:
   - component: {fileID: 1938980336}
   - component: {fileID: 1938980335}
   - component: {fileID: 1938980334}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58360,7 +59319,7 @@ GameObject:
   - component: {fileID: 1939807397}
   - component: {fileID: 1939807396}
   - component: {fileID: 1939807395}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58472,7 +59431,7 @@ GameObject:
   - component: {fileID: 1939939470}
   - component: {fileID: 1939939469}
   - component: {fileID: 1939939468}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58584,7 +59543,7 @@ GameObject:
   - component: {fileID: 1941725153}
   - component: {fileID: 1941725152}
   - component: {fileID: 1941725151}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58696,7 +59655,7 @@ GameObject:
   - component: {fileID: 1942374948}
   - component: {fileID: 1942374947}
   - component: {fileID: 1942374946}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58808,7 +59767,7 @@ GameObject:
   - component: {fileID: 1946312957}
   - component: {fileID: 1946312956}
   - component: {fileID: 1946312955}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58920,7 +59879,7 @@ GameObject:
   - component: {fileID: 1951599226}
   - component: {fileID: 1951599225}
   - component: {fileID: 1951599224}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59032,7 +59991,7 @@ GameObject:
   - component: {fileID: 1974452273}
   - component: {fileID: 1974452272}
   - component: {fileID: 1974452271}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59144,7 +60103,7 @@ GameObject:
   - component: {fileID: 1977813298}
   - component: {fileID: 1977813297}
   - component: {fileID: 1977813296}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59256,7 +60215,7 @@ GameObject:
   - component: {fileID: 1980970937}
   - component: {fileID: 1980970936}
   - component: {fileID: 1980970935}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59368,7 +60327,7 @@ GameObject:
   - component: {fileID: 1981353097}
   - component: {fileID: 1981353096}
   - component: {fileID: 1981353095}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59480,7 +60439,7 @@ GameObject:
   - component: {fileID: 1982659639}
   - component: {fileID: 1982659638}
   - component: {fileID: 1982659637}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59592,7 +60551,7 @@ GameObject:
   - component: {fileID: 1988208666}
   - component: {fileID: 1988208665}
   - component: {fileID: 1988208664}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59704,7 +60663,7 @@ GameObject:
   - component: {fileID: 1997779465}
   - component: {fileID: 1997779464}
   - component: {fileID: 1997779463}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59816,7 +60775,7 @@ GameObject:
   - component: {fileID: 2001978261}
   - component: {fileID: 2001978260}
   - component: {fileID: 2001978259}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59928,7 +60887,7 @@ GameObject:
   - component: {fileID: 2002698371}
   - component: {fileID: 2002698370}
   - component: {fileID: 2002698369}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59944,11 +60903,11 @@ Transform:
   m_GameObject: {fileID: 2002698367}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 17, z: 29}
-  m_LocalScale: {x: 127.5, y: 1.5, z: 0.2}
+  m_LocalPosition: {x: 0, y: 2, z: 0.5}
+  m_LocalScale: {x: 1, y: 3, z: 0.025}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 223935307}
+  m_Father: {fileID: 1340222022}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &2002698369
 MeshRenderer:
@@ -60040,7 +60999,7 @@ GameObject:
   - component: {fileID: 2007082360}
   - component: {fileID: 2007082359}
   - component: {fileID: 2007082358}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60152,7 +61111,7 @@ GameObject:
   - component: {fileID: 2007152688}
   - component: {fileID: 2007152687}
   - component: {fileID: 2007152686}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60264,7 +61223,7 @@ GameObject:
   - component: {fileID: 2010299443}
   - component: {fileID: 2010299442}
   - component: {fileID: 2010299441}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60376,7 +61335,7 @@ GameObject:
   - component: {fileID: 2011288569}
   - component: {fileID: 2011288568}
   - component: {fileID: 2011288567}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60488,7 +61447,7 @@ GameObject:
   - component: {fileID: 2016730229}
   - component: {fileID: 2016730228}
   - component: {fileID: 2016730227}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60600,7 +61559,7 @@ GameObject:
   - component: {fileID: 2022401595}
   - component: {fileID: 2022401594}
   - component: {fileID: 2022401593}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60712,7 +61671,7 @@ GameObject:
   - component: {fileID: 2022829668}
   - component: {fileID: 2022829667}
   - component: {fileID: 2022829666}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60824,7 +61783,7 @@ GameObject:
   - component: {fileID: 2026245880}
   - component: {fileID: 2026245879}
   - component: {fileID: 2026245878}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60936,7 +61895,7 @@ GameObject:
   - component: {fileID: 2027108791}
   - component: {fileID: 2027108790}
   - component: {fileID: 2027108789}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61048,7 +62007,7 @@ GameObject:
   - component: {fileID: 2029738905}
   - component: {fileID: 2029738904}
   - component: {fileID: 2029738903}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61160,7 +62119,7 @@ GameObject:
   - component: {fileID: 2031614167}
   - component: {fileID: 2031614166}
   - component: {fileID: 2031614165}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61272,7 +62231,7 @@ GameObject:
   - component: {fileID: 2032903103}
   - component: {fileID: 2032903102}
   - component: {fileID: 2032903101}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61384,7 +62343,7 @@ GameObject:
   - component: {fileID: 2033747920}
   - component: {fileID: 2033747919}
   - component: {fileID: 2033747918}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Street_H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61496,7 +62455,7 @@ GameObject:
   - component: {fileID: 2039465773}
   - component: {fileID: 2039465772}
   - component: {fileID: 2039465771}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61608,7 +62567,7 @@ GameObject:
   - component: {fileID: 2042606649}
   - component: {fileID: 2042606648}
   - component: {fileID: 2042606647}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61720,7 +62679,7 @@ GameObject:
   - component: {fileID: 2044103322}
   - component: {fileID: 2044103321}
   - component: {fileID: 2044103320}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61832,7 +62791,7 @@ GameObject:
   - component: {fileID: 2047661116}
   - component: {fileID: 2047661115}
   - component: {fileID: 2047661114}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61944,7 +62903,7 @@ GameObject:
   - component: {fileID: 2054467342}
   - component: {fileID: 2054467341}
   - component: {fileID: 2054467340}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62056,7 +63015,7 @@ GameObject:
   - component: {fileID: 2057899256}
   - component: {fileID: 2057899255}
   - component: {fileID: 2057899254}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62168,7 +63127,7 @@ GameObject:
   - component: {fileID: 2061541300}
   - component: {fileID: 2061541299}
   - component: {fileID: 2061541298}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62280,7 +63239,7 @@ GameObject:
   - component: {fileID: 2062249982}
   - component: {fileID: 2062249981}
   - component: {fileID: 2062249980}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62392,7 +63351,7 @@ GameObject:
   - component: {fileID: 2064101290}
   - component: {fileID: 2064101289}
   - component: {fileID: 2064101288}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62504,7 +63463,7 @@ GameObject:
   - component: {fileID: 2067094120}
   - component: {fileID: 2067094119}
   - component: {fileID: 2067094118}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62616,7 +63575,7 @@ GameObject:
   - component: {fileID: 2072414406}
   - component: {fileID: 2072414405}
   - component: {fileID: 2072414404}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62728,7 +63687,7 @@ GameObject:
   - component: {fileID: 2074011549}
   - component: {fileID: 2074011548}
   - component: {fileID: 2074011547}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62840,7 +63799,7 @@ GameObject:
   - component: {fileID: 2076579767}
   - component: {fileID: 2076579766}
   - component: {fileID: 2076579765}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62952,7 +63911,7 @@ GameObject:
   - component: {fileID: 2079419943}
   - component: {fileID: 2079419942}
   - component: {fileID: 2079419941}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63186,7 +64145,7 @@ GameObject:
   - component: {fileID: 2085435185}
   - component: {fileID: 2085435184}
   - component: {fileID: 2085435183}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63298,7 +64257,7 @@ GameObject:
   - component: {fileID: 2085505011}
   - component: {fileID: 2085505010}
   - component: {fileID: 2085505009}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63410,7 +64369,7 @@ GameObject:
   - component: {fileID: 2086136525}
   - component: {fileID: 2086136524}
   - component: {fileID: 2086136523}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63522,7 +64481,7 @@ GameObject:
   - component: {fileID: 2088507650}
   - component: {fileID: 2088507649}
   - component: {fileID: 2088507648}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63634,7 +64593,7 @@ GameObject:
   - component: {fileID: 2098494148}
   - component: {fileID: 2098494147}
   - component: {fileID: 2098494146}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63746,7 +64705,7 @@ GameObject:
   - component: {fileID: 2101791966}
   - component: {fileID: 2101791965}
   - component: {fileID: 2101791964}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63858,7 +64817,7 @@ GameObject:
   - component: {fileID: 2106917918}
   - component: {fileID: 2106917917}
   - component: {fileID: 2106917916}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63970,7 +64929,7 @@ GameObject:
   - component: {fileID: 2112449184}
   - component: {fileID: 2112449183}
   - component: {fileID: 2112449182}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64082,7 +65041,7 @@ GameObject:
   - component: {fileID: 2114886943}
   - component: {fileID: 2114886942}
   - component: {fileID: 2114886941}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64194,7 +65153,7 @@ GameObject:
   - component: {fileID: 2116368094}
   - component: {fileID: 2116368093}
   - component: {fileID: 2116368092}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64306,7 +65265,7 @@ GameObject:
   - component: {fileID: 2116881718}
   - component: {fileID: 2116881717}
   - component: {fileID: 2116881716}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64418,7 +65377,7 @@ GameObject:
   - component: {fileID: 2129351572}
   - component: {fileID: 2129351571}
   - component: {fileID: 2129351570}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64530,7 +65489,7 @@ GameObject:
   - component: {fileID: 2131109516}
   - component: {fileID: 2131109515}
   - component: {fileID: 2131109514}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64764,7 +65723,7 @@ GameObject:
   - component: {fileID: 2136884822}
   - component: {fileID: 2136884821}
   - component: {fileID: 2136884820}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64876,7 +65835,7 @@ GameObject:
   - component: {fileID: 2141135496}
   - component: {fileID: 2141135495}
   - component: {fileID: 2141135494}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64988,7 +65947,7 @@ GameObject:
   - component: {fileID: 2142859041}
   - component: {fileID: 2142859040}
   - component: {fileID: 2142859039}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65092,9 +66051,10 @@ MeshFilter:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 223935307}
-  - {fileID: 719013905}
-  - {fileID: 1730546117}
-  - {fileID: 708544090}
+  - {fileID: 1821660732}
+  - {fileID: 1858892845}
+  - {fileID: 1838253112}
