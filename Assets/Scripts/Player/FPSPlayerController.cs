@@ -16,13 +16,15 @@ public class FPSPlayerController : MonoBehaviour
 
     [Header("Keybindings")]
     public KeyCode runKey = KeyCode.LeftShift;
+    public KeyCode interactKey = KeyCode.E;
+
+    [Header("Interaction Settings")]
+    public float interactRange = 3.0f;
+    public LayerMask interactableLayer;
 
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
     private float rotationX = 0;
-    private float currentSpeedX = 0;
-    private float currentSpeedY = 0;
-
     private bool canMove = true;
 
     void Start()
@@ -50,6 +52,13 @@ public class FPSPlayerController : MonoBehaviour
 
     void Update()
     {
+        HandleMovement();
+        HandleRotation();
+        HandleInteraction();
+    }
+
+    void HandleMovement()
+    {
         // We are grounded, so recalculate move direction based on axes
         bool isRunning = Input.GetKey(runKey);
         float inputX = Input.GetAxis("Vertical");
@@ -75,7 +84,7 @@ public class FPSPlayerController : MonoBehaviour
             moveDirection.y = movementDirectionY;
         }
 
-        // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once when moveDirection is multiplied by deltaTime). This is because gravity should be applied continuously.
+        // Apply gravity
         if (!characterController.isGrounded)
         {
             moveDirection.y += gravity * Time.deltaTime;
@@ -83,7 +92,10 @@ public class FPSPlayerController : MonoBehaviour
 
         // Move the controller
         characterController.Move(moveDirection * Time.deltaTime);
+    }
 
+    void HandleRotation()
+    {
         // Player and Camera rotation
         if (canMove && playerCamera != null)
         {
@@ -94,6 +106,22 @@ public class FPSPlayerController : MonoBehaviour
             
             // Player Yaw (Left/Right) - Rotates the entire character
             transform.Rotate(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+        }
+    }
+
+    void HandleInteraction()
+    {
+        if (Input.GetKeyDown(interactKey))
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, interactRange, interactableLayer))
+            {
+                IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+                if (interactable != null)
+                {
+                    interactable.Interact();
+                }
+            }
         }
     }
 }
