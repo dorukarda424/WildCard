@@ -5,6 +5,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 {
     [SerializeField] Transform[] spawnPoints;
     public string playerPrefabName = "Player";
+    [SerializeField] private Camera menuCamera;
 
     void Start()
     {
@@ -45,6 +46,11 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     void SpawnPlayer()
     {
+        if (menuCamera != null)
+        {
+            menuCamera.gameObject.SetActive(false);
+        }
+
         Vector3 spawnPos = Vector3.zero;
 
         if (spawnPoints != null && spawnPoints.Length > 0)

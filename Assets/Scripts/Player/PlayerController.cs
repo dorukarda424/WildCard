@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public Transform cameraTransform;
     public float sensitivity = 100f;
     public float lookLimit = 90f;
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private AudioListener playerAudioListener;
     
     [Header("Head Bob")]
     public float bobAmplitude = 0.05f;
@@ -60,6 +62,18 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    private void Start()
+    {
+        if (playerCamera == null) playerCamera = GetComponentInChildren<Camera>();
+        if (playerAudioListener == null) playerAudioListener = GetComponentInChildren<AudioListener>();
+
+        if (!photonView.IsMine)
+        {
+            if (playerCamera != null) playerCamera.enabled = false;
+            if (playerAudioListener != null) playerAudioListener.enabled = false;
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
