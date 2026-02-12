@@ -148,32 +148,77 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             return;                           // skip normal gravity while latched
         }
         
+        // Calculate horizontal movement
         var move = transform.forward * _moveInput.y + transform.right * _moveInput.x;
         var currentSpeed = _isRunning ? runSpeed : walkSpeed;
-        _cc.Move(move * (currentSpeed * Time.deltaTime));
         
+        // Apply jump forces
         if ((_isGrounded || _isLatched) && _isJumpPressed)
         {
             _velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
         }
         
+        // Apply gravity
         if (_isGrounded && _velocity.y < 0)
         {
             _velocity.y = -2f;
         }
         _velocity.y += gravity * Time.deltaTime;
         if (_velocity.y < maxFallSpeed) _velocity.y = maxFallSpeed;
-        _cc.Move(_velocity * Time.deltaTime);
+
+        // Combine horizontal and vertical movement into one Move call
+        Vector3 finalMove = (move * currentSpeed) + _velocity;
+        _cc.Move(finalMove * Time.deltaTime);
     }
+
     private void HandleCameraLook()
     {
-        var mouseX = _lookInput.x * sensitivity * Time.deltaTime;
-        transform.Rotate(Vector3.up* mouseX);
+        float mouseX = 0f;
+        float mouseY = 0f;
+
+        // Check if input is from Mouse or Gamepad
+        // Mouse delta is already frame-rate independent (pixels moved), so we shouldn't multiply by Time.deltaTime
+        // Gamepad sticks are values (-1 to 1), so they need Time.deltaTime to be frame-rate independent
+        bool isMouse = IsMouseInput();
+
+        if (isMouse)
+        {
+            // For mouse, sensitivity scales pixels to degrees directly
+            // You might need to lower sensitivity in inspector if it's too fast now
+            float mouseSensitivityMultiplier = 0.1f; // Adjust this to normalize with gamepad feeling if needed
+            mouseX = _lookInput.x * sensitivity * mouseSensitivityMultiplier;
+            mouseY = _lookInput.y * sensitivity * mouseSensitivityMultiplier;
+        }
+        else
+        {
+            // For gamepad, we need time scaling
+            mouseX = _lookInput.x * sensitivity * Time.deltaTime;
+            mouseY = _lookInput.y * sensitivity * Time.deltaTime;
+        }
+
+        transform.Rotate(Vector3.up * mouseX);
         
-        var mouseY = _lookInput.y * sensitivity * Time.deltaTime;
         _xRotation -= mouseY;
         _xRotation = Mathf.Clamp(_xRotation, -lookLimit, lookLimit);
         cameraTransform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
+    }
+
+    private bool IsMouseInput()
+    {
+        if (_inputActions == null || _inputActions.Player.Look == null) return false;
+        
+        // This is a simple check. For more robust checking, you'd check the active control's device.
+        // However, Input System's ReadValue returns the value from the checks above.
+        // A common way to assume 'mouse' is if we are checking the delta action and the active control is a mouse.
+        // Since we bind both to 'Look', let's check the last updated control.
+        
+        var control = _inputActions.Player.Look.activeControl;
+        if (control != null && control.device is UnityEngine.InputSystem.Mouse)
+        {
+            return true;
+        }
+        
+        return false;
     }
 
     private void HandleHeadBob()
