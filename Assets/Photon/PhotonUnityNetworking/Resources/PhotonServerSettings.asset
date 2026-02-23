@@ -39,6 +39,17 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - RPC_ApplyCard
+  - RPC_CardPicked
+  - RPC_ChangeState
+  - RPC_EndMatch
+  - RPC_EndRound
+  - RPC_PlayerDied
+  - RPC_RegisterPlayer
+  - RPC_ResetStats
+  - RPC_StartCardSelection
+  - RPC_StartFighting
+  - RPC_TakeDamage
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4000905110815058786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 744540583535859475}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &744540583535859475
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4000905110815058786}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8999324302616172852}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4413617417275946559
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,6 +271,8 @@ GameObject:
   - component: {fileID: 1947976267100510030}
   - component: {fileID: 8111667364422873585}
   - component: {fileID: 5086194701131988379}
+  - component: {fileID: 52268866337136276}
+  - component: {fileID: 2059860580527879178}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -262,6 +295,7 @@ Transform:
   m_Children:
   - {fileID: 7897477023279615929}
   - {fileID: 158679542293011119}
+  - {fileID: 744540583535859475}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &341275739234827872
@@ -301,6 +335,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 341275739234827872}
   - {fileID: 5086194701131988379}
+  - {fileID: 52268866337136276}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -357,10 +392,46 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   cameraTransform: {fileID: 158679542293011119}
-  sensitivity: 100
+  sensitivity: 1.5
   lookLimit: 90
   playerCamera: {fileID: 0}
   playerAudioListener: {fileID: 0}
   bobAmplitude: 0.1
   bobFrequency: 18
   _testing: 0
+--- !u!114 &52268866337136276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8622365362640465882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a79bd5c13b773a4cb449a7294fdc776, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  baseHealth: 100
+  baseDamage: 20
+  baseFireRate: 0.3
+  baseMaxAmmo: 8
+  baseMoveSpeed: 5
+  baseBulletSpeed: 40
+  baseReloadSpeed: 1.5
+--- !u!114 &2059860580527879178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8622365362640465882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e101ba221db6f1b4582bf0a247505f9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
+  firePoint: {fileID: 744540583535859475}
+  bulletPrefabName: NetworkBullet
+  shootSound: {fileID: 0}
+  reloadSound: {fileID: 0}
+  emptyClipSound: {fileID: 0}

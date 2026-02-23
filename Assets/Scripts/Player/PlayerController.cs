@@ -3,8 +3,10 @@ using Photon.Pun;
 using Photon.Realtime;
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PlayerStats))]
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
+    private PlayerStats _playerStats;
     public float gravity;
     
     [Header("Movement")] 
@@ -53,10 +55,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     [Header("Testing")] 
     public bool _testing;
 
+    private bool _hasDoubleJumped;
+
     private void Awake()
     {
         _cc = GetComponent<CharacterController>();
         _inputActions = new InputSystem_Actions();
+        _playerStats = GetComponent<PlayerStats>();
         
         _camDefaultPos = cameraTransform.localPosition;
         
@@ -150,12 +155,25 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         
         // Calculate horizontal movement
         var move = transform.forward * _moveInput.y + transform.right * _moveInput.x;
-        var currentSpeed = _isRunning ? runSpeed : walkSpeed;
+        // Read speed from PlayerStats (affected by cards)
+        float statsSpeed = _playerStats != null ? _playerStats.MoveSpeed : walkSpeed;
+        var currentSpeed = _isRunning ? statsSpeed * 1.5f : statsSpeed;
+
+        // Reset double jump on ground
+        if (_isGrounded) _hasDoubleJumped = false;
         
-        // Apply jump forces
-        if ((_isGrounded || _isLatched) && _isJumpPressed)
+        // Apply jump forces (with DoubleJump card support)
+        if (_isJumpPressed)
         {
-            _velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
+            if (_isGrounded || _isLatched)
+            {
+                _velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
+            }
+            else if (!_hasDoubleJumped && _playerStats != null && _playerStats.HasEffect(SpecialEffect.DoubleJump))
+            {
+                _velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
+                _hasDoubleJumped = true;
+            }
         }
         
         // Apply gravity

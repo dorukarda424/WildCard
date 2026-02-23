@@ -59,7 +59,13 @@ public class Launcher : MonoBehaviourPunCallbacks
             spawnPos = spawnPoints[randomIndex].position;
         }
 
-        PhotonNetwork.Instantiate(playerPrefabName, spawnPos, Quaternion.identity);
+        GameObject player = PhotonNetwork.Instantiate(playerPrefabName, spawnPos, Quaternion.identity);
         Debug.Log("Player instantiated at: " + spawnPos);
+
+        // Register with RoundManager for round lifecycle tracking
+        if (RoundManager.Instance != null)
+        {
+            RoundManager.Instance.RegisterPlayer(PhotonNetwork.LocalPlayer.ActorNumber);
+        }
     }
 }

@@ -600,7 +600,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5086194701131988379, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
       propertyPath: sensitivity
-      value: 3
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8622365362640465882, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
       propertyPath: m_Name
