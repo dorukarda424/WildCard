@@ -7,32 +7,21 @@ using System;
 /// Handles taking damage, death, and respawning.
 /// </summary>
 [RequireComponent(typeof(PlayerStats))]
-public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
+public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageable
 {
     private PlayerStats _stats;
     private float _currentHealth;
     private bool _isDead;
     private int _shieldCharges;
 
-    // ────────── Events ──────────
-
-    /// <summary>Fired when health changes. Args: current, max.</summary>
     public event Action<float, float> OnHealthChanged;
-
-    /// <summary>Fired when this player dies. Args: victimActorNumber, killerActorNumber.</summary>
     public event Action<int, int> OnDied;
-
-    /// <summary>Fired when this player respawns.</summary>
     public event Action OnRespawned;
-
-    // ────────── Properties ──────────
-
+    
     public float CurrentHealth => _currentHealth;
     public float MaxHealth => _stats != null ? _stats.MaxHealth : 100f;
     public bool IsDead => _isDead;
     public float HealthPercent => MaxHealth > 0 ? _currentHealth / MaxHealth : 0f;
-
-    // ────────── Lifecycle ──────────
 
     private void Awake()
     {
@@ -44,9 +33,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
         InitializeHealth();
     }
 
-    /// <summary>
-    /// Called at round start to fully heal the player.
-    /// </summary>
     public void InitializeHealth()
     {
         _currentHealth = MaxHealth;
@@ -55,12 +41,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
         OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
     }
 
-    // ────────── Damage ──────────
-
-    /// <summary>
-    /// Deal damage to this player. Only processed on the owning client.
-    /// Called via RPC from the attacker.
-    /// </summary>
     [PunRPC]
     public void RPC_TakeDamage(float amount, int attackerActorNumber)
     {
@@ -88,18 +68,11 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    /// <summary>
-    /// Public method to request damage on a remote player.
-    /// Call this on the attacker's client — it sends an RPC to the target.
-    /// </summary>
     public void TakeDamageFromNetwork(float amount, int attackerActorNumber)
     {
         photonView.RPC(nameof(RPC_TakeDamage), RpcTarget.All, amount, attackerActorNumber);
     }
 
-    /// <summary>
-    /// Heal this player by the given amount.
-    /// </summary>
     public void Heal(float amount)
     {
         if (_isDead) return;
@@ -107,8 +80,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
         _currentHealth = Mathf.Min(_currentHealth + amount, MaxHealth);
         OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
     }
-
-    // ────────── Death & Respawn ──────────
 
     private void Die(int killerActorNumber)
     {
@@ -119,20 +90,15 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
         Debug.Log($"[PlayerHealth] {gameObject.name} killed by actor {killerActorNumber}");
 
         OnDied?.Invoke(victimActorNumber, killerActorNumber);
-
-        // Notify the RoundManager that a player has died
+        
         if (RoundManager.Instance != null)
         {
             RoundManager.Instance.OnPlayerDied(victimActorNumber, killerActorNumber);
         }
 
-        // Disable the player visuals/controls (but keep the GameObject alive for networking)
         SetPlayerActive(false);
     }
 
-    /// <summary>
-    /// Respawn this player at a given position. Called by RoundManager.
-    /// </summary>
     public void Respawn(Vector3 position)
     {
         _isDead = false;
@@ -150,23 +116,19 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
 
     private void SetPlayerActive(bool active)
     {
-        // Disable/enable renderers and gameplay components
         var renderers = GetComponentsInChildren<Renderer>();
         foreach (var r in renderers) r.enabled = active;
 
         var colliders = GetComponentsInChildren<Collider>();
         foreach (var c in colliders) c.enabled = active;
 
-        // Disable the PlayerMovement so dead players can't move
         var controller = GetComponent<PlayerMovement>();
         if (controller != null) controller.enabled = active;
 
         var combat = GetComponent<PlayerCombat>();
         if (combat != null) combat.enabled = active;
     }
-
-    // ────────── Network Sync ──────────
-
+    
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -181,4 +143,10 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
             OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
         }
     }
+    
+    public void TakeDamage(float damage, int attackerViewID)
+    {
+        TakeDamageFromNetwork(damage, attackerViewID);
+    }
+
 }

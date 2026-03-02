@@ -3,11 +3,6 @@ using Photon.Pun;
 using System.Collections;
 using System;
 
-/// <summary>
-/// Handles shooting mechanics integrated with PlayerStats.
-/// Fire rate, damage, ammo, and bullet speed all read from PlayerStats.
-/// Supports WeaponData for visual/audio config, recoil, crits, and muzzle flash.
-/// </summary>
 [RequireComponent(typeof(PlayerStats))]
 public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -36,23 +31,17 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
 
     [Header("Debug")]
     public bool testing;
-
-    // ────────── Events ──────────
-
+    
     public event Action<float> OnDamageDealt;
     public event Action OnKill;
-
-    // ────────── Properties ──────────
-
+    
     private PlayerStats _stats;
 
     public int CurrentAmmo => _currentAmmo;
     public int MaxAmmo => _stats != null ? _stats.MaxAmmo : (currentWeapon != null ? currentWeapon.magazineSize : 8);
     public bool IsReloading => _isReloading;
     public float ReloadProgress => _isReloading && _stats != null ? _reloadTimer / _stats.ReloadSpeed : 0f;
-
-    // ────────── Lifecycle ──────────
-
+    
     private void Awake()
     {
         _stats = GetComponent<PlayerStats>();
@@ -72,8 +61,7 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
         _fireCooldown -= Time.deltaTime;
 
         ReadInput();
-
-        // Handle reload
+        
         if (_isReloading)
         {
             _reloadTimer += Time.deltaTime;
@@ -81,10 +69,9 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
             {
                 FinishReload();
             }
-            return; // Can't shoot while reloading
+            return;
         }
-
-        // Shoot
+        
         if (_isShooting && _fireCooldown <= 0f)
         {
             if (_currentAmmo > 0)
@@ -96,22 +83,18 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
                 StartReload();
             }
         }
-
-        // Manual reload
+        
         if (InputManager.Instance != null && InputManager.Instance.IsReloadPressed && _currentAmmo < MaxAmmo && !_isReloading)
         {
             StartReload();
             InputManager.Instance.ResetReload();
         }
-
-        // Recoil recovery
+        
         if (_currentRecoil > 0 && currentWeapon != null)
         {
             _currentRecoil = Mathf.Lerp(_currentRecoil, 0f, Time.deltaTime * currentWeapon.recoilRecoverySpeed);
         }
     }
-
-    // ────────── Input ──────────
 
     private void ReadInput()
     {
@@ -121,12 +104,9 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            // Fallback to old input
             _isShooting = Input.GetButton("Fire1");
         }
     }
-
-    // ────────── Shooting ──────────
 
     private void Shoot()
     {
@@ -135,18 +115,15 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
         float fireRate = _stats != null ? _stats.FireRate : (currentWeapon != null ? 1f / currentWeapon.fireRate : 0.3f);
         _fireCooldown = fireRate;
         _currentAmmo--;
-
-        // Recoil
+        
         if (currentWeapon != null)
         {
             _currentRecoil += currentWeapon.recoilKickback;
         }
-
-        // Spawn bullet via Photon (visible to all players)
+        
         float damage = _stats != null ? _stats.Damage : (currentWeapon != null ? currentWeapon.damage : 20f);
         float bulletSpeed = _stats != null ? _stats.BulletSpeed : 40f;
-
-        // Crit check
+        
         bool isCrit = false;
         if (currentWeapon != null && UnityEngine.Random.value < currentWeapon.critChance)
         {
@@ -173,12 +150,10 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
             0,
             instantiationData
         );
-
-        // Muzzle flash & sound
+        
         PlayMuzzleFlash();
         PlaySound(shootSound);
-
-        // Notify others for visual effects
+        
         if (!testing && photonView.IsMine)
             photonView.RPC(nameof(RPC_FireEffect), RpcTarget.Others);
     }
@@ -190,8 +165,6 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
         PlaySound(shootSound);
     }
 
-    // ────────── Muzzle Flash ──────────
-
     private void PlayMuzzleFlash()
     {
         if (currentWeapon != null && currentWeapon.muzzleFlashPrefab != null && firePoint != null)
@@ -200,8 +173,6 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
             Destroy(flash, 0.1f);
         }
     }
-
-    // ────────── Reload ──────────
 
     private void StartReload()
     {
@@ -218,18 +189,13 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
         _currentAmmo = MaxAmmo;
         Debug.Log("[PlayerCombat] Reload complete.");
     }
-
-    /// <summary>
-    /// Called at round start to refill ammo.
-    /// </summary>
+    
     public void RefillAmmo()
     {
         _currentAmmo = MaxAmmo;
         _isReloading = false;
         _reloadTimer = 0f;
     }
-
-    // ────────── Audio ──────────
 
     private void PlaySound(AudioClip clip)
     {
@@ -238,8 +204,6 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
             _audioSource.PlayOneShot(clip);
         }
     }
-
-    // ────────── Network Sync ──────────
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

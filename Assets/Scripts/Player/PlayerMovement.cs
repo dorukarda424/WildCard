@@ -62,11 +62,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (!testing && (photonView == null || !photonView.IsMine))
-        {
-            transform.position = Vector3.Lerp(transform.position, _networkPosition, Time.deltaTime * 10f);
-            return;
-        }
+        // if (!testing && (photonView == null || !photonView.IsMine))
+        // {
+        //     transform.position = Vector3.Lerp(transform.position, _networkPosition, Time.deltaTime * 10f);
+        //     return;
+        // }
         
         if (InputManager.Instance != null)
         {

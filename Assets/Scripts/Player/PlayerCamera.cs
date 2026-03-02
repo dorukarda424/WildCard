@@ -67,11 +67,9 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         {
             _originalCamLocalPos = _cam.transform.localPosition;
         }
-
-        // Diğer oyuncuların kameralarını kapat
+        
         DisableOtherCameras();
-
-        // PlayerMovement'a kamera referansını ver (hareket yönü için)
+        
         if (_movement != null)
         {
             _movement.SetCamHolder(_cameraHolder);
@@ -82,7 +80,6 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
     private void DisableOtherCameras()
     {
-        // Sahndeki diğer kameraları kapat (menu camera vs)
         Camera[] allCameras = FindObjectsByType<Camera>(FindObjectsSortMode.None);
         foreach (var cam in allCameras)
         {
@@ -135,10 +132,9 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
         _xRotation -= lookY;
         _xRotation = Mathf.Clamp(_xRotation, -maxLookAngle, maxLookAngle);
-
-        // Player body rotates horizontally
+        
         transform.Rotate(Vector3.up * lookX);
-        // CameraHolder is SEPARATE — set full world rotation
+        
         _cameraHolder.rotation = Quaternion.Euler(_xRotation + _recoilOffset, transform.eulerAngles.y, 0f);
     }
 
@@ -196,15 +192,11 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
         Cursor.visible = !locked;
     }
-
-    /// <summary>
-    /// Returns the spawned camera (for other scripts that need it)
-    /// </summary>
+    
     public Camera GetCamera() => _cam;
 
     private void OnDestroy()
     {
-        // Oyuncu yok olunca kamerayı da temizle
         if (_cameraHolder != null)
         {
             Destroy(_cameraHolder.gameObject);

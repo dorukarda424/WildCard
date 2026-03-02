@@ -9,14 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 71970339725390668}
-  - component: {fileID: 8152990685320215361}
   - component: {fileID: 762110574601430474}
-  - component: {fileID: 5097125169817097651}
-  - component: {fileID: 1933202135410281347}
+  - component: {fileID: 8152990685320215361}
   - component: {fileID: 6057392204362056096}
-  - component: {fileID: 6769044512737800309}
-  - component: {fileID: 636354600082220136}
+  - component: {fileID: 1933202135410281347}
+  - component: {fileID: 5097125169817097651}
   - component: {fileID: 9216769325454263758}
+  - component: {fileID: 6303054457975694844}
+  - component: {fileID: 636354600082220136}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -42,31 +42,6 @@ Transform:
   - {fileID: 2782254688579553791}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8152990685320215361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2291599744164503390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonView
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 6057392204362056096}
-  - {fileID: 6769044512737800309}
-  - {fileID: 636354600082220136}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!143 &762110574601430474
 CharacterController:
   m_ObjectHideFlags: 0
@@ -92,6 +67,59 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8152990685320215361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2291599744164503390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonView
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 6057392204362056096}
+  - {fileID: 6303054457975694844}
+  - {fileID: 636354600082220136}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &6057392204362056096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2291599744164503390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonTransformView
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &1933202135410281347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2291599744164503390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b9710d92d2d09340b3c353256a174ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputManager
 --- !u!114 &5097125169817097651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,9 +145,9 @@ MonoBehaviour:
   latchDistance: 0.8
   latchGravity: 0
   latchCooldown: 0.2
-  camHolder: {fileID: 3371245812982025842, guid: b0de67edc0f066745b7d3f094e42329d, type: 3}
+  camHolder: {fileID: 0}
   testing: 1
---- !u!114 &1933202135410281347
+--- !u!114 &9216769325454263758
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,26 +156,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 2291599744164503390}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b9710d92d2d09340b3c353256a174ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 57cf82525a67e8c43a9f118b6c38b4f8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InputManager
---- !u!114 &6057392204362056096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2291599744164503390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonTransformView
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
---- !u!114 &6769044512737800309
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
+  cameraHolderPrefab: {fileID: 0}
+  camOffset: {x: 0, y: 0.8, z: 0.1}
+  mouseSensitivity: 5
+  maxLookAngle: 80
+  bobFrequency: 10
+  bobAmplitude: 0.05
+  bobReturnSpeed: 5
+  recoilReturnSpeed: 5
+  testing: 0
+--- !u!114 &6303054457975694844
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -186,27 +207,6 @@ MonoBehaviour:
   shootSound: {fileID: 0}
   reloadSound: {fileID: 0}
   emptyClipSound: {fileID: 0}
-  testing: 0
---- !u!114 &9216769325454263758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2291599744164503390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57cf82525a67e8c43a9f118b6c38b4f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
-  cameraHolderPrefab: {fileID: 4179276111252672939, guid: b0de67edc0f066745b7d3f094e42329d, type: 3}
-  camOffset: {x: 0, y: 0.8, z: 0.1}
-  mouseSensitivity: 5
-  maxLookAngle: 80
-  bobFrequency: 10
-  bobAmplitude: 0.05
-  bobReturnSpeed: 5
-  recoilReturnSpeed: 5
   testing: 0
 --- !u!1 &3573786334817004056
 GameObject:
