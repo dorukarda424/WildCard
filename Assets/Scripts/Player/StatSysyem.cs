@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum StatType { MoveSpeed, JumpForce, Gravity, MaxJumps, MaxFallSpeed }
+public enum StatType { MoveSpeed, SprintSpeed, CrouchSpeed, JumpForce, Gravity, MaxJumps, MaxFallSpeed }
 
 public class StatSystem : MonoBehaviour 
 {
