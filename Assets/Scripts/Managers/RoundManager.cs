@@ -21,6 +21,10 @@ public class RoundManager : MonoBehaviourPunCallbacks
     [SerializeField] private float roundOverDelay = 2f;
     [SerializeField] private float cardSelectionTimeout = 15f;
 
+    [Header("Debug")]
+    [Tooltip("Inspector'dan tikla → mevcut round aninda biter (sadece MasterClient)")]
+    [SerializeField] private bool forceEndRound = false;
+
     [Header("References")]
     [SerializeField] private Transform[] spawnPoints;
 
@@ -70,6 +74,47 @@ public class RoundManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+        // ── Debug: Inspector'dan round bitirme ──
+        if (forceEndRound)
+        {
+            forceEndRound = false;
+            Debug.Log($"[RoundManager] DEBUG: Force End Round tıklandı! State: {CurrentState}, IsMasterClient: {PhotonNetwork.IsMasterClient}");
+
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                Debug.LogWarning("[RoundManager] DEBUG: MasterClient değilsin, round bitirilemez!");
+            }
+            else
+            {
+                // Sahte winner ID → böylece sen "kaybeden" olursun ve kart seçim ekranı açılır
+                int winnerId = -1;
+
+                // Eğer henüz round başlamamışsa, round sayısını artır
+                if (CurrentState == RoundState.WaitingForPlayers || CurrentState == RoundState.Countdown)
+                {
+                    CurrentRound++;
+                }
+
+                // Oyuncuyu alive listesine ekle (tek başına test için)
+                if (!_alivePlayerActors.Contains(PhotonNetwork.LocalPlayer.ActorNumber))
+                {
+                    _alivePlayerActors.Add(PhotonNetwork.LocalPlayer.ActorNumber);
+                }
+
+                // Sahte "kazanan" oyuncuyu registered listesine ekle
+                // böylece CardSelection _cardPickedActors(1) < _registeredPlayerActors(2) olur
+                // ve kart seçim ekranı hemen kapanmaz
+                if (!_registeredPlayerActors.Contains(-1))
+                {
+                    _registeredPlayerActors.Add(-1);
+                }
+
+                Debug.Log($"[RoundManager] DEBUG: Round {CurrentRound} zorla bitiriliyor. Winner: {winnerId}");
+                EndRound(winnerId);
+                return;
+            }
+        }
+
         // Only MasterClient drives state transitions
         if (!PhotonNetwork.IsMasterClient) return;
 

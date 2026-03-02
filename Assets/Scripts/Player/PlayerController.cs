@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -6,277 +7,244 @@ using Photon.Realtime;
 [RequireComponent(typeof(PlayerStats))]
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
+    // ────────── State Machine ──────────
+
+    public enum PlayerState { Idle, Walking, Sprinting, Crouching, Airborne, Latched, Stunned, Frozen }
+    public PlayerState CurrentState { get; private set; } = PlayerState.Idle;
+
     private PlayerStats _playerStats;
     public float gravity;
     
     [Header("Movement")] 
     public float walkSpeed;     public float runSpeed;
-    private bool _isMoving;     private bool _isRunning;
-    private bool _isGrounded;
+    private bool _isRunning;
+    private bool _isCrouching;
     
     [Header("Crouching/Sliding")]
     public float crouchHeight = 0.5f;     public float standHeight = 2f;
     public float crouchSpeed;             public float slideSpeed;
     public float slideDuration = 1.0f;    private bool _isSliding;
-    private bool _isCrouching;            private float _slideTimer;
+    private float _slideTimer;
     
     [Header("Jumping")] 
     public float jumpForce = 10.0f;
     public float maxFallSpeed = -30f;
+    public int maxJumps = 1;
     private bool _isJumpPressed;
+    private int _jumpsRemaining;
     
     [Header("Latching")]
     public float latchGravity;
     private bool _isLatched;
     public float latchCheckDistance = 0.8f;
-    public LayerMask latchLayers; 
-    
-    [Header("Camera")]
-    public Transform cameraTransform;
-    public float sensitivity = 100f;
-    public float lookLimit = 90f;
-    [SerializeField] private Camera playerCamera;
-    [SerializeField] private AudioListener playerAudioListener;
-    
-    [Header("Head Bob")]
-    public float bobAmplitude = 0.05f;
-    public float bobFrequency = 12f;
-    private float _bobTime;
-    private Vector3 _camDefaultPos;
-    
-    [Header("References")]
-    private CharacterController _cc;
-    private InputSystem_Actions _inputActions;
-    private Vector2 _moveInput;
-    private Vector2 _lookInput;
-    private Vector3 _velocity;
-    private float _xRotation;
+    public LayerMask latchLayers;
+    public float latchCooldown = 0.2f;
+    private float _latchTimer;
+    private float _airborneTime;
+    private Vector3 _latchDirection;
 
     [Header("Testing")] 
     public bool _testing;
 
+    // ────────── Internal ──────────
+
+    private CharacterController _cc;
+    private Vector2 _moveInput;
+    private Vector3 _velocity;
     private bool _hasDoubleJumped;
+
+    public bool IsGrounded { get; private set; }
+    public bool IsMoving { get; private set; }
+    public Vector3 Velocity => _velocity;
+
+    // ────────── Events ──────────
+
+    public event Action OnPlayerJump;
+    public event Action OnPlayerLand;
+    public event Action OnPlayerLatch;
+    public event Action OnPlayerUnlatch;
+
+    // ────────── Lifecycle ──────────
 
     private void Awake()
     {
         _cc = GetComponent<CharacterController>();
-        _inputActions = new InputSystem_Actions();
         _playerStats = GetComponent<PlayerStats>();
-        
-        _camDefaultPos = cameraTransform.localPosition;
-        
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
-    private void Start()
-    {
-        if (playerCamera == null) playerCamera = GetComponentInChildren<Camera>();
-        if (playerAudioListener == null) playerAudioListener = GetComponentInChildren<AudioListener>();
-
-        if (!photonView.IsMine)
-        {
-            if (playerCamera != null) playerCamera.enabled = false;
-            if (playerAudioListener != null) playerAudioListener.enabled = false;
-        }
+        _jumpsRemaining = maxJumps;
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            // Send our position to others
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
-            stream.SendNext(_isCrouching);  // if you add crouch later
+            stream.SendNext(_isCrouching);
         }
         else
         {
-            // Receive others' position
             transform.position = (Vector3)stream.ReceiveNext();
             transform.rotation = (Quaternion)stream.ReceiveNext();
-            if (PhotonNetwork.CurrentRoom != null && PhotonNetwork.CurrentRoom.PlayerCount > 1)  // skip first frame
+            if (PhotonNetwork.CurrentRoom != null && PhotonNetwork.CurrentRoom.PlayerCount > 1)
                 _isCrouching = (bool)stream.ReceiveNext();
         }
-    }
-
-    public override void OnEnable()
-    {
-        _inputActions.Player.Enable();
-    }
-
-    public override void OnDisable()
-    {
-        _inputActions.Player.Disable();
     }
     
     private void Update()
     {
-        if (_testing||photonView.IsMine)
+        if (_testing || (photonView != null && photonView.IsMine))
         {
-            ReadInput(); // Read player input each frame (condition later for PUN)
+            ReadInput();
             HandleMovement();
-            HandleCameraLook();
         }
-        
-        HandleHeadBob();
     }
     
+    // ────────── Input ──────────
+
     private void ReadInput()
     {
-        _moveInput = _inputActions.Player.Move.ReadValue<Vector2>();
-        _lookInput = _inputActions.Player.Look.ReadValue<Vector2>();
-        _isRunning = _inputActions.Player.Sprint.IsPressed(); 
-        _isJumpPressed = _inputActions.Player.Jump.triggered;
+        if (InputManager.Instance != null)
+        {
+            _moveInput = InputManager.Instance.MoveInput;
+            _isRunning = InputManager.Instance.IsRunning;
+            _isCrouching = InputManager.Instance.IsCrouching;
+
+            if (InputManager.Instance.IsJumpPressed)
+            {
+                _isJumpPressed = true;
+                InputManager.Instance.ConsumeJump();
+            }
+        }
     }
     
+    // ────────── State Helpers ──────────
+
+    public void SetState(PlayerState newState) => CurrentState = newState;
+
+    // ────────── Movement ──────────
+
     private void HandleMovement()
     {
-        _isGrounded = _cc.isGrounded;
-        
-        if (!_isGrounded && !_isLatched && CanLatch())
+        if (CurrentState == PlayerState.Stunned || CurrentState == PlayerState.Frozen)
         {
-            _isLatched = true;
-            _velocity = Vector3.zero;           // stop falling instantly
+            ApplyGravityOnly();
+            return;
         }
 
-        if (_isGrounded)
+        if (CurrentState == PlayerState.Latched)
+        {
+            HandleLatchedMovement();
+            return;
+        }
+
+        bool wasGrounded = IsGrounded;
+        IsGrounded = _cc.isGrounded;
+        
+        // Landing detection
+        if (!wasGrounded && IsGrounded)
         {
             _velocity.x = 0f;
             _velocity.z = 0f;
-            _isLatched = false;               // touching ground cancels latch
+            _isLatched = false;
+            _jumpsRemaining = maxJumps;
+            _hasDoubleJumped = false;
+            _airborneTime = 0f;
+            OnPlayerLand?.Invoke();
         }
 
-        if (_isLatched)
+        // Track time in air
+        if (!IsGrounded)
+            _airborneTime += Time.deltaTime;
+        else
+            _airborneTime = 0f;
+
+        // Latch check — multi-directional (forward, left, right)
+        if (!IsGrounded && !_isLatched && _latchTimer <= 0 && _airborneTime > 0.15f && CanLatch())
         {
-            HandleLatchedMovement();
-            return;                           // skip normal gravity while latched
+            _isLatched = true;
+            CurrentState = PlayerState.Latched;
+            _velocity = Vector3.zero;
+            OnPlayerLatch?.Invoke();
+            return;
         }
+
+        if (IsGrounded)
+        {
+            _isLatched = false;
+        }
+
+        if (_latchTimer > 0) _latchTimer -= Time.deltaTime;
         
         // Calculate horizontal movement
         var move = transform.forward * _moveInput.y + transform.right * _moveInput.x;
-        // Read speed from PlayerStats (affected by cards)
         float statsSpeed = _playerStats != null ? _playerStats.MoveSpeed : walkSpeed;
         var currentSpeed = _isRunning ? statsSpeed * 1.5f : statsSpeed;
 
-        // Reset double jump on ground
-        if (_isGrounded) _hasDoubleJumped = false;
-        
-        // Apply jump forces (with DoubleJump card support)
+        IsMoving = _moveInput.sqrMagnitude > 0.001f;
+
+        // Update state
+        if (IsGrounded)
+        {
+            if (!IsMoving) CurrentState = PlayerState.Idle;
+            else if (_isRunning) CurrentState = PlayerState.Sprinting;
+            else if (_isCrouching) CurrentState = PlayerState.Crouching;
+            else CurrentState = PlayerState.Walking;
+
+            _hasDoubleJumped = false;
+        }
+        else
+        {
+            CurrentState = PlayerState.Airborne;
+        }
+
+        // Jump (with DoubleJump card support)
         if (_isJumpPressed)
         {
-            if (_isGrounded || _isLatched)
+            if (IsGrounded || _isLatched)
             {
                 _velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
+                _jumpsRemaining--;
+                _latchTimer = latchCooldown;
+                _isJumpPressed = false;
+                OnPlayerJump?.Invoke();
             }
             else if (!_hasDoubleJumped && _playerStats != null && _playerStats.HasEffect(SpecialEffect.DoubleJump))
             {
                 _velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
                 _hasDoubleJumped = true;
+                _isJumpPressed = false;
+                OnPlayerJump?.Invoke();
             }
         }
         
         // Apply gravity
-        if (_isGrounded && _velocity.y < 0)
+        if (IsGrounded && _velocity.y < 0)
         {
             _velocity.y = -2f;
         }
         _velocity.y += gravity * Time.deltaTime;
         if (_velocity.y < maxFallSpeed) _velocity.y = maxFallSpeed;
 
-        // Combine horizontal and vertical movement into one Move call
+        // Combine horizontal and vertical movement
         Vector3 finalMove = (move * currentSpeed) + _velocity;
         _cc.Move(finalMove * Time.deltaTime);
+        _isJumpPressed = false;
     }
 
-    private void HandleCameraLook()
-    {
-        float mouseX = 0f;
-        float mouseY = 0f;
-
-        // Check if input is from Mouse or Gamepad
-        // Mouse delta is already frame-rate independent (pixels moved), so we shouldn't multiply by Time.deltaTime
-        // Gamepad sticks are values (-1 to 1), so they need Time.deltaTime to be frame-rate independent
-        bool isMouse = IsMouseInput();
-
-        if (isMouse)
-        {
-            // For mouse, sensitivity scales pixels to degrees directly
-            // You might need to lower sensitivity in inspector if it's too fast now
-            float mouseSensitivityMultiplier = 0.1f; // Adjust this to normalize with gamepad feeling if needed
-            mouseX = _lookInput.x * sensitivity * mouseSensitivityMultiplier;
-            mouseY = _lookInput.y * sensitivity * mouseSensitivityMultiplier;
-        }
-        else
-        {
-            // For gamepad, we need time scaling
-            mouseX = _lookInput.x * sensitivity * Time.deltaTime;
-            mouseY = _lookInput.y * sensitivity * Time.deltaTime;
-        }
-
-        transform.Rotate(Vector3.up * mouseX);
-        
-        _xRotation -= mouseY;
-        _xRotation = Mathf.Clamp(_xRotation, -lookLimit, lookLimit);
-        cameraTransform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
-    }
-
-    private bool IsMouseInput()
-    {
-        if (_inputActions == null || _inputActions.Player.Look == null) return false;
-        
-        // This is a simple check. For more robust checking, you'd check the active control's device.
-        // However, Input System's ReadValue returns the value from the checks above.
-        // A common way to assume 'mouse' is if we are checking the delta action and the active control is a mouse.
-        // Since we bind both to 'Look', let's check the last updated control.
-        
-        var control = _inputActions.Player.Look.activeControl;
-        if (control != null && control.device is UnityEngine.InputSystem.Mouse)
-        {
-            return true;
-        }
-        
-        return false;
-    }
-
-    private void HandleHeadBob()
-    {
-        _isMoving = _moveInput.sqrMagnitude > 0.001f;
-        if (_isMoving && _isGrounded)
-        {
-            _bobTime += Time.deltaTime * bobFrequency * (_isRunning ? 1.5f : 1f);
-
-            var verticalOffset = Mathf.Sin(_bobTime) * bobAmplitude;
-            var horizontalOffset = Mathf.Cos(_bobTime * 0.5f) * bobAmplitude * 0.5f;
-
-            Vector3 targetPos = _camDefaultPos + new Vector3(horizontalOffset, verticalOffset, 0f);
-            cameraTransform.localPosition = Vector3.Lerp(
-                cameraTransform.localPosition,
-                targetPos,
-                Time.deltaTime * 10f
-            );
-        }
-        else
-        {
-            _bobTime = 0f;
-            cameraTransform.localPosition = Vector3.Lerp(
-                cameraTransform.localPosition,
-                _camDefaultPos,
-                Time.deltaTime * 8f
-            );
-        }
-    }
-    
-    private bool CanLatch()
-    {
-        
-        Vector3 origin = transform.position + Vector3.up * 1.2f;
-        return Physics.Raycast(origin, transform.forward, latchCheckDistance, latchLayers);
-    }
+    // ────────── Latched Movement ──────────
 
     private void HandleLatchedMovement()
     {
-        // Apply latch gravity so player slowly slides down or stays attached with force
+        if (_cc.isGrounded)
+        {
+            _velocity = Vector3.zero;
+            _isLatched = false;
+            _jumpsRemaining = maxJumps;
+            CurrentState = PlayerState.Idle;
+            OnPlayerUnlatch?.Invoke();
+            return;
+        }
+
         _velocity.y += latchGravity * Time.deltaTime;
         if (_velocity.y < maxFallSpeed) _velocity.y = maxFallSpeed;
         _cc.Move(_velocity * Time.deltaTime);
@@ -284,9 +252,47 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         if (_isJumpPressed)
         {
             _isLatched = false;
-            
-            Vector3 jumpDir = ( -transform.forward + Vector3.up ).normalized;
+            _latchTimer = latchCooldown;
+            CurrentState = PlayerState.Airborne;
+            OnPlayerUnlatch?.Invoke();
+
+            // Jump away — use input direction or wall normal
+            Vector3 inputDir = transform.forward * _moveInput.y + transform.right * _moveInput.x;
+            Vector3 jumpDir = inputDir.sqrMagnitude > 0.01f
+                ? (inputDir.normalized + Vector3.up).normalized
+                : (_latchDirection + Vector3.up).normalized;
+
             _velocity = jumpDir * Mathf.Sqrt(jumpForce * -2f * gravity);
+            _isJumpPressed = false;
+            OnPlayerJump?.Invoke();
         }
+    }
+
+    // ────────── Gravity Only (Stunned/Frozen) ──────────
+
+    private void ApplyGravityOnly()
+    {
+        if (IsGrounded && _velocity.y < 0) _velocity.y = -2f;
+        _velocity.y += gravity * Time.deltaTime;
+        if (_velocity.y < maxFallSpeed) _velocity.y = maxFallSpeed;
+        _cc.Move(_velocity * Time.deltaTime);
+    }
+
+    // ────────── Latch Detection (Multi-Directional) ──────────
+    
+    private bool CanLatch()
+    {
+        Vector3 origin = transform.position + Vector3.up * 1.2f;
+        RaycastHit hit;
+
+        // Check forward, left, and right
+        if (Physics.Raycast(origin, transform.forward, out hit, latchCheckDistance, latchLayers) ||
+            Physics.Raycast(origin, -transform.right, out hit, latchCheckDistance, latchLayers) ||
+            Physics.Raycast(origin, transform.right, out hit, latchCheckDistance, latchLayers))
+        {
+            _latchDirection = hit.normal;
+            return true;
+        }
+        return false;
     }
 }
