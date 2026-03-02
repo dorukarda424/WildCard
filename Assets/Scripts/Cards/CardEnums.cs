@@ -9,7 +9,13 @@ public enum StatType
     MaxAmmo,
     MoveSpeed,
     BulletSpeed,
-    ReloadSpeed
+    ReloadSpeed,
+    SprintSpeed,
+    CrouchSpeed,
+    JumpForce,
+    Gravity,
+    MaxJumps,
+    MaxFallSpeed
 }
 
 /// <summary>

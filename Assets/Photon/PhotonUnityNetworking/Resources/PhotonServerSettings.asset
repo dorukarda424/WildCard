@@ -50,6 +50,7 @@ MonoBehaviour:
   - RPC_StartCardSelection
   - RPC_StartFighting
   - RPC_TakeDamage
+  - RPC_FireEffect
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -90,6 +90,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     }
     
     public void SetState(PlayerState newState) => CurrentState = newState;
+
+    /// <summary>
+    /// Called by PlayerCamera after spawning the camera at runtime.
+    /// </summary>
+    public void SetCamHolder(Transform cam) => camHolder = cam;
     
     private void HandleMovement()
     {
@@ -130,7 +135,15 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             return;
         }
         
-        Vector3 moveDir = camHolder.forward * _moveInput.y + camHolder.right * _moveInput.x;
+        Vector3 moveDir;
+        if (camHolder != null)
+        {
+            moveDir = camHolder.forward * _moveInput.y + camHolder.right * _moveInput.x;
+        }
+        else
+        {
+            moveDir = transform.forward * _moveInput.y + transform.right * _moveInput.x;
+        }
         moveDir.y = 0f;
         if (moveDir.sqrMagnitude > 0.01f) moveDir.Normalize();
         IsMoving = moveDir.sqrMagnitude > 0.01f;

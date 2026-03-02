@@ -46,6 +46,17 @@ public class CardSelectionUI : MonoBehaviour
         }
 
         // Spawn card UI elements
+        if (cardPrefab == null)
+        {
+            Debug.LogError("[CardSelectionUI] cardPrefab atanmamış! Inspector'dan CardUI prefab'ını ata.");
+            return;
+        }
+        if (cardContainer == null)
+        {
+            Debug.LogError("[CardSelectionUI] cardContainer atanmamış! Inspector'dan ata.");
+            return;
+        }
+
         for (int i = 0; i < cards.Count; i++)
         {
             int index = i; // capture for lambda

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Damage Boost
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: f496d3f4989d4404d9a080e3116612b1, type: 3}
   rarity: 0
   modifiers:
   - statType: 1

@@ -157,8 +157,8 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
         var colliders = GetComponentsInChildren<Collider>();
         foreach (var c in colliders) c.enabled = active;
 
-        // Disable the PlayerController so dead players can't move
-        var controller = GetComponent<PlayerController>();
+        // Disable the PlayerMovement so dead players can't move
+        var controller = GetComponent<PlayerMovement>();
         if (controller != null) controller.enabled = active;
 
         var combat = GetComponent<PlayerCombat>();
