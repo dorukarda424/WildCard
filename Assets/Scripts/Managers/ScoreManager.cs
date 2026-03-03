@@ -47,15 +47,26 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
     public void RecordKill(int killerActorNumber, int victimActorNumber)
     {
+        // Self-kill: only count death, no kill credit
+        if (killerActorNumber == victimActorNumber)
+        {
+            var victimScore = GetScore(victimActorNumber);
+            victimScore.deaths++;
+            _scores[victimActorNumber] = victimScore;
+            SyncToPhoton(victimActorNumber);
+            OnKillRecorded?.Invoke(killerActorNumber, victimActorNumber);
+            return;
+        }
+
         // Update killer
         var killerScore = GetScore(killerActorNumber);
         killerScore.kills++;
         _scores[killerActorNumber] = killerScore;
 
         // Update victim
-        var victimScore = GetScore(victimActorNumber);
-        victimScore.deaths++;
-        _scores[victimActorNumber] = victimScore;
+        var vScore = GetScore(victimActorNumber);
+        vScore.deaths++;
+        _scores[victimActorNumber] = vScore;
 
         // Sync to Photon Custom Properties
         SyncToPhoton(killerActorNumber);
@@ -63,7 +74,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
         OnKillRecorded?.Invoke(killerActorNumber, victimActorNumber);
         Debug.Log($"[ScoreManager] Kill: {killerActorNumber} → {victimActorNumber} | " +
-                  $"Killer: {killerScore} | Victim: {victimScore}");
+                  $"Killer: {killerScore} | Victim: {vScore}");
     }
 
     public void RecordRoundWin(int winnerActorNumber)

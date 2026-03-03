@@ -17,16 +17,23 @@ public class InputManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        if (Instance == null)
+        // Only the local player should run InputManager
+        PhotonView pv = GetComponent<PhotonView>();
+        if (pv != null && !pv.IsMine)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
+            // Remote player: destroy only this component, NOT the gameObject!
+            Destroy(this);
             return;
         }
+
+        if (Instance != null && Instance != this)
+        {
+            // Duplicate local InputManager: destroy only this component
+            Destroy(this);
+            return;
+        }
+
+        Instance = this;
 
         InputActions = new InputSystem_Actions();
 

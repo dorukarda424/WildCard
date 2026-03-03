@@ -97,11 +97,14 @@ public class GameHUD : MonoBehaviour
         {
             if (player.photonView.IsMine)
             {
+                // Unsubscribe from old player (prevents event handler leak)
+                if (_localHealth != null)
+                    _localHealth.OnHealthChanged -= OnHealthChanged;
+
                 _localHealth = player;
                 _localCombat = player.GetComponent<PlayerCombat>();
                 _localStats = player.GetComponent<PlayerStats>();
 
-                // Subscribe to health changes
                 _localHealth.OnHealthChanged += OnHealthChanged;
                 break;
             }

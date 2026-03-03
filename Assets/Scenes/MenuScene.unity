@@ -1411,6 +1411,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   loggedInPlayerName: 
+  roundsToWin: 5
+  maxPlayers: 4
 --- !u!1 &1432417979
 GameObject:
   m_ObjectHideFlags: 0

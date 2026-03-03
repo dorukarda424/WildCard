@@ -3,7 +3,7 @@ using UnityEngine;
 using Photon.Pun;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerMovement : MonoBehaviourPunCallbacks
+public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 {
     public enum PlayerState { Idle, Walking, Sprinting, Crouching, Airborne, Latched, Stunned, Frozen }
     public PlayerState CurrentState { get; private set; } = PlayerState.Idle;
@@ -54,7 +54,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     private float _latchTimer;
     private float _airborneTime;
     private Vector3 _latchDirection;
+
+    // ── Network sync fields ──
     private Vector3 _networkPosition;
+    private float _networkRotationY;
+    private bool _isRemotePlayer;
 
     private static readonly int IsWalking = Animator.StringToHash("IsWalking");
 
@@ -75,11 +79,42 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         _jumpsRemaining = EffMaxJumps;
     }
 
+    private void Start()
+    {
+        _isRemotePlayer = !testing && photonView != null && !photonView.IsMine;
+
+        if (_isRemotePlayer)
+        {
+            // Disable CharacterController on remote players entirely.
+            // CC blocks direct transform.position changes, breaking network sync.
+            // But we need a collider for bullet hits, so add a matching CapsuleCollider.
+            CapsuleCollider capsule = gameObject.AddComponent<CapsuleCollider>();
+            capsule.center = _cc.center;
+            capsule.radius = _cc.radius;
+            capsule.height = _cc.height;
+
+            _cc.enabled = false;
+
+            _networkPosition = transform.position;
+            _networkRotationY = transform.eulerAngles.y;
+            Debug.Log($"[PlayerMovement] Remote player initialized at {transform.position}");
+            StartCoroutine(VisibilityDebugRoutine());
+        }
+    }
+
     private void Update()
     {
+        if (_isRemotePlayer)
+        {
+            // Smoothly interpolate remote player to network position/rotation
+            transform.position = Vector3.Lerp(transform.position, _networkPosition, Time.deltaTime * 15f);
+            float smoothY = Mathf.LerpAngle(transform.eulerAngles.y, _networkRotationY, Time.deltaTime * 15f);
+            transform.rotation = Quaternion.Euler(0f, smoothY, 0f);
+            return;
+        }
+
         if (!testing && (photonView == null || !photonView.IsMine))
         {
-            transform.position = Vector3.Lerp(transform.position, _networkPosition, Time.deltaTime * 10f);
             return;
         }
         
@@ -263,5 +298,39 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         // Debug.DrawRay(transform.position, Vector3.down * checkDistance, grounded ? Color.blue : Color.yellow);
         return _cc.isGrounded;
     }
-    
+
+    // ────────── Network Sync ──────────
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.eulerAngles.y);
+        }
+        else
+        {
+            _networkPosition = (Vector3)stream.ReceiveNext();
+            _networkRotationY = (float)stream.ReceiveNext();
+        }
+    }
+
+    private System.Collections.IEnumerator VisibilityDebugRoutine()
+    {
+        while (true)
+        {
+            if (_isRemotePlayer)
+            {
+                var renderers = GetComponentsInChildren<Renderer>();
+                int enabledCount = 0;
+                foreach (var r in renderers)
+                {
+                    if (r.enabled) enabledCount++;
+                }
+
+                Debug.Log($"[VisibilityDebug] {gameObject.name}: Pos={transform.position}, Scale={transform.localScale}, Renderers={enabledCount}/{renderers.Length} enabled, ActiveSelf={gameObject.activeSelf}");
+            }
+            yield return new WaitForSeconds(5f);
+        }
+    }
 }

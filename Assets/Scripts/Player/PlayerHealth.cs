@@ -13,6 +13,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
     private float _currentHealth;
     private bool _isDead;
     private int _shieldCharges;
+    private bool _deathProcessed; // Guard against multiple Die() calls in same frame
 
     // ────────── Events ──────────
 
@@ -51,6 +52,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
     {
         _currentHealth = MaxHealth;
         _isDead = false;
+        _deathProcessed = false;
         _shieldCharges = _stats.HasEffect(SpecialEffect.Shield) ? 1 : 0;
         OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
     }
@@ -112,8 +114,9 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Die(int killerActorNumber)
     {
-        if (_isDead) return;
+        if (_isDead || _deathProcessed) return;
         _isDead = true;
+        _deathProcessed = true;
 
         int victimActorNumber = photonView.Owner.ActorNumber;
         Debug.Log($"[PlayerHealth] {gameObject.name} killed by actor {killerActorNumber}");
@@ -136,8 +139,16 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
     public void Respawn(Vector3 position)
     {
         _isDead = false;
+        _deathProcessed = false;
         _currentHealth = MaxHealth;
         _shieldCharges = _stats.HasEffect(SpecialEffect.Shield) ? 1 : 0;
+
+        // Re-enable CharacterController BEFORE setting position (CC must be active for position change)
+        var cc = GetComponent<CharacterController>();
+        if (cc != null && photonView.IsMine)
+        {
+            cc.enabled = true;
+        }
 
         transform.position = position;
         SetPlayerActive(true);
@@ -148,6 +159,21 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
         Debug.Log($"[PlayerHealth] {gameObject.name} respawned at {position}");
     }
 
+    /// <summary>
+    /// Re-enable visuals and reset health state without changing position.
+    /// Used for remote players during respawn (position comes from network sync).
+    /// </summary>
+    public void ResetState()
+    {
+        _isDead = false;
+        _deathProcessed = false;
+        _currentHealth = MaxHealth;
+        _shieldCharges = _stats.HasEffect(SpecialEffect.Shield) ? 1 : 0;
+        SetPlayerActive(true);
+        OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
+        OnRespawned?.Invoke();
+    }
+
     private void SetPlayerActive(bool active)
     {
         // Disable/enable renderers and gameplay components
@@ -155,7 +181,13 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
         foreach (var r in renderers) r.enabled = active;
 
         var colliders = GetComponentsInChildren<Collider>();
-        foreach (var c in colliders) c.enabled = active;
+        foreach (var c in colliders)
+        {
+            // Never re-enable CharacterController on remote players — it blocks position sync
+            if (c is CharacterController && photonView != null && !photonView.IsMine)
+                continue;
+            c.enabled = active;
+        }
 
         // Disable the PlayerMovement so dead players can't move
         var controller = GetComponent<PlayerMovement>();

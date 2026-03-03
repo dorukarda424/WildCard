@@ -20,6 +20,7 @@ public class RoundManager : MonoBehaviourPunCallbacks
     [SerializeField] private float countdownDuration = 3f;
     [SerializeField] private float roundOverDelay = 2f;
     [SerializeField] private float cardSelectionTimeout = 15f;
+    [SerializeField] private string playerPrefabName = "Player";
 
     [Header("Debug")]
     [Tooltip("Inspector'dan tikla → mevcut round aninda biter (sadece MasterClient)")]
@@ -70,6 +71,11 @@ public class RoundManager : MonoBehaviourPunCallbacks
             return;
         }
         Instance = this;
+
+        if (PhotonNetwork.InRoom)
+        {
+            SpawnLocalPlayer();
+        }
     }
 
     private void Update()
@@ -393,27 +399,55 @@ public class RoundManager : MonoBehaviourPunCallbacks
         Debug.Log($"[RoundManager] MATCH WON by {winnerName}!");
     }
 
+    // ────────── Players ──────────
+
+    private void SpawnLocalPlayer()
+    {
+        Vector3 spawnPos = Vector3.zero;
+
+        if (spawnPoints != null && spawnPoints.Length > 0)
+        {
+            // Spawn each client on a unique point based on their ActorNumber
+            int index = PhotonNetwork.LocalPlayer.ActorNumber % spawnPoints.Length;
+            spawnPos = spawnPoints[index].position;
+        }
+
+        GameObject player = PhotonNetwork.Instantiate(playerPrefabName, spawnPos, Quaternion.identity);
+        Debug.Log($"[RoundManager] Local Player instantiated directly in Level 2 at {spawnPos}");
+
+        // Register immediately
+        RegisterPlayer(PhotonNetwork.LocalPlayer.ActorNumber);
+    }
+
     // ────────── Helpers ──────────
 
     private void RespawnAllPlayers()
     {
         var players = FindObjectsByType<PlayerHealth>(FindObjectsSortMode.None);
-        int spawnIndex = 0;
-
         foreach (var player in players)
         {
             Vector3 spawnPos = Vector3.zero;
             if (spawnPoints != null && spawnPoints.Length > 0)
             {
-                spawnPos = spawnPoints[spawnIndex % spawnPoints.Length].position;
-                spawnIndex++;
+                // Use ActorNumber to consistently distribute spawn points across clients
+                int index = player.photonView.OwnerActorNr % spawnPoints.Length;
+                spawnPos = spawnPoints[index].position;
             }
 
-            player.Respawn(spawnPos);
+            // Only respawn the local player's position to avoid conflicts
+            if (player.photonView.IsMine)
+            {
+                player.Respawn(spawnPos);
 
-            // Refill ammo
-            var combat = player.GetComponent<PlayerCombat>();
-            if (combat != null) combat.RefillAmmo();
+                // Refill ammo
+                var combat = player.GetComponent<PlayerCombat>();
+                if (combat != null) combat.RefillAmmo();
+            }
+            else
+            {
+                // Remote players: just re-enable visuals (position comes from network)
+                player.ResetState();
+            }
         }
     }
 

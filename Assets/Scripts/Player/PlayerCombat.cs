@@ -174,18 +174,7 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
             instantiationData
         );
 
-        // Muzzle flash & sound
-        PlayMuzzleFlash();
-        PlaySound(shootSound);
-
-        // Notify others for visual effects
-        if (!testing && photonView.IsMine)
-            photonView.RPC(nameof(RPC_FireEffect), RpcTarget.Others);
-    }
-
-    [PunRPC]
-    private void RPC_FireEffect()
-    {
+        // Muzzle flash & sound locally (bullet handles own visuals)
         PlayMuzzleFlash();
         PlaySound(shootSound);
     }

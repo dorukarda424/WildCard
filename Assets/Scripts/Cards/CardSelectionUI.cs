@@ -65,7 +65,7 @@ public class CardSelectionUI : MonoBehaviour
             _spawnedCards.Add(cardUI);
         }
 
-        _timer = 15f; // matches RoundManager timeout
+        _timer = RoundManager.Instance != null ? RoundManager.Instance.StateTimer : 15f;
     }
 
     private void Update()
@@ -76,6 +76,15 @@ public class CardSelectionUI : MonoBehaviour
             if (timerText != null)
             {
                 timerText.text = Mathf.CeilToInt(_timer).ToString();
+            }
+
+            // Auto-pick on timeout
+            if (_timer <= 0f)
+            {
+                if (CardSelectionManager.Instance != null)
+                {
+                    CardSelectionManager.Instance.AutoPick();
+                }
             }
         }
     }

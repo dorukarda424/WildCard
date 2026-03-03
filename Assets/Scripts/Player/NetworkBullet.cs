@@ -68,8 +68,19 @@ public class NetworkBullet : MonoBehaviourPunCallbacks
         // Initial velocity
         _rb.linearVelocity = transform.forward * _speed;
 
-        // Auto-destroy after lifetime
-        Destroy(gameObject, lifetime);
+        // Auto-destroy after lifetime (only owner destroys network objects)
+        if (photonView.IsMine)
+        {
+            Invoke(nameof(DestroyBullet), lifetime);
+        }
+    }
+
+    private void DestroyBullet()
+    {
+        if (photonView.IsMine)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 
     private void FixedUpdate()
