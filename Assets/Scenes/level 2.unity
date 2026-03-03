@@ -13004,7 +13004,7 @@ GameObject:
   - component: {fileID: 405557079}
   - component: {fileID: 405557077}
   - component: {fileID: 405557076}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Skyway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13823,7 +13823,7 @@ GameObject:
   - component: {fileID: 426780991}
   - component: {fileID: 426780990}
   - component: {fileID: 426780989}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16073,7 +16073,7 @@ GameObject:
   - component: {fileID: 478891930}
   - component: {fileID: 478891929}
   - component: {fileID: 478891928}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16858,7 +16858,7 @@ GameObject:
   - component: {fileID: 498045310}
   - component: {fileID: 498045308}
   - component: {fileID: 498045307}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Skyway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25360,7 +25360,7 @@ GameObject:
   - component: {fileID: 795203610}
   - component: {fileID: 795203609}
   - component: {fileID: 795203608}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25472,7 +25472,7 @@ GameObject:
   - component: {fileID: 797804661}
   - component: {fileID: 797804660}
   - component: {fileID: 797804659}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28352,7 +28352,7 @@ GameObject:
   - component: {fileID: 859928741}
   - component: {fileID: 859928740}
   - component: {fileID: 859928739}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29468,7 +29468,7 @@ GameObject:
   - component: {fileID: 886249624}
   - component: {fileID: 886249623}
   - component: {fileID: 886249622}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29692,7 +29692,7 @@ GameObject:
   - component: {fileID: 894140610}
   - component: {fileID: 894140609}
   - component: {fileID: 894140608}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30950,7 +30950,7 @@ GameObject:
   - component: {fileID: 935593269}
   - component: {fileID: 935593267}
   - component: {fileID: 935593266}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Skyway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38810,7 +38810,7 @@ GameObject:
   - component: {fileID: 1178795540}
   - component: {fileID: 1178795539}
   - component: {fileID: 1178795538}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41411,7 +41411,7 @@ GameObject:
   - component: {fileID: 1307085385}
   - component: {fileID: 1307085384}
   - component: {fileID: 1307085383}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42608,7 +42608,7 @@ GameObject:
   - component: {fileID: 1340222026}
   - component: {fileID: 1340222024}
   - component: {fileID: 1340222023}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Skyway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49114,7 +49114,7 @@ GameObject:
   - component: {fileID: 1553258732}
   - component: {fileID: 1553258730}
   - component: {fileID: 1553258729}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Skyway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56284,12 +56284,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.HorizontalLayoutGroup
   m_Padding:
-    m_Left: 0
+    m_Left: 100
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 500
+  m_ChildAlignment: 5
+  m_Spacing: 900
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -56565,7 +56565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed57cb1c213a17941ae4986ccd9bf557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardSelectionManager
-  cardDatabase: {fileID: 11400000, guid: c0818c908988b6e4bad7cc956d4f579d, type: 2}
+  cardDatabase: {fileID: 11400000, guid: 069ec65d1013ca84ea05045cd0865786, type: 2}
   cardSelectionUI: {fileID: 870360645}
   cardsToShow: 3
 --- !u!1 &1801770750
@@ -62787,7 +62787,7 @@ GameObject:
   - component: {fileID: 2002698371}
   - component: {fileID: 2002698370}
   - component: {fileID: 2002698369}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
