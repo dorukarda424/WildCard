@@ -325,6 +325,9 @@ public class RoundManager : MonoBehaviourPunCallbacks
 
         OnStateChanged?.Invoke(CurrentState);
 
+        // Freeze all players during card selection
+        FreezeLocalPlayer(true);
+
         // Trigger card selection UI for non-winners
         if (PhotonNetwork.LocalPlayer.ActorNumber != winnerActorNumber)
         {
@@ -363,6 +366,9 @@ public class RoundManager : MonoBehaviourPunCallbacks
             {
                 Debug.Log("[RoundManager] Card selection timed out!");
             }
+
+            // Unfreeze players before next round
+            FreezeLocalPlayer(false);
 
             // Start next round
             StartCountdown();
@@ -419,6 +425,37 @@ public class RoundManager : MonoBehaviourPunCallbacks
                 return string.IsNullOrEmpty(player.NickName) ? $"Player {actorNumber}" : player.NickName;
         }
         return $"Player {actorNumber}";
+    }
+
+    /// <summary>
+    /// Freeze/unfreeze the local player during card selection.
+    /// </summary>
+    private void FreezeLocalPlayer(bool frozen)
+    {
+        var movement = FindLocalComponent<PlayerMovement>();
+        if (movement != null) movement.enabled = !frozen;
+
+        var combat = FindLocalComponent<PlayerCombat>();
+        if (combat != null) combat.enabled = !frozen;
+
+        // Show cursor for card selection UI
+        Cursor.lockState = frozen ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = frozen;
+
+        // Disable input during freeze
+        if (InputManager.Instance != null)
+            InputManager.Instance.SetInputEnabled(!frozen);
+    }
+
+    private T FindLocalComponent<T>() where T : MonoBehaviour
+    {
+        var all = FindObjectsByType<T>(FindObjectsSortMode.None);
+        foreach (var comp in all)
+        {
+            var pv = comp.GetComponent<PhotonView>();
+            if (pv != null && pv.IsMine) return comp;
+        }
+        return null;
     }
 
     /// <summary>

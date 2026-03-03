@@ -43,6 +43,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public Vector3 Velocity => _velocity;
     
     private CharacterController _cc;
+    private Animator _animator;
     private Vector3 _velocity;
     private Vector2 _moveInput;
     private bool _isJumpPressed;
@@ -53,10 +54,13 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     private float _airborneTime;
     private Vector3 _latchDirection;
     private Vector3 _networkPosition;
+
+    private static readonly int IsWalking = Animator.StringToHash("IsWalking");
     
     private void Awake()
     {
         _cc = GetComponent<CharacterController>();
+        _animator = GetComponentInChildren<Animator>();
         _jumpsRemaining = maxJumps;
     }
 
@@ -147,6 +151,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         moveDir.y = 0f;
         if (moveDir.sqrMagnitude > 0.01f) moveDir.Normalize();
         IsMoving = moveDir.sqrMagnitude > 0.01f;
+
+        // Animator
+        if (_animator != null)
+            _animator.SetBool(IsWalking, IsMoving && IsGrounded);
         
         float speed = _isCrouching ? crouchSpeed : _isSprinting ? sprintSpeed : walkSpeed;
         
