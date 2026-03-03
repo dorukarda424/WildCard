@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Double Jump
   description: 
-  icon: {fileID: 21300000, guid: f0815fb3fbb81a845bd85e374a92f978, type: 3}
-  rarity: 1
+  icon: {fileID: 21300000, guid: 34fd6af6a97dda740bfb8593e9a03d8a, type: 3}
+  rarity: 0
   modifiers: []
   specialEffects: 16

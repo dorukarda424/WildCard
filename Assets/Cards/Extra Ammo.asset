@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Extra Ammo
   description: 
-  icon: {fileID: 21300000, guid: f0815fb3fbb81a845bd85e374a92f978, type: 3}
+  icon: {fileID: 21300000, guid: d3e36c9fdfee2834082ec288d8f45ffd, type: 3}
   rarity: 0
   modifiers:
   - statType: 3

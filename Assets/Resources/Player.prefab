@@ -938,6 +938,12 @@ MonoBehaviour:
   baseMoveSpeed: 5
   baseBulletSpeed: 40
   baseReloadSpeed: 1.5
+  baseSprintSpeed: 10
+  baseCrouchSpeed: 2.5
+  baseJumpForce: 10
+  baseGravity: -20
+  baseMaxJumps: 1
+  baseMaxFallSpeed: -30
 --- !u!114 &3877291556430082150
 MonoBehaviour:
   m_ObjectHideFlags: 0

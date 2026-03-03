@@ -17,6 +17,12 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private float baseMoveSpeed = 5f;
     [SerializeField] private float baseBulletSpeed = 40f;
     [SerializeField] private float baseReloadSpeed = 1.5f;    // seconds to reload
+    [SerializeField] private float baseSprintSpeed = 10f;
+    [SerializeField] private float baseCrouchSpeed = 2.5f;
+    [SerializeField] private float baseJumpForce = 10f;
+    [SerializeField] private float baseGravity = -20f;
+    [SerializeField] private int   baseMaxJumps = 1;
+    [SerializeField] private float baseMaxFallSpeed = -30f;
 
     // Runtime modifiers accumulated from cards
     private Dictionary<StatType, float> _flatBonuses = new Dictionary<StatType, float>();
@@ -38,6 +44,25 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
     public float MoveSpeed    => GetStat(StatType.MoveSpeed, baseMoveSpeed);
     public float BulletSpeed  => GetStat(StatType.BulletSpeed, baseBulletSpeed);
     public float ReloadSpeed  => GetStat(StatType.ReloadSpeed, baseReloadSpeed);
+    public float SprintSpeed  => GetStat(StatType.SprintSpeed, baseSprintSpeed);
+    public float CrouchSpeed  => GetStat(StatType.CrouchSpeed, baseCrouchSpeed);
+    public float JumpForce    => GetStat(StatType.JumpForce, baseJumpForce);
+    public float Gravity      => GetStat(StatType.Gravity, baseGravity, allowNegative: true);
+    public int   MaxJumps     => Mathf.RoundToInt(GetStat(StatType.MaxJumps, baseMaxJumps));
+    public float MaxFallSpeed => GetStat(StatType.MaxFallSpeed, baseMaxFallSpeed, allowNegative: true);
+
+    /// <summary>
+    /// Returns effective max jumps, accounting for DoubleJump special effect.
+    /// </summary>
+    public int EffectiveMaxJumps
+    {
+        get
+        {
+            int jumps = MaxJumps;
+            if (HasEffect(SpecialEffect.DoubleJump)) jumps = Mathf.Max(jumps, 2);
+            return jumps;
+        }
+    }
 
     // ────────── Core Methods ──────────
 
@@ -90,7 +115,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
 
     // ────────── Internal Helpers ──────────
 
-    private float GetStat(StatType type, float baseValue)
+    private float GetStat(StatType type, float baseValue, bool allowNegative = false)
     {
         float flat = 0f;
         float percent = 0f;
@@ -98,10 +123,8 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
         if (_flatBonuses.TryGetValue(type, out float f)) flat = f;
         if (_percentBonuses.TryGetValue(type, out float p)) percent = p;
 
-        // For fire rate and reload speed, negative values mean faster (better)
-        // We clamp to prevent absurd values
         float result = (baseValue + flat) * (1f + percent);
-        return Mathf.Max(result, 0.01f); // never zero or negative
+        return allowNegative ? result : Mathf.Max(result, 0.01f);
     }
 
     private void AddBonus(Dictionary<StatType, float> dict, StatType type, float value)

@@ -44,6 +44,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     
     private CharacterController _cc;
     private Animator _animator;
+    private PlayerStats _stats;
     private Vector3 _velocity;
     private Vector2 _moveInput;
     private bool _isJumpPressed;
@@ -56,12 +57,22 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     private Vector3 _networkPosition;
 
     private static readonly int IsWalking = Animator.StringToHash("IsWalking");
+
+    // ── Effective stats: read from PlayerStats if available, fallback to inspector values ──
+    private float EffWalkSpeed   => _stats != null ? _stats.MoveSpeed    : walkSpeed;
+    private float EffSprintSpeed => _stats != null ? _stats.SprintSpeed  : sprintSpeed;
+    private float EffCrouchSpeed => _stats != null ? _stats.CrouchSpeed  : crouchSpeed;
+    private float EffJumpForce   => _stats != null ? _stats.JumpForce    : jumpForce;
+    private float EffGravity     => _stats != null ? _stats.Gravity      : gravity;
+    private int   EffMaxJumps    => _stats != null ? _stats.EffectiveMaxJumps : maxJumps;
+    private float EffMaxFallSpeed=> _stats != null ? _stats.MaxFallSpeed : maxFallSpeed;
     
     private void Awake()
     {
         _cc = GetComponent<CharacterController>();
         _animator = GetComponentInChildren<Animator>();
-        _jumpsRemaining = maxJumps;
+        _stats = GetComponent<PlayerStats>();
+        _jumpsRemaining = EffMaxJumps;
     }
 
     private void Update()
@@ -121,7 +132,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         {
             _velocity.x = 0f;
             _velocity.z = 0f;
-            _jumpsRemaining = maxJumps;
+            _jumpsRemaining = EffMaxJumps;
             _airborneTime = 0f;
             OnPlayerLand?.Invoke();
         }
@@ -156,7 +167,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         if (_animator != null)
             _animator.SetBool(IsWalking, IsMoving && IsGrounded);
         
-        float speed = _isCrouching ? crouchSpeed : _isSprinting ? sprintSpeed : walkSpeed;
+        float speed = _isCrouching ? EffCrouchSpeed : _isSprinting ? EffSprintSpeed : EffWalkSpeed;
         
         if (IsGrounded)
         {
@@ -169,7 +180,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         
         if (_isJumpPressed && _jumpsRemaining > 0)
         {
-            _velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
+            _velocity.y = Mathf.Sqrt(EffJumpForce * -2f * EffGravity);
             _jumpsRemaining--;
             _latchTimer = latchCooldown;
             _isJumpPressed = false;
@@ -182,8 +193,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         }
         else
         {
-            _velocity.y += gravity * Time.fixedDeltaTime;
-            if (_velocity.y < maxFallSpeed) _velocity.y = maxFallSpeed;
+            _velocity.y += EffGravity * Time.fixedDeltaTime;
+            if (_velocity.y < EffMaxFallSpeed) _velocity.y = EffMaxFallSpeed;
         }
 
         _cc.Move((moveDir * speed + _velocity) * Time.fixedDeltaTime);
@@ -195,14 +206,14 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         if (CheckGrounded())
         {
             _velocity = Vector3.zero;
-            _jumpsRemaining = maxJumps;
+            _jumpsRemaining = EffMaxJumps;
             CurrentState = PlayerState.Idle;
             OnPlayerUnlatch?.Invoke();
             return;
         }
         
         _velocity.y += latchGravity * Time.fixedDeltaTime;
-        if (_velocity.y < maxFallSpeed) _velocity.y = maxFallSpeed;
+        if (_velocity.y < EffMaxFallSpeed) _velocity.y = EffMaxFallSpeed;
         _cc.Move(_velocity * Time.fixedDeltaTime);
         
         if (_isJumpPressed)
@@ -216,7 +227,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
                 ? (inputDir.normalized + Vector3.up).normalized
                 : (_latchDirection + Vector3.up).normalized;
 
-            _velocity = jumpDir * Mathf.Sqrt(jumpForce * -2f * gravity);
+            _velocity = jumpDir * Mathf.Sqrt(EffJumpForce * -2f * EffGravity);
             _isJumpPressed = false;
             OnPlayerJump?.Invoke();
         }
@@ -225,8 +236,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     private void ApplyGravityOnly()
     {
         if (IsGrounded && _velocity.y < 0) _velocity.y = -2f;
-        _velocity.y += gravity * Time.fixedDeltaTime;
-        if (_velocity.y < maxFallSpeed) _velocity.y = maxFallSpeed;
+        _velocity.y += EffGravity * Time.fixedDeltaTime;
+        if (_velocity.y < EffMaxFallSpeed) _velocity.y = EffMaxFallSpeed;
         _cc.Move(_velocity * Time.fixedDeltaTime);
     }
     
