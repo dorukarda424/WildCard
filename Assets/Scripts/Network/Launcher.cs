@@ -11,7 +11,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.InRoom)
         {
-            SpawnPlayer();
+            // Do not spawn here; let Level manager handle it when scene loads
+            Debug.Log("Already in a room. Waiting for scene load...");
         }
         else
         {
@@ -41,31 +42,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("Joined room.");
-        SpawnPlayer();
-    }
-
-    void SpawnPlayer()
-    {
-        if (menuCamera != null)
-        {
-            menuCamera.gameObject.SetActive(false);
-        }
-
-        Vector3 spawnPos = Vector3.zero;
-
-        if (spawnPoints != null && spawnPoints.Length > 0)
-        {
-            int randomIndex = Random.Range(0, spawnPoints.Length);
-            spawnPos = spawnPoints[randomIndex].position;
-        }
-
-        GameObject player = PhotonNetwork.Instantiate(playerPrefabName, spawnPos, Quaternion.identity);
-        Debug.Log("Player instantiated at: " + spawnPos);
-
-        // Register with RoundManager for round lifecycle tracking
-        if (RoundManager.Instance != null)
-        {
-            RoundManager.Instance.RegisterPlayer(PhotonNetwork.LocalPlayer.ActorNumber);
-        }
+        // Player spawn is now handled by the level's manager, not the lobby launcher
     }
 }

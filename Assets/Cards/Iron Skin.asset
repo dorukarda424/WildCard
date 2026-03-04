@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: "Iron Skin\t"
   description: 
-  icon: {fileID: 21300000, guid: 60c6c99a6e020b447abea68f9903e2bc, type: 3}
+  icon: {fileID: 21300000, guid: 912317477e3f04e4eb8cd4b20bd7aeb2, type: 3}
   rarity: 0
   modifiers:
   - statType: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Shield Generator
   description: 
-  icon: {fileID: 21300000, guid: f0815fb3fbb81a845bd85e374a92f978, type: 3}
+  icon: {fileID: 21300000, guid: 632de7344c310fa43870d7316166736b, type: 3}
   rarity: 1
   modifiers: []
   specialEffects: 4
