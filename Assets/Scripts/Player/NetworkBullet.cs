@@ -138,10 +138,7 @@ public class NetworkBullet : MonoBehaviourPunCallbacks
         var targetHealth = collision.gameObject.GetComponent<PlayerHealth>();
         if (targetHealth != null)
         {
-            if (targetHealth.photonView.Owner.ActorNumber == _ownerActorNumber) return;
-
-            // Only the bullet owner processes damage (authoritative)
-            if (photonView.IsMine)
+            if (targetHealth.photonView.Owner.ActorNumber != _ownerActorNumber && photonView.IsMine&& !_isExplosive)
             {
                 targetHealth.TakeDamageFromNetwork(_damage, _ownerActorNumber);
 
@@ -149,10 +146,7 @@ public class NetworkBullet : MonoBehaviourPunCallbacks
                 if (_isLifeSteal)
                 {
                     var ownerHealth = FindOwnerHealth();
-                    if (ownerHealth != null)
-                    {
-                        ownerHealth.Heal(_damage * 0.2f); // 20% life steal
-                    }
+                    if (ownerHealth != null) ownerHealth.Heal(_damage * 0.2f); // 20% life steal
                 }
             }
         }

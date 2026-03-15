@@ -9,6 +9,7 @@ using Photon.Pun;
 /// </summary>
 public class GameHUD : MonoBehaviour
 {
+    private const int MaxstatValue = 100;
     [Header("Health")]
     [SerializeField] private Slider healthBar;
     [SerializeField] private TextMeshProUGUI healthText;
@@ -36,6 +37,8 @@ public class GameHUD : MonoBehaviour
 
     [Header("Card Effects Display")]
     [SerializeField] private TextMeshProUGUI activeCardsText;
+    
+    
 
     private PlayerHealth _localHealth;
     private PlayerCombat _localCombat;
@@ -49,7 +52,7 @@ public class GameHUD : MonoBehaviour
 
         if (scoreboardPanel != null) scoreboardPanel.SetActive(false);
         if (matchResultPanel != null) matchResultPanel.SetActive(false);
-
+        healthBar.maxValue = MaxstatValue;
         // Subscribe to RoundManager events
         if (RoundManager.Instance != null)
         {

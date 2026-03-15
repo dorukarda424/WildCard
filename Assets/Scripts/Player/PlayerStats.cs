@@ -132,7 +132,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
         if (dict.ContainsKey(type))
             dict[type] += value;
         else
-            dict[type] = value;
+            dict[type] = value; 
     }
 
     // ────────── Network Sync ──────────

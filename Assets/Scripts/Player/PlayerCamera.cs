@@ -19,22 +19,53 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     [Header("Recoil")]
     public float recoilReturnSpeed = 5f;
 
+    [Header("ADS")]
+    public float adsFov = 55f;
+    public float adsSensitivityMultiplier = 0.6f;
+    public float adsLerpSpeed = 12f;
+
+    private float _defaultFov;
+    private float _defaultSensitivity;
+
+    [Header("Aim IK")]
+    [SerializeField]private Transform aimIKTarget;
+    [SerializeField]private Quaternion aimIKRoot;
+    [SerializeField]private float maxPitch = 60f;
+    [SerializeField]private float spineWeight = 0.7f;
+    [SerializeField]private float aimLerpSpeed = 12f;
+
     [Header("Debug")]
     public bool testing;
 
     // Runtime references (set after spawn)
     private Transform _cameraHolder;
+
     private Camera _cam;
+
     private PlayerMovement _movement;
+
     private float _xRotation;
+
     private float _bobTimer;
+
     private Vector3 _bobOffset;
+
     private Vector3 _originalCamLocalPos;
+
     private float _recoilOffset;
+    
+    public float GetPitch() => _xRotation;
 
     private void Awake()
     {
         _movement = GetComponent<PlayerMovement>();
+        
+        if (aimIKTarget != null)
+        {
+            aimIKRoot = aimIKTarget.localRotation;
+            Debug.Log("[PlayerCamera] AimIK root set on " + aimIKTarget.name);
+        }
+        
     }
 
     private void Start()
@@ -46,7 +77,41 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
+
+    private void LateUpdate()
+    {
+        if (!testing && (photonView == null || !photonView.IsMine)) return;
+        if (_cameraHolder == null) return;
+
+        PlayerFollow();
+        HandleLook();
+        HandleHeadBob();
+        HandleRecoilReturn();
+        HandleAds();
+        HandleAimIK();
+    }
+
+    private void HandleAimIK()
+    {
+        if (aimIKTarget == null) return;
+        
+        float pitch = Mathf.Clamp(_xRotation, -maxPitch, maxPitch);
+    
+        Quaternion target = aimIKRoot * Quaternion.Euler(pitch * spineWeight, 0f, 0f);
+    
+        aimIKTarget.localRotation = Quaternion.Slerp(
+            aimIKTarget.localRotation,
+            target,
+            Time.deltaTime * aimLerpSpeed
+        );
+    }
+
 
     private void SpawnCamera()
     {
@@ -66,8 +131,10 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         if (_cam != null)
         {
             _originalCamLocalPos = _cam.transform.localPosition;
+            _defaultFov = _cam.fieldOfView;
         }
         
+        _defaultSensitivity = mouseSensitivity;
         DisableOtherCameras();
         
         if (_movement != null)
@@ -90,17 +157,6 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
                 if (listener != null) listener.enabled = false;
             }
         }
-    }
-
-    private void LateUpdate()
-    {
-        if (!testing && (photonView == null || !photonView.IsMine)) return;
-        if (_cameraHolder == null) return;
-
-        PlayerFollow();
-        HandleLook();
-        HandleHeadBob();
-        HandleRecoilReturn();
     }
 
     private void PlayerFollow()
@@ -201,5 +257,19 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         {
             Destroy(_cameraHolder.gameObject);
         }
+    }
+
+    private void HandleAds()
+    {
+        if (_cam == null || InputManager.Instance == null) return;
+
+        bool isAiming = InputManager.Instance.IsAiming;
+        
+
+        float targetFov = isAiming ? adsFov : _defaultFov;
+        _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, targetFov, Time.deltaTime * adsLerpSpeed);
+
+        float targetSens = isAiming ? _defaultSensitivity * adsSensitivityMultiplier : _defaultSensitivity;
+        mouseSensitivity = Mathf.Lerp(mouseSensitivity, targetSens, Time.deltaTime * adsLerpSpeed);
     }
 }

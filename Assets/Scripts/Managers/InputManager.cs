@@ -14,21 +14,19 @@ public class InputManager : MonoBehaviourPunCallbacks
     public bool IsJumpPressed { get; private set; }
     public bool IsShooting { get; private set; }
     public bool IsReloadPressed { get; private set; }
+    public bool IsAiming { get; private set; }
 
     private void Awake()
     {
-        // Only the local player should run InputManager
         PhotonView pv = GetComponent<PhotonView>();
         if (pv != null && !pv.IsMine)
         {
-            // Remote player: destroy only this component, NOT the gameObject!
             Destroy(this);
             return;
         }
 
         if (Instance != null && Instance != this)
         {
-            // Duplicate local InputManager: destroy only this component
             Destroy(this);
             return;
         }
@@ -56,6 +54,9 @@ public class InputManager : MonoBehaviourPunCallbacks
 
         InputActions.Player.Reload.performed += ctx => IsReloadPressed = true;
         InputActions.Player.Reload.canceled += ctx => IsReloadPressed = false;
+        
+        InputActions.Player.ADS.performed += ctx => IsAiming = true;
+        InputActions.Player.ADS.canceled  += ctx => IsAiming = false;
     }
 
     public override void OnEnable() => InputActions?.Enable();

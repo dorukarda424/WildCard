@@ -13,7 +13,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
     private float _currentHealth;
     private bool _isDead;
     private int _shieldCharges;
-    private bool _deathProcessed; // Guard against multiple Die() calls in same frame
+    private bool _deathProcessed;
 
     public event Action<float, float> OnHealthChanged;
     public event Action<int, int> OnDied;
@@ -89,15 +89,12 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         _isDead = true;
         _deathProcessed = true;
 
-        int victimActorNumber = photonView.Owner.ActorNumber;
+        OnDied?.Invoke(photonView.Owner.ActorNumber, killerActorNumber);
+        
         Debug.Log($"[PlayerHealth] {gameObject.name} killed by actor {killerActorNumber}");
-
-        OnDied?.Invoke(victimActorNumber, killerActorNumber);
         
         if (RoundManager.Instance != null)
-        {
-            RoundManager.Instance.OnPlayerDied(victimActorNumber, killerActorNumber);
-        }
+            RoundManager.Instance.OnPlayerDied(photonView.Owner.ActorNumber, killerActorNumber);
 
         SetPlayerActive(false);
     }

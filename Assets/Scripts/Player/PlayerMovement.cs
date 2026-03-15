@@ -5,21 +5,8 @@ using Photon.Pun;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 {
-    public enum PlayerState { Idle, Walking, Sprinting, Crouching, Airborne, Latched, Stunned, Frozen }
+    public enum PlayerState { Idle, Walking, Sprinting, Crouching, Airborne, Latched}
     public PlayerState CurrentState { get; private set; } = PlayerState.Idle;
-    
-    [Header("Movement")]
-    public float walkSpeed = 5f;
-    public float sprintSpeed = 10f;
-    public float crouchSpeed = 2.5f;
-    
-    [Header("Jumping")]
-    public float jumpForce = 10f;
-    public float maxFallSpeed = -30f;
-    public int maxJumps = 1;
-    
-    [Header("Physics")]
-    public float gravity = -20f;
     
     [Header("Latching")]
     public LayerMask latchMask;
@@ -54,22 +41,20 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     private float _latchTimer;
     private float _airborneTime;
     private Vector3 _latchDirection;
-
-    // ── Network sync fields ──
+    
     private Vector3 _networkPosition;
     private float _networkRotationY;
     private bool _isRemotePlayer;
 
     private static readonly int IsWalking = Animator.StringToHash("IsWalking");
-
-    // ── Effective stats: read from PlayerStats if available, fallback to inspector values ──
-    private float EffWalkSpeed   => _stats != null ? _stats.MoveSpeed    : walkSpeed;
-    private float EffSprintSpeed => _stats != null ? _stats.SprintSpeed  : sprintSpeed;
-    private float EffCrouchSpeed => _stats != null ? _stats.CrouchSpeed  : crouchSpeed;
-    private float EffJumpForce   => _stats != null ? _stats.JumpForce    : jumpForce;
-    private float EffGravity     => _stats != null ? _stats.Gravity      : gravity;
-    private int   EffMaxJumps    => _stats != null ? _stats.EffectiveMaxJumps : maxJumps;
-    private float EffMaxFallSpeed=> _stats != null ? _stats.MaxFallSpeed : maxFallSpeed;
+    
+    private float EffWalkSpeed   => _stats.MoveSpeed;
+    private float EffSprintSpeed => _stats.SprintSpeed;
+    private float EffCrouchSpeed => _stats.CrouchSpeed;
+    private float EffJumpForce   => _stats.JumpForce;
+    private float EffGravity     => _stats.Gravity;
+    private int   EffMaxJumps    => _stats.EffectiveMaxJumps;
+    private float EffMaxFallSpeed=> _stats.MaxFallSpeed;
     
     private void Awake()
     {
@@ -106,7 +91,6 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (_isRemotePlayer)
         {
-            // Smoothly interpolate remote player to network position/rotation
             transform.position = Vector3.Lerp(transform.position, _networkPosition, Time.deltaTime * 15f);
             float smoothY = Mathf.LerpAngle(transform.eulerAngles.y, _networkRotationY, Time.deltaTime * 15f);
             transform.rotation = Quaternion.Euler(0f, smoothY, 0f);
@@ -148,12 +132,6 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     
     private void HandleMovement()
     {
-        if (CurrentState == PlayerState.Stunned || CurrentState == PlayerState.Frozen)
-        {
-            ApplyGravityOnly();
-            return;
-        }
-        
         if (CurrentState == PlayerState.Latched)
         {
             HandleLatchedMovement();
