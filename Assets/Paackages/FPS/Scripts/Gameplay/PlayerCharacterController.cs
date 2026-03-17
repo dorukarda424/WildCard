@@ -437,6 +437,12 @@ namespace Unity.FPS.Gameplay
         // returns false if there was an obstruction
         bool SetCrouchingState(bool crouched, bool ignoreObstructions)
         {
+            // Eğer zaten istediğimiz durumdaysak engelleri taramamıza gerek yok
+            if (IsCrouching == crouched)
+            {
+                return true;
+            }
+
             // set appropriate heights
             if (crouched)
             {

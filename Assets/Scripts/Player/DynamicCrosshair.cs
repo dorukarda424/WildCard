@@ -7,8 +7,8 @@ public class DynamicCrosshair : MonoBehaviour
     [SerializeField] private Image dot;
     [SerializeField] private Image circle;
 
-    [SerializeField] private PlayerMovement playerMovement;
-    [SerializeField] private PlayerCombat playerCombat;
+    private PlayerMovement playerMovement;
+    private PlayerCombat playerCombat;
 
     [Header("Size")]
     [SerializeField] private float baseRadius = 20f;
@@ -26,15 +26,33 @@ public class DynamicCrosshair : MonoBehaviour
     private void Awake()
     {
         _currentRadius = baseRadius;
-        playerCombat.OnDamageDealt += _ => OnShot();
+    }
+
+    // Call this from your local Player setup script when they spawn
+    public void SetPlayer(PlayerMovement movement, PlayerCombat combat)
+    {
+        playerMovement = movement;
+        
+        if (playerCombat != null)
+        {
+            playerCombat.OnDamageDealt -= HandleShot;
+        }
+
+        playerCombat = combat;
+
+        if (playerCombat != null)
+        {
+            playerCombat.OnDamageDealt += HandleShot;
+        }
     }
 
     private void OnDestroy()
     {
-        playerCombat.OnDamageDealt -= HandleShot;
+        if (playerCombat != null)
+            playerCombat.OnDamageDealt -= HandleShot;
     }
 
-    private void HandleShot(float damage) =>OnShot();
+    private void HandleShot(float damage) => OnShot();
 
     private void Update()
     {
@@ -80,6 +98,5 @@ public class DynamicCrosshair : MonoBehaviour
         {
             circle.rectTransform.sizeDelta = new Vector2(radius * 2f, radius * 2f);
         }
-        
     }
 }

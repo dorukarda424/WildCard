@@ -36,12 +36,14 @@ public class NetworkBullet : MonoBehaviourPunCallbacks
     private Rigidbody _rb;
     private Transform _homingTarget;
 
+    // Cached once on spawn to avoid FindObjectsByType every FixedUpdate tick
+    private PlayerHealth[] _cachedPlayers;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _rb.useGravity = false;
         _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-
         // Parse instantiation data
         if (photonView.InstantiationData != null && photonView.InstantiationData.Length >= 7)
         {
@@ -65,8 +67,12 @@ public class NetworkBullet : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        Debug.Log($"Bullet spawned with damage: {_damage}, speed: {_speed}, homing: {_isHoming}, explosive: {_isExplosive}, ricochet: {_isRicochet}, life steal: {_isLifeSteal}");
         // Initial velocity
         _rb.linearVelocity = transform.forward * _speed;
+
+        // Cache all players once — avoids repeated FindObjectsByType in FixedUpdate
+        _cachedPlayers = FindObjectsByType<PlayerHealth>(FindObjectsSortMode.None);
 
         // Auto-destroy after lifetime (only owner destroys network objects)
         if (photonView.IsMine)
@@ -112,11 +118,10 @@ public class NetworkBullet : MonoBehaviourPunCallbacks
         float closestDist = homingSearchRadius;
         Transform closest = null;
 
-        // Find all players and pick the closest enemy
-        var players = FindObjectsByType<PlayerHealth>(FindObjectsSortMode.None);
-        foreach (var player in players)
+        // Use cached list — populated once on Start to avoid per-frame allocation
+        foreach (var player in _cachedPlayers)
         {
-            if (player.IsDead) continue;
+            if (player == null || player.IsDead) continue;
             if (player.photonView.Owner.ActorNumber == _ownerActorNumber) continue;
 
             float dist = Vector3.Distance(transform.position, player.transform.position);
@@ -128,6 +133,43 @@ public class NetworkBullet : MonoBehaviourPunCallbacks
         }
 
         _homingTarget = closest;
+    }
+
+    // ────────── Portal Absorption (Trigger) ──────────
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Check if we hit a Black Hole portal
+        NetworkAbsorbPortal portal = other.GetComponent<NetworkAbsorbPortal>();
+        if (portal == null) return;
+
+        // Don't absorb our own owner's bullets (the portal owner shouldn't absorb their own shots)
+        if (portal.OwnerActorNumber == _ownerActorNumber) return;
+
+        // Only the bullet owner processes absorption to avoid double-counting
+        if (!photonView.IsMine) return;
+
+        // Notify the portal's visual effect
+        portal.AbsorbBullet(_damage);
+
+        // Find the portal owner's manager and tell it about the absorbed damage
+        foreach (var player in _cachedPlayers)
+        {
+            if (player != null && player.photonView.Owner.ActorNumber == portal.OwnerActorNumber)
+            {
+                var manager = player.GetComponent<NetworkAbsorbPortalManager>();
+                if (manager != null)
+                {
+                    manager.OnBulletAbsorbed(_damage);
+                }
+                break;
+            }
+        }
+
+        Debug.Log($"[NetworkBullet] Absorbed by portal! Damage: {_damage}");
+
+        // Destroy the bullet
+        PhotonNetwork.Destroy(gameObject);
     }
 
     // ────────── Collision ──────────
@@ -201,10 +243,9 @@ public class NetworkBullet : MonoBehaviourPunCallbacks
 
     private PlayerHealth FindOwnerHealth()
     {
-        var players = FindObjectsByType<PlayerHealth>(FindObjectsSortMode.None);
-        foreach (var player in players)
+        foreach (var player in _cachedPlayers)
         {
-            if (player.photonView.Owner.ActorNumber == _ownerActorNumber)
+            if (player != null && player.photonView.Owner.ActorNumber == _ownerActorNumber)
                 return player;
         }
         return null;

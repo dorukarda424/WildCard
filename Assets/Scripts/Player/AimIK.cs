@@ -1,6 +1,7 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class AimIK : MonoBehaviour
+public class AimIK : MonoBehaviourPunCallbacks
 {
     [SerializeField] private PlayerCamera playerCamera;
     [SerializeField] private Transform aimIKTarget;   // Spine2 or Neck
@@ -8,32 +9,26 @@ public class AimIK : MonoBehaviour
     [SerializeField] private float spineWeight = 1f;
     [SerializeField] private float aimLerpSpeed = 20f;
 
-    private Quaternion _defaultRot;
-    private Animator _anim;
+    private float _currentPitch;
 
     private void Awake()
     {
-        _anim = GetComponent<Animator>();
-        
         if (playerCamera == null)
-            playerCamera = GetComponent<PlayerCamera>();  
-        
-        if (aimIKTarget != null)
-            _defaultRot = aimIKTarget.localRotation;
+            playerCamera = GetComponent<PlayerCamera>();
     }
 
-    private void OnAnimatorIK(int layerIndex)
+    /// <summary>
+    /// Animator'ın bu frame'deki bone yazımından sonra çalışır.
+    /// Animasyonun üzerine pitch offset'i katmanlıyoruz — sabit bir referans rotasyonu kullanmıyoruz.
+    /// </summary>
+    private void LateUpdate()
     {
-        if (playerCamera == null || aimIKTarget == null) return;
-        if (!playerCamera.photonView.IsMine && !playerCamera.testing) return;
+        if (aimIKTarget == null || playerCamera == null) return;
+        if (photonView != null && !photonView.IsMine) return;
 
-        float pitch = Mathf.Clamp(playerCamera.GetPitch(), -maxPitch, maxPitch);
+        float targetPitch = Mathf.Clamp(playerCamera.GetPitch(), -maxPitch, maxPitch) * spineWeight;
+        _currentPitch = Mathf.Lerp(_currentPitch, targetPitch, Time.deltaTime * aimLerpSpeed);
 
-        Quaternion target = _defaultRot * Quaternion.Euler(pitch * spineWeight, 0f, 0f);
-        aimIKTarget.localRotation = Quaternion.Slerp(
-            aimIKTarget.localRotation,
-            target,
-            Time.deltaTime * aimLerpSpeed
-        );
+        aimIKTarget.localRotation = aimIKTarget.localRotation * Quaternion.Euler(_currentPitch, 0f, 0f);
     }
 }

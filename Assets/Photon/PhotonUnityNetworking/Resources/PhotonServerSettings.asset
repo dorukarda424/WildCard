@@ -51,6 +51,8 @@ MonoBehaviour:
   - RPC_StartFighting
   - RPC_TakeDamage
   - RPC_FireEffect
+  - RPC_OnAbsorbed
+  - RPC_TeleportEffect
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Photon.Pun;
 
@@ -85,6 +85,16 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
             Debug.Log($"[PlayerMovement] Remote player initialized at {transform.position}");
             StartCoroutine(VisibilityDebugRoutine());
         }
+        else
+        {
+            DynamicCrosshair crosshair = FindObjectOfType<DynamicCrosshair>();
+            if (crosshair != null)
+            {
+                PlayerMovement movement = GetComponent<PlayerMovement>();
+                PlayerCombat combat = GetComponent<PlayerCombat>();
+                crosshair.SetPlayer(movement, combat);
+            }
+        }
     }
 
     private void Update()
@@ -101,7 +111,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
         {
             return;
         }
-        
+
         if (InputManager.Instance != null)
         {
             _moveInput = InputManager.Instance.MoveInput;
@@ -114,14 +124,15 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
                 InputManager.Instance.ConsumeJump();
             }
         }
-    }
 
-    private void FixedUpdate()
-    {
-        if (!testing && (photonView == null || !photonView.IsMine)) return;
-        if (_latchTimer > 0) _latchTimer -= Time.fixedDeltaTime;
+        // Movement runs in Update (not FixedUpdate) so the CharacterController moves at
+        // the same rate as the camera — eliminates the physics-tick stutter.
+        if (_latchTimer > 0) _latchTimer -= Time.deltaTime;
         HandleMovement();
     }
+
+    // FixedUpdate is no longer used for local player movement to avoid camera stutter.
+    // Remote player interpolation still uses Update above.
     
     public void SetState(PlayerState newState) => CurrentState = newState;
 
@@ -145,13 +156,18 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
         {
             _velocity.x = 0f;
             _velocity.z = 0f;
-            _jumpsRemaining = EffMaxJumps;
             _airborneTime = 0f;
             OnPlayerLand?.Invoke();
         }
         
+        // Always refill jumps while grounded (not just on landing transition)
+        if (IsGrounded)
+        {
+            _jumpsRemaining = EffMaxJumps;
+        }
+        
         if (!IsGrounded)
-            _airborneTime += Time.fixedDeltaTime;
+            _airborneTime += Time.deltaTime;
         else
             _airborneTime = 0f;
         
@@ -176,7 +192,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
         if (moveDir.sqrMagnitude > 0.01f) moveDir.Normalize();
         IsMoving = moveDir.sqrMagnitude > 0.01f;
 
-        // Animator
+        // Animator — sadece IsWalking parametresi
         if (_animator != null)
             _animator.SetBool(IsWalking, IsMoving && IsGrounded);
         
@@ -196,9 +212,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
             _velocity.y = Mathf.Sqrt(EffJumpForce * -2f * EffGravity);
             _jumpsRemaining--;
             _latchTimer = latchCooldown;
-            _isJumpPressed = false;
             OnPlayerJump?.Invoke();
         }
+        // Consume jump once per frame — no duplicate clear at end of method
+        _isJumpPressed = false;
         
         if (IsGrounded)
         {
@@ -206,12 +223,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            _velocity.y += EffGravity * Time.fixedDeltaTime;
+            _velocity.y += EffGravity * Time.deltaTime;
             if (_velocity.y < EffMaxFallSpeed) _velocity.y = EffMaxFallSpeed;
         }
 
-        _cc.Move((moveDir * speed + _velocity) * Time.fixedDeltaTime);
-        _isJumpPressed = false;
+        _cc.Move((moveDir * speed + _velocity) * Time.deltaTime);
     }
 
     private void HandleLatchedMovement()
@@ -225,9 +241,9 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
             return;
         }
         
-        _velocity.y += latchGravity * Time.fixedDeltaTime;
+        _velocity.y += latchGravity * Time.deltaTime;
         if (_velocity.y < EffMaxFallSpeed) _velocity.y = EffMaxFallSpeed;
-        _cc.Move(_velocity * Time.fixedDeltaTime);
+        _cc.Move(_velocity * Time.deltaTime);
         
         if (_isJumpPressed)
         {
@@ -249,9 +265,17 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     private void ApplyGravityOnly()
     {
         if (IsGrounded && _velocity.y < 0) _velocity.y = -2f;
-        _velocity.y += EffGravity * Time.fixedDeltaTime;
+        _velocity.y += EffGravity * Time.deltaTime;
         if (_velocity.y < EffMaxFallSpeed) _velocity.y = EffMaxFallSpeed;
-        _cc.Move(_velocity * Time.fixedDeltaTime);
+        _cc.Move(_velocity * Time.deltaTime);
+    }
+
+    /// <summary>
+    /// Resets the remaining jump count to the current max. Call after respawn.
+    /// </summary>
+    public void ResetJumps()
+    {
+        _jumpsRemaining = EffMaxJumps;
     }
     
     private bool CanLatch()

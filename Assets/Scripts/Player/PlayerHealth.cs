@@ -126,6 +126,10 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
             cc.enabled = true;
         }
 
+        // Reset jump count so the player doesn't respawn with 0 jumps remaining
+        var movement = GetComponent<PlayerMovement>();
+        if (movement != null) movement.ResetJumps();
+
         OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
         OnRespawned?.Invoke();
 

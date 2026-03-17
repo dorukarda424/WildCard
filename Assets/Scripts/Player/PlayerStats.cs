@@ -15,7 +15,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private float baseFireRate = 0.3f;       // seconds between shots
     [SerializeField] private int   baseMaxAmmo = 8;
     [SerializeField] private float baseMoveSpeed = 5f;
-    [SerializeField] private float baseBulletSpeed = 40f;
+    [SerializeField] private float baseBulletSpeed = 5f;
     [SerializeField] private float baseReloadSpeed = 1.5f;    // seconds to reload
     [SerializeField] private float baseSprintSpeed = 10f;
     [SerializeField] private float baseCrouchSpeed = 2.5f;

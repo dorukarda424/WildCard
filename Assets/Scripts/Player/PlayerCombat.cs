@@ -125,7 +125,26 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
 
         Camera cam = _playerCamera != null ? _playerCamera.GetCamera() : Camera.main;
         if (cam != null)
-            firePoint.rotation = Quaternion.LookRotation(cam.transform.forward);
+        {
+            // Ekranın tam ortasından ileriye bir ışın gönder (Crosshair'ın olduğu yer)
+            Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            Vector3 targetPoint;
+
+            // Eğer ışın bir yere çarpıyorsa (ör. duvar, düşman), hedef o noktadır
+            // Kendi collider'ınıza çarpmaması için Raycast'e layer mask ekleyebilirsiniz gerekirse.
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
+            {
+                targetPoint = hit.point;
+            }
+            else
+            {
+                // Hiçbir yere çarpmadıysa 1000 birim ilerideki noktayı hedef al
+                targetPoint = ray.GetPoint(1000f);
+            }
+
+            // firePoint'i hedefe doğru çevir
+            firePoint.rotation = Quaternion.LookRotation(targetPoint - firePoint.position);
+        }
 
         float fireRate = _stats != null ? _stats.FireRate : 0.3f;
         _fireCooldown = fireRate;
@@ -145,6 +164,9 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
 
         if (!testing && photonView != null)
         {
+            // Owner null ise -1 vererek hatanın önüne geçiyoruz
+            int actorNumber = photonView.Owner != null ? photonView.Owner.ActorNumber : -1;
+
             object[] data = new object[]
             {
                 damage,
@@ -153,9 +175,9 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
                 _stats != null && _stats.HasEffect(SpecialEffect.ExplosiveBullets),
                 _stats != null && _stats.HasEffect(SpecialEffect.Ricochet),
                 _stats != null && _stats.HasEffect(SpecialEffect.LifeSteal),
-                photonView.Owner.ActorNumber
+                actorNumber
             };
-
+            
             PhotonNetwork.Instantiate(bulletPrefabName, firePoint.position, firePoint.rotation, 0, data);
 
             photonView.RPC(nameof(RPC_FireEffect), RpcTarget.Others);

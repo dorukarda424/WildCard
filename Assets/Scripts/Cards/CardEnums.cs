@@ -52,5 +52,7 @@ public enum SpecialEffect
     Shield          = 1 << 2,
     LifeSteal       = 1 << 3,
     DoubleJump      = 1 << 4,
-    Ricochet        = 1 << 5
+    Ricochet        = 1 << 5,
+    BlackHole       = 1 << 6,
+    Teleportation   = 1 << 7
 }

@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviourPunCallbacks
 {
@@ -15,6 +16,10 @@ public class InputManager : MonoBehaviourPunCallbacks
     public bool IsShooting { get; private set; }
     public bool IsReloadPressed { get; private set; }
     public bool IsAiming { get; private set; }
+
+    // Ability inputs (polled directly from keyboard)
+    public bool IsAbility1Pressed { get; private set; }  // Z — Black Hole
+    public bool IsAbility2Pressed { get; private set; }  // Q — Teleport
 
     private void Awake()
     {
@@ -62,10 +67,23 @@ public class InputManager : MonoBehaviourPunCallbacks
     public override void OnEnable() => InputActions?.Enable();
     public override void OnDisable() => InputActions?.Disable();
 
-    
+    private void Update()
+    {
+        // Poll ability keys directly (avoids needing to regenerate InputSystem_Actions)
+        var kb = Keyboard.current;
+        if (kb != null)
+        {
+            if (kb.zKey.wasPressedThisFrame) IsAbility1Pressed = true;
+            if (kb.qKey.wasPressedThisFrame) IsAbility2Pressed = true;
+        }
+    }
+
     public void ConsumeJump() => IsJumpPressed = false;
     
     public void ResetReload() => IsReloadPressed = false;
+
+    public void ConsumeAbility1() => IsAbility1Pressed = false;
+    public void ConsumeAbility2() => IsAbility2Pressed = false;
     
     public void SetInputEnabled(bool enabled)
     {
