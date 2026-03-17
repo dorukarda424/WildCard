@@ -6,14 +6,11 @@ using ExitGames.Client.Photon;
 
 /// <summary>
 /// MasterClient-authoritative round lifecycle manager.
-/// Handles: Waiting → Countdown → Fighting → RoundOver → CardSelection → repeat
 /// </summary>
 [RequireComponent(typeof(PhotonView))]
 public class RoundManager : MonoBehaviourPunCallbacks
 {
     public static RoundManager Instance { get; private set; }
-
-    // ────────── Settings ──────────
 
     [Header("Round Settings")]
     [SerializeField] private int roundsToWin = 5;
@@ -23,13 +20,11 @@ public class RoundManager : MonoBehaviourPunCallbacks
     [SerializeField] private string playerPrefabName = "Player";
 
     [Header("Debug")]
-    [Tooltip("Inspector'dan tikla → mevcut round aninda biter (sadece MasterClient)")]
+    [Tooltip("Inspector'dan tikla → mevcut round aninda biter")]
     [SerializeField] private bool forceEndRound = false;
 
     [Header("References")]
     [SerializeField] private Transform[] spawnPoints;
-
-    // ────────── State ──────────
 
     public enum RoundState
     {
@@ -46,22 +41,15 @@ public class RoundManager : MonoBehaviourPunCallbacks
     public float StateTimer { get; private set; }
     public int RoundWinnerActorNumber { get; private set; }
 
-    // Track alive players this round
     private HashSet<int> _alivePlayerActors = new HashSet<int>();
-    // Track all registered players
     private HashSet<int> _registeredPlayerActors = new HashSet<int>();
-    // Track who has picked their card this round
     private HashSet<int> _cardPickedActors = new HashSet<int>();
-
-    // ────────── Events (for UI binding) ──────────
 
     public System.Action<RoundState> OnStateChanged;
     public System.Action<int> OnRoundStarted;
-    public System.Action<int, int> OnPlayerKilled; // victim, killer
-    public System.Action<int> OnRoundWon; // winner actor number
-    public System.Action<int> OnMatchWon; // winner actor number
-
-    // ────────── Lifecycle ──────────
+    public System.Action<int, int> OnPlayerKilled;
+    public System.Action<int> OnRoundWon;
+    public System.Action<int> OnMatchWon;
 
     private void Awake()
     {
@@ -72,7 +60,8 @@ public class RoundManager : MonoBehaviourPunCallbacks
         }
         Instance = this;
 
-        if (PhotonNetwork.InRoom)
+        // Çevrimdışı isen veya Odadaysan oyuncuyu direk spawnla
+        if (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom != null)
         {
             SpawnLocalPlayer();
         }
@@ -80,107 +69,81 @@ public class RoundManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        // ── Debug: Inspector'dan round bitirme ──
+        // ------------- DEBUG: FORCE END ROUND -------------
         if (forceEndRound)
         {
             forceEndRound = false;
-            Debug.Log($"[RoundManager] DEBUG: Force End Round tıklandı! State: {CurrentState}, IsMasterClient: {PhotonNetwork.IsMasterClient}");
 
-            if (!PhotonNetwork.IsMasterClient)
+            int winnerId = PhotonNetwork.InRoom ? PhotonNetwork.LocalPlayer.ActorNumber : 1;
+
+            if (CurrentState == RoundState.WaitingForPlayers || CurrentState == RoundState.Countdown)
             {
-                Debug.LogWarning("[RoundManager] DEBUG: MasterClient değilsin, round bitirilemez!");
+                CurrentRound++;
             }
-            else
+
+            if (!_alivePlayerActors.Contains(winnerId))
             {
-                // Sahte winner ID → böylece sen "kaybeden" olursun ve kart seçim ekranı açılır
-                int winnerId = -1;
-
-                // Eğer henüz round başlamamışsa, round sayısını artır
-                if (CurrentState == RoundState.WaitingForPlayers || CurrentState == RoundState.Countdown)
-                {
-                    CurrentRound++;
-                }
-
-                // Oyuncuyu alive listesine ekle (tek başına test için)
-                if (!_alivePlayerActors.Contains(PhotonNetwork.LocalPlayer.ActorNumber))
-                {
-                    _alivePlayerActors.Add(PhotonNetwork.LocalPlayer.ActorNumber);
-                }
-
-                // Sahte "kazanan" oyuncuyu registered listesine ekle
-                // böylece CardSelection _cardPickedActors(1) < _registeredPlayerActors(2) olur
-                // ve kart seçim ekranı hemen kapanmaz
-                if (!_registeredPlayerActors.Contains(-1))
-                {
-                    _registeredPlayerActors.Add(-1);
-                }
-
-                Debug.Log($"[RoundManager] DEBUG: Round {CurrentRound} zorla bitiriliyor. Winner: {winnerId}");
-                EndRound(winnerId);
-                return;
+                _alivePlayerActors.Add(winnerId);
             }
+            if (!_registeredPlayerActors.Contains(winnerId))
+            {
+                _registeredPlayerActors.Add(winnerId);
+            }
+
+            Debug.Log($"[RoundManager] DEBUG: Round zorla bitiriliyor. Winner: {winnerId}");
+
+            // Eğer çevrimdışıysak direkt RPC methodlarını kullan (Bypass)
+            if (PhotonNetwork.InRoom) EndRound(winnerId);
+            else RPC_EndRound(winnerId, roundOverDelay);
+
+            return;
         }
+        // ------------------------------------------------
 
-        // Only MasterClient drives state transitions
-        if (!PhotonNetwork.IsMasterClient) return;
+        // Sadece Master Client veya Çevrimdışı (Offline Mode) state idare edebilir
+        if (PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient) return;
 
         StateTimer -= Time.deltaTime;
 
         switch (CurrentState)
         {
-            case RoundState.WaitingForPlayers:
-                UpdateWaiting();
-                break;
-            case RoundState.Countdown:
-                UpdateCountdown();
-                break;
-            case RoundState.Fighting:
-                // Fighting is event-driven (ends when players die)
-                break;
-            case RoundState.RoundOver:
-                UpdateRoundOver();
-                break;
-            case RoundState.CardSelection:
-                UpdateCardSelection();
-                break;
+            case RoundState.WaitingForPlayers: UpdateWaiting(); break;
+            case RoundState.Countdown: UpdateCountdown(); break;
+            case RoundState.Fighting: break;
+            case RoundState.RoundOver: UpdateRoundOver(); break;
+            case RoundState.CardSelection: UpdateCardSelection(); break;
         }
     }
 
-    // ────────── Player Registration ──────────
-
-    /// <summary>
-    /// Called by Launcher after spawning a player.
-    /// </summary>
+    // ────────── REGISTER ──────────
     public void RegisterPlayer(int actorNumber)
     {
-        photonView.RPC(nameof(RPC_RegisterPlayer), RpcTarget.AllBuffered, actorNumber);
+        if (PhotonNetwork.InRoom) photonView.RPC(nameof(RPC_RegisterPlayer), RpcTarget.AllBuffered, actorNumber);
+        else RPC_RegisterPlayer(actorNumber); // Offline
     }
 
     [PunRPC]
     private void RPC_RegisterPlayer(int actorNumber)
     {
         _registeredPlayerActors.Add(actorNumber);
-        Debug.Log($"[RoundManager] Player {actorNumber} registered. Total: {_registeredPlayerActors.Count}");
     }
 
-    // ────────── State: Waiting ──────────
-
+    // ────────── WAITING ──────────
     private void UpdateWaiting()
     {
-        // Need at least 2 players to start
-        if (_registeredPlayerActors.Count >= 2)
+        // Odaya en az 2 kişi katıldıysa VEYA Lobi olmadan (Çevrimdışı) testi açtıysan hemen başla
+        if (_registeredPlayerActors.Count >= 2 || !PhotonNetwork.InRoom)
         {
             StartCountdown();
         }
     }
 
-    // ────────── State: Countdown ──────────
-
+    // ────────── COUNTDOWN ──────────
     private void StartCountdown()
     {
         CurrentRound++;
-        photonView.RPC(nameof(RPC_ChangeState), RpcTarget.All,
-            (int)RoundState.Countdown, CurrentRound, countdownDuration);
+        if (PhotonNetwork.InRoom) photonView.RPC(nameof(RPC_ChangeState), RpcTarget.All, (int)RoundState.Countdown, CurrentRound, countdownDuration);
+        else RPC_ChangeState((int)RoundState.Countdown, CurrentRound, countdownDuration);
     }
 
     [PunRPC]
@@ -189,57 +152,54 @@ public class RoundManager : MonoBehaviourPunCallbacks
         CurrentState = (RoundState)newState;
         CurrentRound = round;
         StateTimer = timer;
-        OnStateChanged?.Invoke(CurrentState);
 
-        Debug.Log($"[RoundManager] State: {CurrentState} | Round: {CurrentRound} | Timer: {timer:F1}s");
+        if (CurrentState == RoundState.Countdown)
+        {
+            // GERİ SAYIM BAŞLADIYSA OYUNCULARI KİLİTLE (HAREKETSİZ)
+            FreezeLocalPlayer(true);
+
+            // VE HERKESİ RASTGELE YENİ KÖŞESİNE DİZ BEKLESİN
+            RespawnAllPlayers();
+        }
+
+        OnStateChanged?.Invoke(CurrentState);
     }
 
     private void UpdateCountdown()
     {
-        if (StateTimer <= 0f)
-        {
-            StartFighting();
-        }
+        if (StateTimer <= 0f) StartFighting();
     }
 
-    // ────────── State: Fighting ──────────
-
+    // ────────── FIGHTING ──────────
     private void StartFighting()
     {
-        // Mark all registered players as alive
         List<int> aliveList = new List<int>(_registeredPlayerActors);
-        photonView.RPC(nameof(RPC_StartFighting), RpcTarget.All, aliveList.ToArray());
+        if (PhotonNetwork.InRoom) photonView.RPC(nameof(RPC_StartFighting), RpcTarget.All, aliveList.ToArray());
+        else RPC_StartFighting(aliveList.ToArray());
     }
 
     [PunRPC]
     private void RPC_StartFighting(int[] aliveActors)
     {
         CurrentState = RoundState.Fighting;
-        StateTimer = -1f; // no timer during fighting
+        StateTimer = -1f;
 
         _alivePlayerActors.Clear();
-        foreach (int actor in aliveActors)
-        {
-            _alivePlayerActors.Add(actor);
-        }
+        foreach (int actor in aliveActors) _alivePlayerActors.Add(actor);
 
-        // Respawn all players
-        RespawnAllPlayers();
+        // FIGHT KOMUTU GELDİ, KİLİTLERİ AÇ SAVAŞ BAŞLASIN
+        FreezeLocalPlayer(false);
 
         OnStateChanged?.Invoke(CurrentState);
         OnRoundStarted?.Invoke(CurrentRound);
-        Debug.Log($"[RoundManager] FIGHT! Round {CurrentRound} with {_alivePlayerActors.Count} players");
     }
 
-    /// <summary>
-    /// Called by PlayerHealth when a player dies.
-    /// </summary>
     public void OnPlayerDied(int victimActorNumber, int killerActorNumber)
     {
-        // Only process on MasterClient
-        if (!PhotonNetwork.IsMasterClient) return;
+        if (PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient) return;
 
-        photonView.RPC(nameof(RPC_PlayerDied), RpcTarget.All, victimActorNumber, killerActorNumber);
+        if (PhotonNetwork.InRoom) photonView.RPC(nameof(RPC_PlayerDied), RpcTarget.All, victimActorNumber, killerActorNumber);
+        else RPC_PlayerDied(victimActorNumber, killerActorNumber);
     }
 
     [PunRPC]
@@ -248,27 +208,19 @@ public class RoundManager : MonoBehaviourPunCallbacks
         _alivePlayerActors.Remove(victimActorNumber);
         OnPlayerKilled?.Invoke(victimActorNumber, killerActorNumber);
 
-        // Notify ScoreManager
-        if (ScoreManager.Instance != null)
-        {
-            ScoreManager.Instance.RecordKill(killerActorNumber, victimActorNumber);
-        }
+        if (ScoreManager.Instance != null) ScoreManager.Instance.RecordKill(killerActorNumber, victimActorNumber);
 
-        Debug.Log($"[RoundManager] Player {victimActorNumber} killed by {killerActorNumber}. " +
-                  $"Alive: {_alivePlayerActors.Count}");
-
-        // Check for round end (only on MasterClient)
-        if (PhotonNetwork.IsMasterClient && _alivePlayerActors.Count <= 1)
+        bool isOver = PhotonNetwork.InRoom ? PhotonNetwork.IsMasterClient && _alivePlayerActors.Count <= 1 : _alivePlayerActors.Count == 0;
+        if (isOver)
         {
             int winnerId = -1;
             foreach (int id in _alivePlayerActors) winnerId = id;
-
-            EndRound(winnerId);
+            if (PhotonNetwork.InRoom) EndRound(winnerId);
+            else RPC_EndRound(winnerId, roundOverDelay);
         }
     }
 
-    // ────────── State: Round Over ──────────
-
+    // ────────── ROUND OVER ──────────
     private void EndRound(int winnerActorNumber)
     {
         photonView.RPC(nameof(RPC_EndRound), RpcTarget.All, winnerActorNumber, roundOverDelay);
@@ -281,38 +233,30 @@ public class RoundManager : MonoBehaviourPunCallbacks
         StateTimer = delay;
         RoundWinnerActorNumber = winnerActorNumber;
 
-        // Record round win
-        if (ScoreManager.Instance != null)
-        {
-            ScoreManager.Instance.RecordRoundWin(winnerActorNumber);
-        }
+        if (ScoreManager.Instance != null) ScoreManager.Instance.RecordRoundWin(winnerActorNumber);
 
         OnRoundWon?.Invoke(winnerActorNumber);
         OnStateChanged?.Invoke(CurrentState);
-
-        string winnerName = GetPlayerName(winnerActorNumber);
-        Debug.Log($"[RoundManager] Round {CurrentRound} won by {winnerName}!");
     }
 
     private void UpdateRoundOver()
     {
         if (StateTimer <= 0f)
         {
-            // Check if someone won the match
-            if (ScoreManager.Instance != null &&
-                ScoreManager.Instance.GetRoundWins(RoundWinnerActorNumber) >= roundsToWin)
+            if (ScoreManager.Instance != null && ScoreManager.Instance.GetRoundWins(RoundWinnerActorNumber) >= roundsToWin)
             {
-                EndMatch(RoundWinnerActorNumber);
+                if (PhotonNetwork.InRoom) EndMatch(RoundWinnerActorNumber);
+                else RPC_EndMatch(RoundWinnerActorNumber);
             }
             else
             {
-                StartCardSelection();
+                if (PhotonNetwork.InRoom) StartCardSelection();
+                else RPC_StartCardSelection(RoundWinnerActorNumber, cardSelectionTimeout);
             }
         }
     }
 
-    // ────────── State: Card Selection ──────────
-
+    // ────────── CARD SELECTION ──────────
     private void StartCardSelection()
     {
         photonView.RPC(nameof(RPC_StartCardSelection), RpcTarget.All, RoundWinnerActorNumber, cardSelectionTimeout);
@@ -326,63 +270,53 @@ public class RoundManager : MonoBehaviourPunCallbacks
         RoundWinnerActorNumber = winnerActorNumber;
         _cardPickedActors.Clear();
 
-        // The winner auto-completes (they don't pick a card)
-        _cardPickedActors.Add(winnerActorNumber);
-
         OnStateChanged?.Invoke(CurrentState);
 
-        // Freeze all players during card selection
         FreezeLocalPlayer(true);
 
-        // Trigger card selection UI for non-winners
-        if (PhotonNetwork.LocalPlayer.ActorNumber != winnerActorNumber)
+        // TEST İÇİN: HERKES SEÇSİN. (Eğer tam sürüme geçerken sadece kaybeden seçsin istersen if(PhotonNetwork.LocalPlayer.ActorNumber != winner) eklersin)
+        if (CardSelectionManager.Instance != null)
         {
-            if (CardSelectionManager.Instance != null)
-            {
-                CardSelectionManager.Instance.ShowCardSelection();
-            }
+            CardSelectionManager.Instance.ShowCardSelection();
         }
-
-        Debug.Log($"[RoundManager] Card selection phase. Winner ({winnerActorNumber}) skips.");
     }
 
-    /// <summary>
-    /// Called when a player finishes picking their card.
-    /// </summary>
     public void OnCardPicked(int actorNumber)
     {
-        photonView.RPC(nameof(RPC_CardPicked), RpcTarget.All, actorNumber);
+        if (PhotonNetwork.InRoom) photonView.RPC(nameof(RPC_CardPicked), RpcTarget.All, actorNumber);
+        else RPC_CardPicked(actorNumber);
     }
 
     [PunRPC]
     private void RPC_CardPicked(int actorNumber)
     {
         _cardPickedActors.Add(actorNumber);
-        Debug.Log($"[RoundManager] Player {actorNumber} picked a card. " +
-                  $"Picked: {_cardPickedActors.Count}/{_registeredPlayerActors.Count}");
     }
 
     private void UpdateCardSelection()
     {
-        // All players picked or timeout expired
-        if (_cardPickedActors.Count >= _registeredPlayerActors.Count || StateTimer <= 0f)
+        // Offline oyun testinde odaya kayıtlı sadece 1 kişi olabilir. Eğer o kişi bizsek, tıklayana kadar bekle:
+        if (!PhotonNetwork.InRoom || _registeredPlayerActors.Count <= 1)
         {
-            // Auto-pick for anyone who didn't pick
-            if (StateTimer <= 0f)
+            // Zaman bitmediyse VE henüz karta TIKLAMADIYSAK oyunu başlatma, bekle.
+            if (StateTimer > 0f && _cardPickedActors.Count == 0)
             {
-                Debug.Log("[RoundManager] Card selection timed out!");
+                return;
             }
 
-            // Unfreeze players before next round
-            FreezeLocalPlayer(false);
+            // Eğer süre bittiyse (timeout) veya tıklayarak listeye eklendiysek geç
+            StartCountdown();
+            return;
+        }
 
-            // Start next round
+        // Multiplayer Orijinal Mantık: Herkes kartını seçtiyse veya Süre bittiyse geç.
+        if (_cardPickedActors.Count >= _registeredPlayerActors.Count || StateTimer <= 0f)
+        {
             StartCountdown();
         }
     }
 
-    // ────────── State: Match Over ──────────
-
+    // ────────── MATCH OVER ──────────
     private void EndMatch(int winnerActorNumber)
     {
         photonView.RPC(nameof(RPC_EndMatch), RpcTarget.All, winnerActorNumber);
@@ -394,58 +328,81 @@ public class RoundManager : MonoBehaviourPunCallbacks
         CurrentState = RoundState.MatchOver;
         OnMatchWon?.Invoke(winnerActorNumber);
         OnStateChanged?.Invoke(CurrentState);
-
-        string winnerName = GetPlayerName(winnerActorNumber);
-        Debug.Log($"[RoundManager] MATCH WON by {winnerName}!");
     }
 
-    // ────────── Players ──────────
-
+    // ────────── SPAWNING & FREEZE ──────────
     private void SpawnLocalPlayer()
     {
         Vector3 spawnPos = Vector3.zero;
+        int localActor = PhotonNetwork.InRoom ? PhotonNetwork.LocalPlayer.ActorNumber : 1;
 
         if (spawnPoints != null && spawnPoints.Length > 0)
         {
-            // Spawn each client on a unique point based on their ActorNumber
-            int index = PhotonNetwork.LocalPlayer.ActorNumber % spawnPoints.Length;
-            spawnPos = spawnPoints[index].position;
+            // İlk girişte rastgele bir yer seçsin
+            int randomIndex = Random.Range(0, spawnPoints.Length);
+            spawnPos = spawnPoints[randomIndex].position;
         }
 
-        GameObject player = PhotonNetwork.Instantiate(playerPrefabName, spawnPos, Quaternion.identity);
-        Debug.Log($"[RoundManager] Local Player instantiated directly in Level 2 at {spawnPos}");
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.Instantiate(playerPrefabName, spawnPos, Quaternion.identity);
+        }
+        else
+        {
+            // Çevrimdışı mode test için Resources'tan spawn
+            Instantiate(Resources.Load(playerPrefabName), spawnPos, Quaternion.identity);
+        }
 
-        // Register immediately
-        RegisterPlayer(PhotonNetwork.LocalPlayer.ActorNumber);
+        RegisterPlayer(localActor);
     }
-
-    // ────────── Helpers ──────────
 
     private void RespawnAllPlayers()
     {
-        var players = FindObjectsByType<PlayerHealth>(FindObjectsSortMode.None);
+        var players = FindObjectsByType<PlayerHealth>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        // Eger spawn noktaları varsa, çakışmayı önlemek için listeyi karıştırıp herkese bir tane atayalım
+        List<int> availableSpawnIndexes = new List<int>();
+        if (spawnPoints != null && spawnPoints.Length > 0)
+        {
+            for (int i = 0; i < spawnPoints.Length; i++) availableSpawnIndexes.Add(i);
+        }
+
         foreach (var player in players)
         {
             Vector3 spawnPos = Vector3.zero;
+
+            // Rastgele bir nokta seç 
             if (spawnPoints != null && spawnPoints.Length > 0)
             {
-                // Use ActorNumber to consistently distribute spawn points across clients
-                int index = player.photonView.OwnerActorNr % spawnPoints.Length;
-                spawnPos = spawnPoints[index].position;
+                if (availableSpawnIndexes.Count > 0)
+                {
+                    int rand = Random.Range(0, availableSpawnIndexes.Count);
+                    int chosenIndex = availableSpawnIndexes[rand];
+                    spawnPos = spawnPoints[chosenIndex].position;
+                    availableSpawnIndexes.RemoveAt(rand); // Seçileni listeden çıkar ki başkası orada doğmasın
+                }
+                else
+                {
+                    // Eğer oyuncu sayısı Spawn noktası sayısını geçerse tekrar rastgele bir yer ver 
+                    spawnPos = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
+                }
             }
 
-            // Only respawn the local player's position to avoid conflicts
-            if (player.photonView.IsMine)
+            if (!PhotonNetwork.InRoom || player.photonView.IsMine)
             {
+                // Görünmez olmuşsa tekrar aç
+                if (!player.gameObject.activeSelf) player.gameObject.SetActive(true);
+
+                // Teleport işlemini yap
                 player.Respawn(spawnPos);
 
-                // Refill ammo
+                // Mermiyi yenile
                 var combat = player.GetComponent<PlayerCombat>();
                 if (combat != null) combat.RefillAmmo();
             }
-            else
+            // Remote playerların Transform/State reset işini de unutmayalım
+            else if (PhotonNetwork.InRoom && !player.photonView.IsMine)
             {
-                // Remote players: just re-enable visuals (position comes from network)
                 player.ResetState();
             }
         }
@@ -453,6 +410,8 @@ public class RoundManager : MonoBehaviourPunCallbacks
 
     private string GetPlayerName(int actorNumber)
     {
+        if (!PhotonNetwork.InRoom) return "Test Player";
+
         foreach (var player in PhotonNetwork.PlayerList)
         {
             if (player.ActorNumber == actorNumber)
@@ -461,48 +420,40 @@ public class RoundManager : MonoBehaviourPunCallbacks
         return $"Player {actorNumber}";
     }
 
-    /// <summary>
-    /// Freeze/unfreeze the local player during card selection.
-    /// </summary>
     private void FreezeLocalPlayer(bool frozen)
     {
-        var movement = FindLocalComponent<PlayerMovement>();
+        var movement = FindLocalComponent<PlayerMovement>(true);
         if (movement != null) movement.enabled = !frozen;
 
-        var combat = FindLocalComponent<PlayerCombat>();
+        var combat = FindLocalComponent<PlayerCombat>(true);
         if (combat != null) combat.enabled = !frozen;
 
-        // Show cursor for card selection UI
         Cursor.lockState = frozen ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = frozen;
 
-        // Disable input during freeze
         if (InputManager.Instance != null)
             InputManager.Instance.SetInputEnabled(!frozen);
     }
 
-    private T FindLocalComponent<T>() where T : MonoBehaviour
+    private T FindLocalComponent<T>(bool includeInactive = false) where T : MonoBehaviour
     {
-        var all = FindObjectsByType<T>(FindObjectsSortMode.None);
+        var findMode = includeInactive ? FindObjectsInactive.Include : FindObjectsInactive.Exclude;
+        var all = FindObjectsByType<T>(findMode, FindObjectsSortMode.None);
         foreach (var comp in all)
         {
+            if (!PhotonNetwork.InRoom) return comp; // Çevrimdışı ise ilk bulduğunu al
+
             var pv = comp.GetComponent<PhotonView>();
             if (pv != null && pv.IsMine) return comp;
         }
         return null;
     }
 
-    /// <summary>
-    /// Handle player disconnects during a round.
-    /// </summary>
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         _registeredPlayerActors.Remove(otherPlayer.ActorNumber);
         _alivePlayerActors.Remove(otherPlayer.ActorNumber);
 
-        Debug.Log($"[RoundManager] Player {otherPlayer.NickName} left. Alive: {_alivePlayerActors.Count}");
-
-        // If fighting and only 1 alive, end round
         if (PhotonNetwork.IsMasterClient && CurrentState == RoundState.Fighting && _alivePlayerActors.Count <= 1)
         {
             int winnerId = -1;

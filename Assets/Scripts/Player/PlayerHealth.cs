@@ -106,20 +106,30 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         _currentHealth = MaxHealth;
         _shieldCharges = _stats.HasEffect(SpecialEffect.Shield) ? 1 : 0;
 
-        // Re-enable CharacterController BEFORE setting position (CC must be active for position change)
+        // Karakterin fiziksel kontrolcüsünü tamamen Kapat (Eski lokasyonu unutması için)
         var cc = GetComponent<CharacterController>();
-        if (cc != null && photonView.IsMine)
+        if (cc != null)
+        {
+            cc.enabled = false;
+        }
+
+        // Pozisyonu güvenle ayarla
+        transform.position = position;
+
+        // Görselleri ve Combat/Movement Scriptlerini aç
+        SetPlayerActive(true);
+
+        // Bir frame sonra tekrar Character Controller'ı açmak Rubberbanding'i kesin olarak engeller
+        // Ancak Coroutine kullanıyorsan öyle, kullanmıyorsan hemen altında açalım:
+        if (cc != null && (!PhotonNetwork.InRoom || photonView.IsMine))
         {
             cc.enabled = true;
         }
 
-        transform.position = position;
-        SetPlayerActive(true);
-
         OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
         OnRespawned?.Invoke();
 
-        Debug.Log($"[PlayerHealth] {gameObject.name} respawned at {position}");
+        Debug.Log($"[PlayerHealth] {gameObject.name} respawned absolutely at {position}");
     }
 
     /// <summary>

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
+using System.Collections.Generic;
 
 /// <summary>
 /// In-game HUD displaying health, ammo, round info, kill feed, and scoreboard.
@@ -10,6 +11,10 @@ using Photon.Pun;
 public class GameHUD : MonoBehaviour
 {
     private const int MaxstatValue = 100;
+    
+    [Header("Network")]
+    [SerializeField] private TextMeshProUGUI pingText;
+
     [Header("Health")]
     [SerializeField] private Slider healthBar;
     [SerializeField] private TextMeshProUGUI healthText;
@@ -29,7 +34,8 @@ public class GameHUD : MonoBehaviour
 
     [Header("Scoreboard")]
     [SerializeField] private GameObject scoreboardPanel;
-    [SerializeField] private TextMeshProUGUI scoreboardText;
+    [SerializeField] private Transform scoreboardContent; // Vertical Layout Group olan konteyner
+    [SerializeField] private GameObject scoreboardRowPrefab; // Oyuncu başına oluşturulacak satır prefab'ı
 
     [Header("Match Result")]
     [SerializeField] private GameObject matchResultPanel;
@@ -38,13 +44,17 @@ public class GameHUD : MonoBehaviour
     [Header("Card Effects Display")]
     [SerializeField] private TextMeshProUGUI activeCardsText;
     
-    
-
     private PlayerHealth _localHealth;
     private PlayerCombat _localCombat;
     private PlayerStats _localStats;
     private string[] _killFeedEntries;
     private int _killFeedIndex;
+    
+    // Satırları bellekte tutmak için (performans için sürekli Destroy/Instantiate yapmamak adına)
+    private Dictionary<int, GameObject> _scoreboardRows = new Dictionary<int, GameObject>();
+
+    // Ping timer (oyun başladığında hemen yazsın diye 3 ile başlatıyoruz)
+    private float _pingUpdateTimer = 3f;
 
     private void Start()
     {
@@ -53,6 +63,7 @@ public class GameHUD : MonoBehaviour
         if (scoreboardPanel != null) scoreboardPanel.SetActive(false);
         if (matchResultPanel != null) matchResultPanel.SetActive(false);
         healthBar.maxValue = MaxstatValue;
+        
         // Subscribe to RoundManager events
         if (RoundManager.Instance != null)
         {
@@ -62,7 +73,7 @@ public class GameHUD : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void OnDestroy()        
     {
         if (RoundManager.Instance != null)
         {
@@ -81,6 +92,7 @@ public class GameHUD : MonoBehaviour
         UpdateAmmoUI();
         UpdateRoundUI();
         UpdateActiveCardsUI();
+        UpdatePingUI();
 
         // Scoreboard toggle (Tab)
         if (scoreboardPanel != null)
@@ -88,6 +100,22 @@ public class GameHUD : MonoBehaviour
             bool showBoard = Input.GetKey(KeyCode.Tab);
             scoreboardPanel.SetActive(showBoard);
             if (showBoard) UpdateScoreboard();
+        }
+    }
+
+    // ────────── Ping ──────────
+
+    private void UpdatePingUI()
+    {
+        if (pingText == null) return;
+
+        _pingUpdateTimer += Time.deltaTime;
+
+        // Her 3 saniyede bir ping değerini güncelle
+        if (_pingUpdateTimer >= 3f)
+        {
+            pingText.text = $"Ping: {PhotonNetwork.GetPing()} ms";
+            _pingUpdateTimer = 0f;
         }
     }
 
@@ -240,28 +268,80 @@ public class GameHUD : MonoBehaviour
 
     private void UpdateScoreboard()
     {
-        if (ScoreManager.Instance == null || scoreboardText == null) return;
+        if (ScoreManager.Instance == null || scoreboardContent == null || scoreboardRowPrefab == null) return;
 
         var leaderboard = ScoreManager.Instance.GetLeaderboard();
-        var sb = new System.Text.StringBuilder();
-        sb.AppendLine("<b>PLAYER          K    D    W</b>");
-        sb.AppendLine("─────────────────────────────");
+
+        // Önce mevcut satırların hepsini sakla, böylece ihtiyacımız olmayanları gizleyebiliriz
+        HashSet<int> activeActorNumbers = new HashSet<int>();
 
         foreach (var (actorNumber, score) in leaderboard)
         {
-            string name = GetPlayerName(actorNumber);
-            if (name.Length > 14) name = name.Substring(0, 14);
-            sb.AppendLine($"{name,-16}{score.kills,-5}{score.deaths,-5}{score.roundWins}");
+            activeActorNumbers.Add(actorNumber);
+            GameObject rowObj;
+
+            // Eğer bu oyuncu için bir satır daha önce oluşturulmadıysa oluştur
+            if (!_scoreboardRows.TryGetValue(actorNumber, out rowObj))
+            {
+                rowObj = Instantiate(scoreboardRowPrefab, scoreboardContent);
+                _scoreboardRows[actorNumber] = rowObj;
+            }
+
+            rowObj.SetActive(true);
+
+            // Prefab içindeki elementleri sıralamasına (index) göre buluyoruz.
+            // Sıra: 0=İsim, 1=Kill, 2=Death, 3=Win, 4=Ping
+            var texts = rowObj.GetComponentsInChildren<TextMeshProUGUI>();
+
+            if (texts.Length >= 4)
+            {
+                string name = GetPlayerName(actorNumber);
+                texts[0].text = name;
+                texts[1].text = score.kills.ToString();
+                texts[2].text = score.deaths.ToString();
+                texts[3].text = score.roundWins.ToString();
+
+                // Eğer 5. Text (Ping Texti) prefabınızda mevcutsa:
+                if (texts.Length >= 5)
+                {
+                    // Sadece sana ait olan pingi alabilirsin (Diğerlerinin pingini bilmek için sunucudan çekmek gerekir)
+                    if (actorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+                    {
+                        texts[4].text = PhotonNetwork.GetPing().ToString() + " ms";
+                    }
+                    else
+                    {
+                        // Başka oyuncuların pingini eğer sync'lemediysen "?" veya "---" yapabilirsin.
+                        texts[4].text = "--- ms"; 
+                    }
+                }
+            }
+            
+            // Eğer ben representsen satırı belirginleştir
+            var image = rowObj.GetComponent<Image>();
+            if (image != null)
+            {
+                image.color = (actorNumber == PhotonNetwork.LocalPlayer.ActorNumber) 
+                              ? new Color(0.2f, 0.6f, 0.2f, 0.8f) // Bensem yeşilimsi
+                              : new Color(0.1f, 0.1f, 0.1f, 0.66f); // Başkasıysa koyu
+            }
         }
 
-        scoreboardText.text = sb.ToString();
+        // Oyundan çıkanlar varsa satırını gizle
+        foreach (var kvp in _scoreboardRows)
+        {
+            if (!activeActorNumbers.Contains(kvp.Key))
+            {
+                kvp.Value.SetActive(false);
+            }
+        }
     }
 
     // ────────── Match Result ──────────
 
     private void OnMatchWon(int winnerActorNumber)
     {
-        if (matchResultPanel != null) matchResultPanel.SetActive(true);
+        if (matchResultPanel != null) matchResultPanel.SetActive(true);         
         if (matchResultText != null)
         {
             string winner = GetPlayerName(winnerActorNumber);

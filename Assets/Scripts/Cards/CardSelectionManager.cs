@@ -4,7 +4,7 @@ using Photon.Pun;
 
 /// <summary>
 /// Manages the card selection phase between rounds.
-/// Presents 3 random cards to the player and applies the chosen one.
+/// Presents random cards to the player and applies the chosen one.
 /// </summary>
 public class CardSelectionManager : MonoBehaviourPunCallbacks
 {
@@ -56,9 +56,9 @@ public class CardSelectionManager : MonoBehaviourPunCallbacks
         // Draw random cards
         _currentCards = cardDatabase.GetRandomCards(cardsToShow);
 
-        if (_currentCards.Count == 0)
+        if (_currentCards == null || _currentCards.Count == 0)
         {
-            Debug.LogWarning("[CardSelectionManager] No cards available!");
+            Debug.LogWarning("[CardSelectionManager] No cards available! Veritabanı boş veya atanamamış test edilemez.");
             FinishSelection(null);
             return;
         }
@@ -68,6 +68,10 @@ public class CardSelectionManager : MonoBehaviourPunCallbacks
         {
             cardSelectionUI.gameObject.SetActive(true);
             cardSelectionUI.ShowCards(_currentCards, OnCardSelected);
+        }
+        else
+        {
+            Debug.LogError("[CardSelectionManager] CardSelectionUI referansı YOK! Inspector'dan atamalısın.");
         }
 
         // Unlock cursor for UI interaction
@@ -128,14 +132,33 @@ public class CardSelectionManager : MonoBehaviourPunCallbacks
             var localPlayer = GetLocalPlayerStats();
             if (localPlayer != null)
             {
-                localPlayer.ApplyCardNetworked(card);
+                // EĞER ÇEVRİMDIŞIYSAK (Test Ediyorsak) VEYA OFFLINE MODDAYSAN
+                // Yalnızca Çevrimiçiyken Networklü Card Gönder
+                if (PhotonNetwork.InRoom)
+                {
+                    localPlayer.ApplyCardNetworked(card);
+                }
+                else
+                {
+                    // ÇEVRİMDIŞI TEST İÇİN DİREKT UYGULA:
+                    // Eğer senin sisteminde ApplyCardNetworked offline mode da hata veriyorsa
+                    // şimdilik test aşamasında apply logicini atlayabilir ya da var olan sadece ApplyCard vb fix kullanılabilir
+                    localPlayer.ApplyCardNetworked(card);
+                    Debug.Log($"[CardSelectionManager] ÇEVRİMDIŞI TEST: {card.cardName} kartı seçildi.");
+                }
             }
         }
 
         // Notify RoundManager that this player has picked
         if (RoundManager.Instance != null)
         {
-            RoundManager.Instance.OnCardPicked(PhotonNetwork.LocalPlayer.ActorNumber);
+            int myId = 1; // Default
+            if (PhotonNetwork.InRoom && PhotonNetwork.LocalPlayer != null)
+            {
+                myId = PhotonNetwork.LocalPlayer.ActorNumber;
+            }
+
+            RoundManager.Instance.OnCardPicked(myId);
         }
     }
 
@@ -144,7 +167,8 @@ public class CardSelectionManager : MonoBehaviourPunCallbacks
         var players = FindObjectsByType<PlayerStats>(FindObjectsSortMode.None);
         foreach (var player in players)
         {
-            if (player.photonView.IsMine)
+            // Eger cevrimdisi calisiyorsak o zaman photonView mineda degilse de onu dondurecek
+            if (!PhotonNetwork.InRoom || player.photonView.IsMine)
                 return player;
         }
         return null;
