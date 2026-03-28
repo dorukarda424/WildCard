@@ -1,10 +1,12 @@
 using UnityEngine;
 using Photon.Pun;
 
+[RequireComponent(typeof(PlayerMovement))]
 public class PlayerCamera : MonoBehaviourPunCallbacks
 {
-    [Header("Camera Prefab")]
-    [SerializeField] private GameObject cameraHolderPrefab;
+    [Header("References")]
+    [SerializeField] private Transform cameraHolder;
+    [SerializeField] private Camera cam;
 
     [Header("Settings")]
     public Vector3 camOffset = new Vector3(0f, 0.8f, 0f);
@@ -24,193 +26,156 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     public float adsSensitivityMultiplier = 0.6f;
     public float adsLerpSpeed = 12f;
 
+    [Header("Weapon")]
+    [SerializeField] private Transform weaponHolder;
+    
+    [Header("Debug")]
+    public bool testing = false;
+
+    private PlayerMovement _movement;
+    private Animator _anim;
+
+    private float _xRotation;
+    private float _yRotation; 
+    private float _recoilOffset;
+
+    private float _bobTimer;
+    private Vector3 _bobOffset;
+    private Vector3 _originalCamLocalPos;
+
     private float _defaultFov;
     private float _defaultSensitivity;
 
-    [Header("Aim IK")]
-    [SerializeField]private Transform aimIKTarget;
-    [SerializeField]private Quaternion aimIKRoot;
-    [SerializeField]private float maxPitch = 60f;
-    [SerializeField]private float spineWeight = 0.7f;
-    [SerializeField]private float aimLerpSpeed = 12f;
-
-    [Header("Debug")]
-    public bool testing;
-
-    // Runtime references (set after spawn)
-    private Transform _cameraHolder;
-
-    private Camera _cam;
-
-    private PlayerMovement _movement;
-
-    private float _xRotation;
-
-    private float _bobTimer;
-
-    private Vector3 _bobOffset;
-
-    private Vector3 _originalCamLocalPos;
-
-    private float _recoilOffset;
-    
     public float GetPitch() => _xRotation;
+    public Camera GetCamera() => cam;
 
     private void Awake()
     {
         _movement = GetComponent<PlayerMovement>();
-        
-        if (aimIKTarget != null)
+        _anim = GetComponent<Animator>();
+
+        if (cam != null)
         {
-            aimIKRoot = aimIKTarget.localRotation;
-            Debug.Log("[PlayerCamera] AimIK root set on " + aimIKTarget.name);
+            _originalCamLocalPos = cam.transform.localPosition;
+            _defaultFov = cam.fieldOfView;
         }
-        
+
+        _defaultSensitivity = mouseSensitivity;
     }
 
     private void Start()
     {
-        // Only spawn camera for local player (or testing)
-        if (testing || (photonView != null && photonView.IsMine))
+        // Only enable camera for local player (or testing)
+        if (!testing && (photonView == null || !photonView.IsMine))
         {
-            SpawnCamera();
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-        else
-        {
-            Destroy(gameObject);
+            if (cam != null)
+            {
+                cam.enabled = false;
+                var listener = cam.GetComponent<AudioListener>();
+                if (listener != null) listener.enabled = false;
+            }
+            enabled = false;
             return;
         }
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        if (_movement != null && cameraHolder != null)
+            _movement.SetCamHolder(cameraHolder);
     }
 
     private void LateUpdate()
     {
         if (!testing && (photonView == null || !photonView.IsMine)) return;
-        if (_cameraHolder == null) return;
+        if (cameraHolder == null || cam == null) return;
 
         PlayerFollow();
         HandleLook();
         HandleHeadBob();
         HandleRecoilReturn();
         HandleAds();
-        HandleAimIK();
-    }
-
-    private void HandleAimIK()
-    {
-        if (aimIKTarget == null) return;
-        
-        float pitch = Mathf.Clamp(_xRotation, -maxPitch, maxPitch);
-    
-        Quaternion target = aimIKRoot * Quaternion.Euler(pitch * spineWeight, 0f, 0f);
-    
-        aimIKTarget.localRotation = Quaternion.Slerp(
-            aimIKTarget.localRotation,
-            target,
-            Time.deltaTime * aimLerpSpeed
-        );
-    }
-
-
-    private void SpawnCamera()
-    {
-        if (cameraHolderPrefab == null)
-        {
-            Debug.LogError("[PlayerCamera] cameraHolderPrefab atanmamış!");
-            return;
-        }
-
-        // Kamerayı player'dan bağımsız olarak spawn et
-        GameObject camObj = Instantiate(cameraHolderPrefab, transform.position + camOffset, Quaternion.identity);
-        camObj.name = "CameraHolder_Local";
-
-        _cameraHolder = camObj.transform;
-        _cam = camObj.GetComponentInChildren<Camera>();
-
-        if (_cam != null)
-        {
-            _originalCamLocalPos = _cam.transform.localPosition;
-            _defaultFov = _cam.fieldOfView;
-        }
-        
-        _defaultSensitivity = mouseSensitivity;
-        DisableOtherCameras();
-        
-        if (_movement != null)
-        {
-            _movement.SetCamHolder(_cameraHolder);
-        }
-
-        Debug.Log("[PlayerCamera] Kamera spawn edildi!");
-    }
-
-    private void DisableOtherCameras()
-    {
-        Camera[] allCameras = FindObjectsByType<Camera>(FindObjectsSortMode.None);
-        foreach (var cam in allCameras)
-        {
-            if (cam != _cam)
-            {
-                cam.enabled = false;
-                AudioListener listener = cam.GetComponent<AudioListener>();
-                if (listener != null) listener.enabled = false;
-            }
-        }
+        SyncWeaponRotation();
     }
 
     private void PlayerFollow()
     {
-        _cameraHolder.position = transform.position + camOffset;
+        cameraHolder.position = transform.position + camOffset;
     }
 
     private void HandleLook()
     {
-        if (InputManager.Instance == null) return;
+        if (InputManager.Instance == null || InputManager.Instance.InputActions == null) return;
 
-        Vector2 rawInput = InputManager.Instance.LookInput;
-
+        // read current frame delta directly from the action
+        Vector2 raw = InputManager.Instance.InputActions.Player.Look.ReadValue<Vector2>();
+        if (raw.sqrMagnitude < 0.01f) raw = Vector2.zero;
         float lookX, lookY;
 
-        // Mouse delta is already frame-rate independent (pixels moved)
-        // Gamepad sticks need Time.deltaTime to be frame-rate independent
         if (IsMouseInput())
         {
-            float mouseMultiplier = 0.1f;
-            lookX = rawInput.x * mouseSensitivity * mouseMultiplier;
-            lookY = rawInput.y * mouseSensitivity * mouseMultiplier;
+            const float mouseMultiplier = 0.1f;
+            lookX = raw.x * mouseSensitivity * mouseMultiplier;
+            lookY = raw.y * mouseSensitivity * mouseMultiplier;
         }
         else
         {
-            lookX = rawInput.x * mouseSensitivity * Time.deltaTime;
-            lookY = rawInput.y * mouseSensitivity * Time.deltaTime;
+            lookX = raw.x * mouseSensitivity * Time.deltaTime;
+            lookY = raw.y * mouseSensitivity * Time.deltaTime;
         }
 
         _xRotation -= lookY;
         _xRotation = Mathf.Clamp(_xRotation, -maxLookAngle, maxLookAngle);
         
-        transform.Rotate(Vector3.up * lookX);
-        
-        _cameraHolder.rotation = Quaternion.Euler(_xRotation + _recoilOffset, transform.eulerAngles.y, 0f);
+        _yRotation += lookX;
+
+        cameraHolder.localRotation=Quaternion.Euler(_xRotation + _recoilOffset, 0f, 0f);
+        transform.rotation = Quaternion.Euler(0f, _yRotation, 0f);
+
+        // drive AimPitch for upper-body layer
+        if (_anim != null)
+        {
+            float t = Mathf.InverseLerp(-maxLookAngle * 1.5f, maxLookAngle * 1.5f, _xRotation);
+            float aimPitch = t * 2f - 1f;
+            _anim.SetFloat("AimPitch", aimPitch, 0.1f, Time.deltaTime);
+        }
     }
 
     private bool IsMouseInput()
     {
-        if (InputManager.Instance == null || InputManager.Instance.InputActions == null) return false;
+        if (InputManager.Instance == null || InputManager.Instance.InputActions == null)
+            return false;
+
         var control = InputManager.Instance.InputActions.Player.Look.activeControl;
         return control != null && control.device is UnityEngine.InputSystem.Mouse;
     }
 
     private void HandleHeadBob()
     {
-        if (_cam == null) return;
+        if (_movement == null) return;
 
-        bool isMoving = _movement != null && _movement.IsMoving && _movement.IsGrounded;
+        var state = _movement.CurrentState;
+
+        // no bob while latched or in air
+        if (state == PlayerMovement.PlayerState.Latched ||
+            state == PlayerMovement.PlayerState.Airborne)
+        {
+            _bobTimer = 0f;
+            _bobOffset = Vector3.Lerp(_bobOffset, Vector3.zero,
+                                     Time.deltaTime * bobReturnSpeed);
+            cam.transform.localPosition = _originalCamLocalPos + _bobOffset;
+            return;
+        }
+
+        bool isMoving = _movement.IsMoving && _movement.IsGrounded;
 
         if (isMoving)
         {
-            float speed = _movement.CurrentState == PlayerMovement.PlayerState.Sprinting ? 1.5f : 1f;
-            _bobTimer += Time.deltaTime * bobFrequency * speed;
+            float speedMul = 1f;
+            if (state == PlayerMovement.PlayerState.Sprinting) speedMul = 1.5f;
+            if (state == PlayerMovement.PlayerState.Crouching) speedMul = 0.7f;
+
+            _bobTimer += Time.deltaTime * bobFrequency * speedMul;
 
             _bobOffset = new Vector3(
                 Mathf.Sin(_bobTimer * 0.5f) * bobAmplitude,
@@ -221,10 +186,11 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         else
         {
             _bobTimer = 0f;
-            _bobOffset = Vector3.Lerp(_bobOffset, Vector3.zero, Time.deltaTime * bobReturnSpeed);
+            _bobOffset = Vector3.Lerp(_bobOffset, Vector3.zero,
+                                     Time.deltaTime * bobReturnSpeed);
         }
 
-        _cam.transform.localPosition = _originalCamLocalPos + _bobOffset;
+        cam.transform.localPosition = _originalCamLocalPos + _bobOffset;
     }
 
     public void AddRecoil(float amount)
@@ -234,11 +200,38 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
     private void HandleRecoilReturn()
     {
-        if (_recoilOffset != 0f)
+        if (Mathf.Abs(_recoilOffset) <= 0.001f) return;
+
+        _recoilOffset = Mathf.Lerp(_recoilOffset, 0f,
+                                  Time.deltaTime * recoilReturnSpeed);
+
+        if (Mathf.Abs(_recoilOffset) < 0.01f)
+            _recoilOffset = 0f;
+    }
+
+    private void HandleAds()
+    {
+        if (cam == null || InputManager.Instance == null) return;
+
+        bool isAiming = InputManager.Instance.IsAiming;
+
+        // optional: disable ADS while sprinting
+        if (_movement != null &&
+            _movement.CurrentState == PlayerMovement.PlayerState.Sprinting)
         {
-            _recoilOffset = Mathf.Lerp(_recoilOffset, 0f, Time.deltaTime * recoilReturnSpeed);
-            if (Mathf.Abs(_recoilOffset) < 0.01f) _recoilOffset = 0f;
+            isAiming = false;
         }
+
+        float targetFov = isAiming ? adsFov : _defaultFov;
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFov,
+                                     Time.deltaTime * adsLerpSpeed);
+
+        float targetSens = isAiming
+            ? _defaultSensitivity * adsSensitivityMultiplier
+            : _defaultSensitivity;
+
+        mouseSensitivity = Mathf.Lerp(mouseSensitivity, targetSens,
+                                      Time.deltaTime * adsLerpSpeed);
     }
 
     public void SetSensitivity(float value) => mouseSensitivity = value;
@@ -249,27 +242,9 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         Cursor.visible = !locked;
     }
     
-    public Camera GetCamera() => _cam;
-
-    private void OnDestroy()
+    private void SyncWeaponRotation()
     {
-        if (_cameraHolder != null)
-        {
-            Destroy(_cameraHolder.gameObject);
-        }
-    }
-
-    private void HandleAds()
-    {
-        if (_cam == null || InputManager.Instance == null) return;
-
-        bool isAiming = InputManager.Instance.IsAiming;
-        
-
-        float targetFov = isAiming ? adsFov : _defaultFov;
-        _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, targetFov, Time.deltaTime * adsLerpSpeed);
-
-        float targetSens = isAiming ? _defaultSensitivity * adsSensitivityMultiplier : _defaultSensitivity;
-        mouseSensitivity = Mathf.Lerp(mouseSensitivity, targetSens, Time.deltaTime * adsLerpSpeed);
+        if (weaponHolder == null) return;
+        weaponHolder.rotation = cameraHolder.rotation;
     }
 }

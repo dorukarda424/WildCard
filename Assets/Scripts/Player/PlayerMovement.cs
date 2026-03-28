@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     
     [Header("References")]
     public Transform camHolder;
+    [SerializeField] private Animator animator;
 
     [Header("Debug")]
     public bool testing;
@@ -47,6 +48,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     private bool _isRemotePlayer;
 
     private static readonly int IsWalking = Animator.StringToHash("IsWalking");
+    private static readonly int IsSprinting = Animator.StringToHash("IsSprinting");
+    private static readonly int IsCrouching = Animator.StringToHash("IsCrouching");
+    private static readonly int IsAirborne = Animator.StringToHash("IsAirborne");
+    private static readonly int IsLatched = Animator.StringToHash("IsLatched");
+    private static readonly int IsAiming = Animator.StringToHash("IsAiming");
     
     private float EffWalkSpeed   => _stats.MoveSpeed;
     private float EffSprintSpeed => _stats.SprintSpeed;
@@ -58,6 +64,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         _cc = GetComponent<CharacterController>();
         _animator = GetComponentInChildren<Animator>();
         _stats = GetComponent<PlayerStats>();
@@ -142,92 +149,116 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     public void SetCamHolder(Transform cam) => camHolder = cam;
     
     private void HandleMovement()
+{
+    if (CurrentState == PlayerState.Latched)
     {
-        if (CurrentState == PlayerState.Latched)
-        {
-            HandleLatchedMovement();
-            return;
-        }
-        
-        bool wasGrounded = IsGrounded;
-        IsGrounded = CheckGrounded();
-        
-        if (!wasGrounded && IsGrounded)
-        {
-            _velocity.x = 0f;
-            _velocity.z = 0f;
-            _airborneTime = 0f;
-            OnPlayerLand?.Invoke();
-        }
-        
-        // Always refill jumps while grounded (not just on landing transition)
-        if (IsGrounded)
-        {
-            _jumpsRemaining = EffMaxJumps;
-        }
-        
-        if (!IsGrounded)
-            _airborneTime += Time.deltaTime;
-        else
-            _airborneTime = 0f;
-        
-        if (!IsGrounded && _latchTimer <= 0 && _airborneTime > 0.15f && CanLatch())
-        {
-            CurrentState = PlayerState.Latched;
-            _velocity = Vector3.zero;
-            OnPlayerLatch?.Invoke();
-            return;
-        }
-        
-        Vector3 moveDir;
-        if (camHolder != null)
-        {
-            moveDir = camHolder.forward * _moveInput.y + camHolder.right * _moveInput.x;
-        }
-        else
-        {
-            moveDir = transform.forward * _moveInput.y + transform.right * _moveInput.x;
-        }
-        moveDir.y = 0f;
-        if (moveDir.sqrMagnitude > 0.01f) moveDir.Normalize();
-        IsMoving = moveDir.sqrMagnitude > 0.01f;
+        HandleLatchedMovement();
+        UpdateAnimator(Vector3.zero);
+        return;
+    }
 
-        // Animator — sadece IsWalking parametresi
-        if (_animator != null)
-            _animator.SetBool(IsWalking, IsMoving && IsGrounded);
-        
-        float speed = _isCrouching ? EffCrouchSpeed : _isSprinting ? EffSprintSpeed : EffWalkSpeed;
-        
-        if (IsGrounded)
-        {
-            if (!IsMoving) CurrentState = PlayerState.Idle;
-            else if (_isSprinting) CurrentState = PlayerState.Sprinting;
-            else if (_isCrouching) CurrentState = PlayerState.Crouching;
-            else CurrentState = PlayerState.Walking;
-        }
-        else CurrentState = PlayerState.Airborne;
-        
-        if (_isJumpPressed && _jumpsRemaining > 0)
-        {
-            _velocity.y = Mathf.Sqrt(EffJumpForce * -2f * EffGravity);
-            _jumpsRemaining--;
-            _latchTimer = latchCooldown;
-            OnPlayerJump?.Invoke();
-        }
-        // Consume jump once per frame — no duplicate clear at end of method
-        _isJumpPressed = false;
-        
-        if (IsGrounded)
-        {
-            if (_velocity.y < 0) _velocity.y = -2f;
-        }
-        else
-        {
-            _velocity.y += EffGravity * Time.deltaTime;
-            if (_velocity.y < EffMaxFallSpeed) _velocity.y = EffMaxFallSpeed;
-        }
+    bool wasGrounded = IsGrounded;
+    IsGrounded = CheckGrounded();
 
-        _cc.Move((moveDir * speed + _velocity) * Time.deltaTime);
+    if (!wasGrounded && IsGrounded)
+    {
+        _velocity.x = 0f;
+        _velocity.z = 0f;
+        _airborneTime = 0f;
+        OnPlayerLand?.Invoke();
+    }
+
+    if (IsGrounded)
+        _jumpsRemaining = EffMaxJumps;
+
+    if (!IsGrounded) _airborneTime += Time.deltaTime;
+    else _airborneTime = 0f;
+
+    if (!IsGrounded && _latchTimer <= 0 && _airborneTime > 0.15f && CanLatch())
+    {
+        CurrentState = PlayerState.Latched;
+        _velocity = Vector3.zero;
+        OnPlayerLatch?.Invoke();
+        UpdateAnimator(Vector3.zero);
+        return;
+    }
+
+    // for movement direction
+    Vector3 moveDir = (camHolder != null)
+        ? camHolder.forward * _moveInput.y + camHolder.right * _moveInput.x
+        : transform.forward * _moveInput.y + transform.right * _moveInput.x;
+
+    moveDir.y = 0f;
+    if (moveDir.sqrMagnitude > 0.01f) moveDir.Normalize();
+    IsMoving = moveDir.sqrMagnitude > 0.01f;
+
+    // to decide state from inputs
+    if (IsGrounded)
+    {
+        if (!IsMoving && !_isCrouching)      CurrentState = PlayerState.Idle;
+        else if (_isCrouching)               CurrentState = PlayerState.Crouching;
+        else if (_isSprinting)               CurrentState = PlayerState.Sprinting;
+        else                                 CurrentState = PlayerState.Walking;
+    }
+    else if (CurrentState != PlayerState.Latched)
+    {
+        CurrentState = PlayerState.Airborne;
+    }
+
+    float speed = CurrentState switch
+    {
+        PlayerState.Sprinting => EffSprintSpeed,
+        PlayerState.Crouching => EffCrouchSpeed,
+        PlayerState.Walking   => EffWalkSpeed,
+        _                     => EffWalkSpeed
+    };
+
+    // for jump
+    if (_isJumpPressed && _jumpsRemaining > 0)
+    {
+        _velocity.y = Mathf.Sqrt(EffJumpForce * -2f * EffGravity);
+        _jumpsRemaining--;
+        _latchTimer = latchCooldown;
+        OnPlayerJump?.Invoke();
+    }
+    _isJumpPressed = false;
+
+    // gravity
+    if (IsGrounded)
+    {
+        if (_velocity.y < 0) _velocity.y = -2f;
+    }
+    else
+    {
+        _velocity.y += EffGravity * Time.deltaTime;
+        if (_velocity.y < EffMaxFallSpeed) _velocity.y = EffMaxFallSpeed;
+    }
+
+    _cc.Move((moveDir * speed + _velocity) * Time.deltaTime);
+    UpdateAnimator(moveDir);
+
+}
+    
+    private void UpdateAnimator(Vector3 moveDirWorld)
+    {
+        if (_animator == null) return;
+
+        Vector3 local = transform.InverseTransformDirection(moveDirWorld);
+        float moveX = local.x;
+        float moveY = local.z;
+        float speed01 = Mathf.Clamp01(new Vector2(moveX, moveY).magnitude);
+
+        _animator.SetFloat("MoveX", moveX, 0.1f, Time.deltaTime);
+        _animator.SetFloat("MoveY", moveY, 0.1f, Time.deltaTime);
+        _animator.SetFloat("Speed", speed01, 0.1f, Time.deltaTime);
+
+        _animator.SetBool("IsGrounded", IsGrounded);
+        _animator.SetBool("IsCrouching", CurrentState == PlayerState.Crouching);
+        _animator.SetBool("IsLatched", CurrentState == PlayerState.Latched);
+        _animator.SetBool("IsAirborne", CurrentState == PlayerState.Airborne);
+        _animator.SetBool("IsWalking", CurrentState == PlayerState.Walking);
+        _animator.SetBool("IsSprinting", CurrentState == PlayerState.Sprinting);
+        _animator.SetBool("IsAiming", InputManager.Instance != null && InputManager.Instance.IsAiming);
     }
 
     private void HandleLatchedMovement()
@@ -295,13 +326,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 
     private bool CheckGrounded()
     {
-        // float checkDistance = (_cc.height / 2f) + 0.1f;
-        // bool grounded = Physics.Raycast(transform.position, Vector3.down, checkDistance, ~latchMask);
-        // Debug.DrawRay(transform.position, Vector3.down * checkDistance, grounded ? Color.blue : Color.yellow);
         return _cc.isGrounded;
     }
-
-    // ────────── Network Sync ──────────
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

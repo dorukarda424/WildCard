@@ -16,7 +16,7 @@ public class InputManager : MonoBehaviourPunCallbacks
     public bool IsShooting { get; private set; }
     public bool IsReloadPressed { get; private set; }
     public bool IsAiming { get; private set; }
-
+    
     // Ability inputs (polled directly from keyboard)
     public bool IsAbility1Pressed { get; private set; }  // Z — Black Hole
     public bool IsAbility2Pressed { get; private set; }  // Q — Teleport
@@ -42,9 +42,9 @@ public class InputManager : MonoBehaviourPunCallbacks
 
         InputActions.Player.Move.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
         InputActions.Player.Move.canceled += ctx => MoveInput = Vector2.zero;
-
-        InputActions.Player.Look.performed += ctx => LookInput = ctx.ReadValue<Vector2>();
-        InputActions.Player.Look.canceled += ctx => LookInput = Vector2.zero;
+        
+        InputActions.Player.Look.performed  += OnLook;
+        InputActions.Player.Look.canceled   += OnLookCanceled;
 
         InputActions.Player.Sprint.performed += ctx => IsRunning = true;
         InputActions.Player.Sprint.canceled += ctx => IsRunning = false;
@@ -62,10 +62,21 @@ public class InputManager : MonoBehaviourPunCallbacks
         
         InputActions.Player.ADS.performed += ctx => IsAiming = true;
         InputActions.Player.ADS.canceled  += ctx => IsAiming = false;
+        
     }
 
     public override void OnEnable() => InputActions?.Enable();
     public override void OnDisable() => InputActions?.Disable();
+    
+    private void OnLook(InputAction.CallbackContext ctx)
+    {
+        LookInput = ctx.ReadValue<Vector2>();
+    }
+
+    public void OnLookCanceled(InputAction.CallbackContext ctx)
+    {
+        LookInput = Vector2.zero;
+    }
 
     private void Update()
     {
@@ -76,6 +87,7 @@ public class InputManager : MonoBehaviourPunCallbacks
             if (kb.zKey.wasPressedThisFrame) IsAbility1Pressed = true;
             if (kb.qKey.wasPressedThisFrame) IsAbility2Pressed = true;
         }
+        //LookInput = Vector2.zero;
     }
 
     public void ConsumeJump() => IsJumpPressed = false;

@@ -21,6 +21,8 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
     private AudioSource _audioSource;
 
     [Header("Debug")] public bool testing;
+    
+    private PlayerMovement _movement;
 
     public event Action<float> OnDamageDealt;
     public event Action OnKill;
@@ -49,9 +51,8 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
     {
         _stats = GetComponent<PlayerStats>();
         _playerCamera = GetComponent<PlayerCamera>();
-
+        _movement = GetComponent<PlayerMovement>();
         _audioSource = GetComponent<AudioSource>();
-        if (_audioSource == null) _audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     private void Start()

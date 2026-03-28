@@ -7,8 +7,8 @@ public class DynamicCrosshair : MonoBehaviour
     [SerializeField] private Image dot;
     [SerializeField] private Image circle;
 
-    private PlayerMovement playerMovement;
-    private PlayerCombat playerCombat;
+    private PlayerMovement _playerMovement;
+    private PlayerCombat _playerCombat;
 
     [Header("Size")]
     [SerializeField] private float baseRadius = 20f;
@@ -31,36 +31,36 @@ public class DynamicCrosshair : MonoBehaviour
     // Call this from your local Player setup script when they spawn
     public void SetPlayer(PlayerMovement movement, PlayerCombat combat)
     {
-        playerMovement = movement;
+        _playerMovement = movement;
         
-        if (playerCombat != null)
+        if (_playerCombat != null)
         {
-            playerCombat.OnDamageDealt -= HandleShot;
+            _playerCombat.OnDamageDealt -= HandleShot;
         }
 
-        playerCombat = combat;
+        _playerCombat = combat;
 
-        if (playerCombat != null)
+        if (_playerCombat != null)
         {
-            playerCombat.OnDamageDealt += HandleShot;
+            _playerCombat.OnDamageDealt += HandleShot;
         }
     }
 
     private void OnDestroy()
     {
-        if (playerCombat != null)
-            playerCombat.OnDamageDealt -= HandleShot;
+        if (_playerCombat != null)
+            _playerCombat.OnDamageDealt -= HandleShot;
     }
 
     private void HandleShot(float damage) => OnShot();
 
     private void Update()
     {
-        if (playerMovement == null) return;
+        if (_playerMovement == null) return;
 
         bool isAiming   = InputManager.Instance != null && InputManager.Instance.IsAiming;
-        bool isMoving   = playerMovement.IsMoving && playerMovement.IsGrounded;
-        bool isAirborne = !playerMovement.IsGrounded;
+        bool isMoving   = _playerMovement.IsMoving && _playerMovement.IsGrounded;
+        bool isAirborne = !_playerMovement.IsGrounded;
 
         float targetRadius;
 

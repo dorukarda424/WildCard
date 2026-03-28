@@ -2,10 +2,7 @@ using UnityEngine;
 using Photon.Pun;
 using System;
 
-/// <summary>
-/// Networked health system for multiplayer FFA.
-/// Handles taking damage, death, and respawning.
-/// </summary>
+
 [RequireComponent(typeof(PlayerStats))]
 public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageable
 {
@@ -34,7 +31,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         InitializeHealth();
     }
 
-    public void InitializeHealth()
+    private void InitializeHealth()
     {
         _currentHealth = MaxHealth;
         _isDead = false;
@@ -105,22 +102,17 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         _deathProcessed = false;
         _currentHealth = MaxHealth;
         _shieldCharges = _stats.HasEffect(SpecialEffect.Shield) ? 1 : 0;
-
-        // Karakterin fiziksel kontrolcüsünü tamamen Kapat (Eski lokasyonu unutması için)
+        
         var cc = GetComponent<CharacterController>();
         if (cc != null)
         {
             cc.enabled = false;
         }
-
-        // Pozisyonu güvenle ayarla
+        
         transform.position = position;
-
-        // Görselleri ve Combat/Movement Scriptlerini aç
+        
         SetPlayerActive(true);
-
-        // Bir frame sonra tekrar Character Controller'ı açmak Rubberbanding'i kesin olarak engeller
-        // Ancak Coroutine kullanıyorsan öyle, kullanmıyorsan hemen altında açalım:
+        
         if (cc != null && (!PhotonNetwork.InRoom || photonView.IsMine))
         {
             cc.enabled = true;
@@ -135,11 +127,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
 
         Debug.Log($"[PlayerHealth] {gameObject.name} respawned absolutely at {position}");
     }
-
-    /// <summary>
-    /// Re-enable visuals and reset health state without changing position.
-    /// Used for remote players during respawn (position comes from network sync).
-    /// </summary>
+    
     public void ResetState()
     {
         _isDead = false;
