@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
@@ -46,13 +47,15 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     private Vector3 _networkPosition;
     private float _networkRotationY;
     private bool _isRemotePlayer;
+    private HashSet<string> _validAnimParams;
+    private bool _animParamsCached;
 
-    private static readonly int IsWalking = Animator.StringToHash("IsWalking");
-    private static readonly int IsSprinting = Animator.StringToHash("IsSprinting");
-    private static readonly int IsCrouching = Animator.StringToHash("IsCrouching");
-    private static readonly int IsAirborne = Animator.StringToHash("IsAirborne");
-    private static readonly int IsLatched = Animator.StringToHash("IsLatched");
-    private static readonly int IsAiming = Animator.StringToHash("IsAiming");
+    private static readonly int Hash_isGrounded = Animator.StringToHash("isGrounded");
+    private static readonly int Hash_isSprinting = Animator.StringToHash("isSprinting");
+    private static readonly int Hash_isCrouching = Animator.StringToHash("isCrouching");
+    private static readonly int Hash_isAirborne = Animator.StringToHash("isAirborne");
+    private static readonly int Hash_isLatched = Animator.StringToHash("isLatched");
+    private static readonly int Hash_isAiming = Animator.StringToHash("isAiming");
     
     private float EffWalkSpeed   => _stats.MoveSpeed;
     private float EffSprintSpeed => _stats.SprintSpeed;
@@ -64,16 +67,44 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     
     private void Awake()
     {
-        animator = GetComponent<Animator>();
         _cc = GetComponent<CharacterController>();
-        _animator = GetComponentInChildren<Animator>();
         _stats = GetComponent<PlayerStats>();
         _jumpsRemaining = EffMaxJumps;
+
+        // Find the Animator that actually drives the mesh (on child model),
+        // NOT the root Animator. GetComponentInChildren checks self first,
+        // so we manually prefer the child.
+        Animator rootAnimator = GetComponent<Animator>();
+        Animator childAnimator = null;
+
+        var allAnimators = GetComponentsInChildren<Animator>();
+        foreach (var anim in allAnimators)
+        {
+            if (anim.gameObject != gameObject) // It's on a child, not root
+            {
+                childAnimator = anim;
+                break;
+            }
+        }
+
+        // Prefer child Animator (where the mesh/bones are)
+        // Fall back to root Animator if no child found
+        _animator = childAnimator != null ? childAnimator : rootAnimator;
+        animator = _animator; // Keep serialized field in sync
+
+        if (_animator != null)
+            Debug.Log($"[PlayerMovement] Using Animator on '{_animator.gameObject.name}' (child={childAnimator != null})");
+        else
+            Debug.LogWarning("[PlayerMovement] No Animator found on player!");
     }
 
     private void Start()
     {
-        _isRemotePlayer = !testing && photonView != null && !photonView.IsMine;
+        // If we're not in a Photon room (direct scene entry / offline), this is always the local player
+        _isRemotePlayer = !testing
+                       && PhotonNetwork.InRoom
+                       && photonView != null
+                       && !photonView.IsMine;
 
         if (_isRemotePlayer)
         {
@@ -114,7 +145,9 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
             return;
         }
 
-        if (!testing && (photonView == null || !photonView.IsMine))
+        // Use the cached _isRemotePlayer from Start() — don't recalculate!
+        // PhotonNetwork.InRoom can change mid-game when Launcher connects.
+        if (_isRemotePlayer)
         {
             return;
         }
@@ -242,23 +275,54 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     private void UpdateAnimator(Vector3 moveDirWorld)
     {
         if (_animator == null) return;
+        EnsureAnimParamsCached();
 
         Vector3 local = transform.InverseTransformDirection(moveDirWorld);
         float moveX = local.x;
         float moveY = local.z;
         float speed01 = Mathf.Clamp01(new Vector2(moveX, moveY).magnitude);
 
-        _animator.SetFloat("MoveX", moveX, 0.1f, Time.deltaTime);
-        _animator.SetFloat("MoveY", moveY, 0.1f, Time.deltaTime);
-        _animator.SetFloat("Speed", speed01, 0.1f, Time.deltaTime);
+        SafeSetFloat("MoveX", moveX, 0.1f);
+        SafeSetFloat("MoveY", moveY, 0.1f);
+        SafeSetFloat("Speed", speed01, 0.1f);
 
-        _animator.SetBool("IsGrounded", IsGrounded);
-        _animator.SetBool("IsCrouching", CurrentState == PlayerState.Crouching);
-        _animator.SetBool("IsLatched", CurrentState == PlayerState.Latched);
-        _animator.SetBool("IsAirborne", CurrentState == PlayerState.Airborne);
-        _animator.SetBool("IsWalking", CurrentState == PlayerState.Walking);
-        _animator.SetBool("IsSprinting", CurrentState == PlayerState.Sprinting);
-        _animator.SetBool("IsAiming", InputManager.Instance != null && InputManager.Instance.IsAiming);
+        SafeSetBool("isGrounded", IsGrounded);
+        SafeSetBool("isCrouching", CurrentState == PlayerState.Crouching);
+        SafeSetBool("isLatched", CurrentState == PlayerState.Latched);
+        SafeSetBool("isAirborne", CurrentState == PlayerState.Airborne);
+        SafeSetBool("isSprinting", CurrentState == PlayerState.Sprinting);
+        SafeSetBool("isAiming", InputManager.Instance != null && InputManager.Instance.IsAiming);
+    }
+
+    private void EnsureAnimParamsCached()
+    {
+        if (_animParamsCached) return;
+
+        _validAnimParams = new HashSet<string>();
+        if (_animator != null && _animator.runtimeAnimatorController != null)
+        {
+            foreach (var param in _animator.parameters)
+                _validAnimParams.Add(param.name);
+
+            // Only mark as cached if we actually found parameters
+            if (_validAnimParams.Count > 0)
+            {
+                _animParamsCached = true;
+                Debug.Log($"[PlayerMovement] Cached {_validAnimParams.Count} animator params: {string.Join(", ", _validAnimParams)}");
+            }
+        }
+    }
+
+    private void SafeSetBool(string paramName, bool value)
+    {
+        if (_validAnimParams != null && _validAnimParams.Contains(paramName))
+            _animator.SetBool(paramName, value);
+    }
+
+    private void SafeSetFloat(string paramName, float value, float dampTime)
+    {
+        if (_validAnimParams != null && _validAnimParams.Contains(paramName))
+            _animator.SetFloat(paramName, value, dampTime, Time.deltaTime);
     }
 
     private void HandleLatchedMovement()

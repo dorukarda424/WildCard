@@ -38,6 +38,7 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
     private PlayerStats _stats;
     private PlayerCamera _playerCamera;
     private AudioSource _as;
+    private bool _isLocalPlayer;
 
     public int CurrentAmmo => _currentAmmo;
     public int MaxAmmo => _stats != null ? _stats.MaxAmmo : 8;
@@ -58,11 +59,16 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
     private void Start()
     {
         _currentAmmo = MaxAmmo;
+
+        // Cache once — Photon connection state may change mid-game
+        _isLocalPlayer = testing
+                      || !PhotonNetwork.InRoom
+                      || (photonView != null && photonView.IsMine);
     }
 
     private void Update()
     {
-        if (!testing && (photonView == null || !photonView.IsMine)) return;
+        if (!_isLocalPlayer) return;
 
         _fireCooldown -= Time.deltaTime;
 

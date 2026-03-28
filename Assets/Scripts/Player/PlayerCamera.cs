@@ -34,6 +34,7 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
     private PlayerMovement _movement;
     private Animator _anim;
+    private bool _isLocalPlayer;
 
     private float _xRotation;
     private float _yRotation; 
@@ -52,7 +53,15 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     private void Awake()
     {
         _movement = GetComponent<PlayerMovement>();
-        _anim = GetComponent<Animator>();
+
+        // Find the child Animator (on the actual model), not the root one
+        _anim = null;
+        var allAnims = GetComponentsInChildren<Animator>();
+        foreach (var a in allAnims)
+        {
+            if (a.gameObject != gameObject) { _anim = a; break; }
+        }
+        if (_anim == null) _anim = GetComponent<Animator>(); // fallback to root
 
         if (cam != null)
         {
@@ -65,8 +74,14 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        // Only enable camera for local player (or testing)
-        if (!testing && (photonView == null || !photonView.IsMine))
+        // Cache the local player decision ONCE at Start.
+        // This avoids issues when Launcher connects to Photon mid-game
+        // and PhotonNetwork.InRoom changes from false to true.
+        _isLocalPlayer = testing
+                      || (photonView != null && photonView.IsMine)
+                      || !Photon.Pun.PhotonNetwork.InRoom;
+
+        if (!_isLocalPlayer)
         {
             if (cam != null)
             {
@@ -78,6 +93,9 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
             return;
         }
 
+        // Disable any other cameras in the scene so only the player camera renders
+        DisableOtherCameras();
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -87,7 +105,7 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
     private void LateUpdate()
     {
-        if (!testing && (photonView == null || !photonView.IsMine)) return;
+        if (!_isLocalPlayer) return;
         if (cameraHolder == null || cam == null) return;
 
         PlayerFollow();
@@ -246,5 +264,26 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     {
         if (weaponHolder == null) return;
         weaponHolder.rotation = cameraHolder.rotation;
+    }
+
+    /// <summary>
+    /// Disables all other cameras in the scene so the player sees through their own camera.
+    /// This handles the case where a scene camera (e.g. Main Camera) is left active.
+    /// </summary>
+    private void DisableOtherCameras()
+    {
+        if (cam == null) return;
+
+        Camera[] allCameras = FindObjectsByType<Camera>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        foreach (Camera otherCam in allCameras)
+        {
+            if (otherCam == cam) continue; // Skip our own camera
+
+            Debug.Log($"[PlayerCamera] Disabling competing camera: {otherCam.gameObject.name}");
+            otherCam.enabled = false;
+
+            var listener = otherCam.GetComponent<AudioListener>();
+            if (listener != null) listener.enabled = false;
+        }
     }
 }

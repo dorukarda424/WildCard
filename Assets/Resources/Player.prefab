@@ -206,15 +206,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 64.00226
+      value: -3.687
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 55
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 19.9244
+      value: 75.1067
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_LocalRotation.w
@@ -974,7 +974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5465940246521907071, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.07256842
+      value: -0.267
       objectReference: {fileID: 0}
     - target: {fileID: 5465940246521907071, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1218,6 +1218,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7529144966625362185}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6622710867856177663}
   m_SourcePrefab: {fileID: 100100000, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
 --- !u!4 &2008197397809660694 stripped
 Transform:
@@ -1426,6 +1429,7 @@ MonoBehaviour:
   - {fileID: 8124622242182413953}
   - {fileID: 7390030092048330777}
   - {fileID: 3877291556430082150}
+  - {fileID: 6622710867856177663}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1485,6 +1489,54 @@ MonoBehaviour:
   maxPitch: 85
   aimLerpSpeed: 12
   testing: 1
+--- !u!114 &6622710867856177663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580963254329074261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonAnimatorView
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsGrounded
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsLatched
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsAirborne
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsSprinting
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsCrouching
+  - Type: 1
+    SynchronizeType: 2
+    Name: MoveX
+  - Type: 1
+    SynchronizeType: 2
+    Name: MoveY
+  - Type: 1
+    SynchronizeType: 2
+    Name: Speed
+  - Type: 1
+    SynchronizeType: 2
+    Name: AimPitch
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsAiming
+  m_SynchronizeLayers:
+  - SynchronizeType: 1
+    LayerIndex: 0
 --- !u!4 &5844923850573430528 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8021001004253913084, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}

@@ -131,8 +131,9 @@ public class RoundManager : MonoBehaviourPunCallbacks
     // ────────── WAITING ──────────
     private void UpdateWaiting()
     {
-        // Odaya en az 2 kişi katıldıysa VEYA Lobi olmadan (Çevrimdışı) testi açtıysan hemen başla
-        if (_registeredPlayerActors.Count >= 2 || !PhotonNetwork.InRoom)
+        // En az 1 oyuncu kayıtlıysa geri sayımı başlat
+        // (Çevrimdışı test veya lobi üzerinden tek kişi girildiğinde de çalışır)
+        if (_registeredPlayerActors.Count >= 1)
         {
             StartCountdown();
         }
@@ -439,14 +440,21 @@ public class RoundManager : MonoBehaviourPunCallbacks
     {
         var findMode = includeInactive ? FindObjectsInactive.Include : FindObjectsInactive.Exclude;
         var all = FindObjectsByType<T>(findMode, FindObjectsSortMode.None);
+        T fallback = null;
+
         foreach (var comp in all)
         {
             if (!PhotonNetwork.InRoom) return comp; // Çevrimdışı ise ilk bulduğunu al
 
             var pv = comp.GetComponent<PhotonView>();
             if (pv != null && pv.IsMine) return comp;
+
+            // Fallback: offline spawn edilmiş oyuncuyu kaybetmeyelim
+            if (fallback == null) fallback = comp;
         }
-        return null;
+
+        // IsMine olan bulunamadıysa (offline→online geçişi), ilk bulunanı döndür
+        return fallback;
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)

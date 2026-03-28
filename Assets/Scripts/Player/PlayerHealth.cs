@@ -86,12 +86,16 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         _isDead = true;
         _deathProcessed = true;
 
-        OnDied?.Invoke(photonView.Owner.ActorNumber, killerActorNumber);
+        int myActorNumber = (photonView != null && photonView.Owner != null)
+            ? photonView.Owner.ActorNumber
+            : -1;
+
+        OnDied?.Invoke(myActorNumber, killerActorNumber);
         
         Debug.Log($"[PlayerHealth] {gameObject.name} killed by actor {killerActorNumber}");
         
         if (RoundManager.Instance != null)
-            RoundManager.Instance.OnPlayerDied(photonView.Owner.ActorNumber, killerActorNumber);
+            RoundManager.Instance.OnPlayerDied(myActorNumber, killerActorNumber);
 
         SetPlayerActive(false);
     }
@@ -148,7 +152,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         foreach (var c in colliders)
         {
             // Never re-enable CharacterController on remote players — it blocks position sync
-            if (c is CharacterController && photonView != null && !photonView.IsMine)
+            if (c is CharacterController && PhotonNetwork.InRoom && photonView != null && !photonView.IsMine)
                 continue;
             c.enabled = active;
         }

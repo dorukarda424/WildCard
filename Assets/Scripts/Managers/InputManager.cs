@@ -24,7 +24,7 @@ public class InputManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         PhotonView pv = GetComponent<PhotonView>();
-        if (pv != null && !pv.IsMine)
+        if (PhotonNetwork.InRoom && pv != null && !pv.IsMine)
         {
             Destroy(this);
             return;
