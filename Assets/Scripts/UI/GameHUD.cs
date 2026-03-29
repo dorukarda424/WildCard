@@ -124,21 +124,37 @@ public class GameHUD : MonoBehaviour
     private void FindLocalPlayer()
     {
         var players = FindObjectsByType<PlayerHealth>(FindObjectsSortMode.None);
+        PlayerHealth found = null;
+
         foreach (var player in players)
         {
-            if (player.photonView.IsMine)
+            // Offline / direct scene entry — no Photon room, just grab the first one
+            if (!PhotonNetwork.InRoom)
             {
-                // Unsubscribe from old player (prevents event handler leak)
-                if (_localHealth != null)
-                    _localHealth.OnHealthChanged -= OnHealthChanged;
-
-                _localHealth = player;
-                _localCombat = player.GetComponent<PlayerCombat>();
-                _localStats = player.GetComponent<PlayerStats>();
-
-                _localHealth.OnHealthChanged += OnHealthChanged;
+                found = player;
                 break;
             }
+
+            // Online mode — only bind to OUR player, never a remote one
+            var pv = player.GetComponent<PhotonView>();
+            if (pv != null && pv.IsMine)
+            {
+                found = player;
+                break;
+            }
+        }
+
+        if (found != null && found != _localHealth)
+        {
+            // Unsubscribe from old player (prevents event handler leak)
+            if (_localHealth != null)
+                _localHealth.OnHealthChanged -= OnHealthChanged;
+
+            _localHealth = found;
+            _localCombat = found.GetComponent<PlayerCombat>();
+            _localStats = found.GetComponent<PlayerStats>();
+
+            _localHealth.OnHealthChanged += OnHealthChanged;
         }
     }
 

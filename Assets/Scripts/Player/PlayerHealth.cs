@@ -72,6 +72,15 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         photonView.RPC(nameof(RPC_TakeDamage), RpcTarget.All, amount, attackerActorNumber);
     }
 
+    /// <summary>
+    /// Apply damage locally without sending an RPC.
+    /// Use for environment/zone damage that only runs on the local client.
+    /// </summary>
+    public void TakeDamageLocal(float amount, int attackerActorNumber = -1)
+    {
+        RPC_TakeDamage(amount, attackerActorNumber);
+    }
+
     public void Heal(float amount)
     {
         if (_isDead) return;
