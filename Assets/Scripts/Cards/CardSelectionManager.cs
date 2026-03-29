@@ -140,11 +140,8 @@ public class CardSelectionManager : MonoBehaviourPunCallbacks
                 }
                 else
                 {
-                    // ÇEVRİMDIŞI TEST İÇİN DİREKT UYGULA:
-                    // Eğer senin sisteminde ApplyCardNetworked offline mode da hata veriyorsa
-                    // şimdilik test aşamasında apply logicini atlayabilir ya da var olan sadece ApplyCard vb fix kullanılabilir
-                    localPlayer.ApplyCardNetworked(card);
-                    Debug.Log($"[CardSelectionManager] ÇEVRİMDIŞI TEST: {card.cardName} kartı seçildi.");
+                    // Offline: apply locally only — no RPC
+                    localPlayer.ApplyCard(card);
                 }
             }
         }

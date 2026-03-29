@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Speed Demon
   description: 
-  icon: {fileID: 21300000, guid: ecfdeebd6acb04e4e9d48bee22c00311, type: 3}
+  icon: {fileID: 21300000, guid: 62e4f919d36ebf64bae6c229d96343b5, type: 3}
   rarity: 1
   modifiers:
   - statType: 1

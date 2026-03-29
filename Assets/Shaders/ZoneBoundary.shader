@@ -9,7 +9,7 @@ Shader "WildCard/ZoneBoundary"
         _Color ("Wall Color", Color) = (0.2, 0.9, 0.3, 0.35)
         _EdgeColor ("Edge Glow", Color) = (0.3, 1.0, 0.4, 0.8)
         _ScrollSpeed ("Scroll Speed", Float) = 0.5
-        _GridScale ("Grid Scale", Float) = 8.0
+        _GridScale ("Grid Scale", Float) = 10.0
         _FresnelPower ("Fresnel Power", Float) = 2.0
         _PulseSpeed ("Pulse Speed", Float) = 1.0
         _LineThickness ("Line Thickness", Range(0.01, 0.15)) = 0.04
@@ -100,9 +100,26 @@ Shader "WildCard/ZoneBoundary"
                 fresnel = pow(fresnel, _FresnelPower);
 
                 // ── Hex grid pattern ──
+                // Use worldPos for angle (more stable than worldNormal with non-uniform scale)
+                float angle = atan2(i.worldPos.x - _WorldSpaceCameraPos.x * 0.0,
+                                    i.worldPos.z - _WorldSpaceCameraPos.z * 0.0);
+                // Correction: use object-center-relative angle
+                float3 objCenter = mul(unity_ObjectToWorld, float4(0,0,0,1)).xyz;
+                angle = atan2(i.worldPos.x - objCenter.x, i.worldPos.z - objCenter.z);
+
+                // Aspect ratio: circumference / height to prevent stretching
+                float3 scale = float3(
+                    length(unity_ObjectToWorld._m00_m10_m20),
+                    length(unity_ObjectToWorld._m01_m11_m21),
+                    length(unity_ObjectToWorld._m02_m12_m22)
+                );
+                float circumference = 3.14159 * scale.x; // π * diameter
+                float height = scale.y * 2.0;             // cylinder is 2 units tall
+                float aspect = circumference / max(height, 0.01);
+
                 float2 gridUV = float2(
-                    atan2(i.worldNormal.x, i.worldNormal.z) / 6.283 + 0.5,  // angle around cylinder
-                    i.heightFrac
+                    angle / 6.283 + 0.5,                   // horizontal: angle (0-1)
+                    i.heightFrac * aspect                   // vertical: scaled by aspect ratio
                 );
                 gridUV.y += _Time.y * _ScrollSpeed; // Scroll upward
                 float hex = hexGrid(gridUV, _GridScale);
