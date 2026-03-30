@@ -23,6 +23,11 @@ namespace WildCard.Environment.DeathArena
         // An invisible rotator we create mathematically so it never breaks
         private GameObject forcedRotator;
 
+        public void SetFloorHeight(float newY)
+        {
+            lockedHeightY = newY;
+        }
+
         private void Start()
         {
             lockedHeightY = transform.position.y;
@@ -83,8 +88,17 @@ namespace WildCard.Environment.DeathArena
                  currentDirection = Vector3.RotateTowards(currentDirection, (Vector3.zero - pos).normalized, 10f * Time.deltaTime, 0f);
             }
             
-            // Constrain tightly to the floor height (so it crosses completely over voids instead of falling in!)
-            pos.y = lockedHeightY;
+            // Allow the ball to cleanly drop to the new floor height
+            if (pos.y > lockedHeightY)
+            {
+                pos.y -= 45f * Time.deltaTime; // Drop quickly like a heavy boulder
+                if (pos.y < lockedHeightY) pos.y = lockedHeightY;
+            }
+            else
+            {
+                pos.y = lockedHeightY;
+            }
+            
             pos.x = Mathf.Clamp(pos.x, -arenaLimit + actualBallRadius, arenaLimit - actualBallRadius);
             pos.z = Mathf.Clamp(pos.z, -arenaLimit + actualBallRadius, arenaLimit - actualBallRadius);
             transform.position = pos;

@@ -82,8 +82,8 @@ namespace WildCard.Editor
             if (manager != null)
             {
                 // Register all newly created VoidTiles into the manager script
-                manager.allFloorTiles = new List<VoidTile>(parentGrid.GetComponentsInChildren<VoidTile>());
-                Debug.Log($"Generated Floor Grid and successfully bound {manager.allFloorTiles.Count} tiles to the DeathArenaManager!");
+                manager.FindAllFloors();
+                Debug.Log($"Generated Floor Grid and successfully bound all floors to the DeathArenaManager!");
             }
             else
             {
