@@ -23,7 +23,7 @@ public class AimIK : MonoBehaviourPunCallbacks
     }
 
     private void LateUpdate()
-    {
+    {  
         if (playerCamera == null) return;
         if (!testing && photonView != null && !photonView.IsMine) return;
 

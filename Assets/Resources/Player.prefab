@@ -1193,6 +1193,12 @@ PrefabInstance:
       addedObject: {fileID: 407337873731657357}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 3498457466183223786}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7529144966625362185}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 58215774726576354}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       insertIndex: -1
@@ -1217,9 +1223,6 @@ PrefabInstance:
       addedObject: {fileID: 1352801834714010849}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7529144966625362185}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 6622710867856177663}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       insertIndex: -1
@@ -1228,6 +1231,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: -8358169440543985306}
   m_SourcePrefab: {fileID: 100100000, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
+--- !u!4 &1176797233165609580 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3321919801592875672, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
+  m_PrefabInstance: {fileID: 4734120294586244868}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2008197397809660694 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6515712193588681746, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
@@ -1281,7 +1289,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5580963254329074261}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
   m_Controller: {fileID: 9100000, guid: e6eb009acf51c5a4da82bae4aa8434b9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -1294,6 +1302,39 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3498457466183223786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580963254329074261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6474adef7d47bf8d134bc7bb577a20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NeckBoneOverride
+  neckBone: {fileID: 2008197397809660694}
+  headBone: {fileID: 1176797233165609580}
+--- !u!114 &7529144966625362185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580963254329074261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8340c2989072d1429c29ea1ad83ff17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AimIK
+  playerCamera: {fileID: 2663378614851893250}
+  spine1: {fileID: 5844923850573430528}
+  spine2: {fileID: 4946662352074018667}
+  neck: {fileID: 2008197397809660694}
+  maxPitch: 85
+  aimLerpSpeed: 12
+  testing: 1
 --- !u!143 &58215774726576354
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1476,25 +1517,6 @@ MonoBehaviour:
   teleportOffset: {x: 0, y: 1, z: 0}
   maxTeleportDistance: -1
   teleportVfxPrefab: {fileID: 2705533495200665743, guid: e84c40719cee66744925cce01bef28fc, type: 3}
---- !u!114 &7529144966625362185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5580963254329074261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8340c2989072d1429c29ea1ad83ff17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AimIK
-  playerCamera: {fileID: 2663378614851893250}
-  spine1: {fileID: 5844923850573430528}
-  spine2: {fileID: 4946662352074018667}
-  neck: {fileID: 2008197397809660694}
-  maxPitch: 85
-  aimLerpSpeed: 12
-  testing: 1
 --- !u!114 &6622710867856177663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1571,10 +1593,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ZoneGasOverlay
   fadeSpeed: 3
   maxAlpha: 0.45
-  gasColor: {r: 0.15, g: 0.6, b: 0.05, a: 1}
+  gasColorCenter: {r: 0.1, g: 0.5, b: 0.05, a: 0.2}
+  gasColorEdge: {r: 0.05, g: 0.35, b: 0.02, a: 0.6}
   pulseSpeed: 2
   pulseIntensity: 0.15
-  vignetteStrength: 0.6
+  damageFlashColor: {r: 0.8, g: 0.2, b: 0, a: 0.3}
+  damageFlashDuration: 0.15
 --- !u!4 &5844923850573430528 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8021001004253913084, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
