@@ -5,12 +5,14 @@ public class Launcher : MonoBehaviourPunCallbacks
 {
     [SerializeField] Transform[] spawnPoints;
     public string playerPrefabName = "Player";
+    [SerializeField] private Camera menuCamera;
 
     void Start()
     {
         if (PhotonNetwork.InRoom)
         {
-            SpawnPlayer();
+            // Do not spawn here; let Level manager handle it when scene loads
+            Debug.Log("Already in a room. Waiting for scene load...");
         }
         else
         {
@@ -40,20 +42,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("Joined room.");
-        SpawnPlayer();
-    }
-
-    void SpawnPlayer()
-    {
-        Vector3 spawnPos = Vector3.zero;
-
-        if (spawnPoints != null && spawnPoints.Length > 0)
-        {
-            int randomIndex = Random.Range(0, spawnPoints.Length);
-            spawnPos = spawnPoints[randomIndex].position;
-        }
-
-        PhotonNetwork.Instantiate(playerPrefabName, spawnPos, Quaternion.identity);
-        Debug.Log("Player instantiated at: " + spawnPos);
+        // Player spawn is now handled by the level's manager, not the lobby launcher
     }
 }
