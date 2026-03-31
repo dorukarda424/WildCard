@@ -55,8 +55,6 @@ public class DynamicCrosshair : MonoBehaviour
     private void HandleShot(float damage) => OnShot();
 
     [Header("Reloading")]
-    [SerializeField] private GameObject reloadingContainer;
-    [SerializeField] private RectTransform reloadingSpinner;
     [SerializeField] private float rotationSpeed = 200f;
 
     private void Update()
@@ -96,33 +94,25 @@ public class DynamicCrosshair : MonoBehaviour
 
     private void UpdateReloadingUI()
     {
-        if (_playerCombat == null) return;
+        if (_playerCombat == null || circle == null) return;
 
         bool isReloading = _playerCombat.IsReloading;
 
-        if (reloadingContainer != null)
+        if (isReloading)
         {
-            reloadingContainer.SetActive(isReloading);
+            // Calculate new rotation angle (z-axis)
+            float currentRotation = circle.rectTransform.localEulerAngles.z;
+            float newRotation = currentRotation - (rotationSpeed * Time.deltaTime);
+            
+            // Wrap or clamp the rotation between 0 and 360
+            newRotation = Mathf.Repeat(newRotation, 360f);
+            
+            circle.rectTransform.localEulerAngles = new Vector3(0, 0, newRotation);
         }
-
-        if (isReloading && reloadingSpinner != null)
+        else
         {
-            reloadingSpinner.Rotate(0, 0, -rotationSpeed * Time.deltaTime);
-        }
-
-        // Hide crosshair components when reloading
-        float alpha = isReloading ? 0f : 1f;
-        if (dot != null)
-        {
-            Color c = dot.color;
-            c.a = alpha;
-            dot.color = c;
-        }
-        if (circle != null)
-        {
-            Color c = circle.color;
-            c.a = alpha;
-            circle.color = c;
+            // Reset rotation to 0 when reload is done
+            circle.rectTransform.localRotation = Quaternion.identity;
         }
     }
 

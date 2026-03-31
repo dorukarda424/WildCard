@@ -47050,6 +47050,7 @@ MonoBehaviour:
   lerpSpeed: 10
   adsRadius: 20
   adsLerpSpeed: 12
+  rotationSpeed: 200
 --- !u!1 &1448739104
 GameObject:
   m_ObjectHideFlags: 0
