@@ -246,15 +246,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -63.08
+      value: -24.89762
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 26.07708
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.74479
+      value: 75.1067
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_LocalRotation.w
@@ -763,6 +763,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_TagString
@@ -1462,9 +1466,9 @@ MonoBehaviour:
   firePoint: {fileID: 5438007274942653411}
   bulletPrefabName: NetworkBullet
   bulletPrefab: {fileID: 1722833525947598832, guid: b987a85dfc10ea541aae8227d7f8731f, type: 3}
-  shootSound: {fileID: 0}
-  reloadSound: {fileID: 0}
-  emptyClipSound: {fileID: 0}
+  shootSound: {fileID: 8300000, guid: 1739a2e1630f49d48899bf4b421c5c15, type: 3}
+  reloadSound: {fileID: 8300000, guid: bef72f713ac1156409e266a2f27d74e8, type: 3}
+  emptyClipSound: {fileID: 8300000, guid: c9180e31de2d1e74383a49931035531f, type: 3}
   testing: 1
 --- !u!114 &2663378614851893250
 MonoBehaviour:
@@ -1516,7 +1520,7 @@ MonoBehaviour:
   - {fileID: 7390030092048330777}
   - {fileID: 3877291556430082150}
   - {fileID: 6622710867856177663}
-  sceneViewId: 0
+  sceneViewId: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &6729836740428877239
