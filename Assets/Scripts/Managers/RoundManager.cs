@@ -388,9 +388,13 @@ public class RoundManager : MonoBehaviourPunCallbacks
 
         if (spawnPoints != null && spawnPoints.Length > 0)
         {
-            // İlk girişte rastgele bir yer seçsin
-            int randomIndex = Random.Range(0, spawnPoints.Length);
-            spawnPos = spawnPoints[randomIndex].position;
+            int spawnIndex = (localActor - 1) % spawnPoints.Length;
+            spawnPos = spawnPoints[spawnIndex].position;
+        }
+        else
+        {
+            // Fallback to prevent spawning inside each other if spawn points aren't linked in Inspector
+            spawnPos = new Vector3((localActor - 1) * 3f, 1f, 0f);
         }
 
         if (PhotonNetwork.InRoom)
@@ -410,32 +414,20 @@ public class RoundManager : MonoBehaviourPunCallbacks
     {
         var players = FindObjectsByType<PlayerHealth>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
-        // Eger spawn noktaları varsa, çakışmayı önlemek için listeyi karıştırıp herkese bir tane atayalım
-        List<int> availableSpawnIndexes = new List<int>();
-        if (spawnPoints != null && spawnPoints.Length > 0)
-        {
-            for (int i = 0; i < spawnPoints.Length; i++) availableSpawnIndexes.Add(i);
-        }
-
         foreach (var player in players)
         {
             Vector3 spawnPos = Vector3.zero;
+            int actorNr = PhotonNetwork.InRoom && player.photonView != null ? player.photonView.OwnerActorNr : 1;
 
-            // Rastgele bir nokta seç 
             if (spawnPoints != null && spawnPoints.Length > 0)
             {
-                if (availableSpawnIndexes.Count > 0)
-                {
-                    int rand = Random.Range(0, availableSpawnIndexes.Count);
-                    int chosenIndex = availableSpawnIndexes[rand];
-                    spawnPos = spawnPoints[chosenIndex].position;
-                    availableSpawnIndexes.RemoveAt(rand); // Seçileni listeden çıkar ki başkası orada doğmasın
-                }
-                else
-                {
-                    // Eğer oyuncu sayısı Spawn noktası sayısını geçerse tekrar rastgele bir yer ver 
-                    spawnPos = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
-                }
+                int spawnIndex = Mathf.Max(0, actorNr - 1) % spawnPoints.Length;
+                spawnPos = spawnPoints[spawnIndex].position;
+            }
+            else
+            {
+                // Fallback to prevent spawning inside each other
+                spawnPos = new Vector3((actorNr - 1) * 3f, 1f, 0f);
             }
 
             if (!PhotonNetwork.InRoom || player.photonView.IsMine)
