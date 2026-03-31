@@ -54,9 +54,16 @@ public class DynamicCrosshair : MonoBehaviour
 
     private void HandleShot(float damage) => OnShot();
 
+    [Header("Reloading")]
+    [SerializeField] private GameObject reloadingContainer;
+    [SerializeField] private RectTransform reloadingSpinner;
+    [SerializeField] private float rotationSpeed = 200f;
+
     private void Update()
     {
         if (_playerMovement == null) return;
+
+        UpdateReloadingUI();
 
         bool isAiming   = InputManager.Instance != null && InputManager.Instance.IsAiming;
         bool isMoving   = _playerMovement.IsMoving && _playerMovement.IsGrounded;
@@ -85,6 +92,38 @@ public class DynamicCrosshair : MonoBehaviour
         _currentRadius = Mathf.Lerp(_currentRadius, targetRadius, Time.deltaTime * lerp);
 
         ApplyRadius(_currentRadius);
+    }
+
+    private void UpdateReloadingUI()
+    {
+        if (_playerCombat == null) return;
+
+        bool isReloading = _playerCombat.IsReloading;
+
+        if (reloadingContainer != null)
+        {
+            reloadingContainer.SetActive(isReloading);
+        }
+
+        if (isReloading && reloadingSpinner != null)
+        {
+            reloadingSpinner.Rotate(0, 0, -rotationSpeed * Time.deltaTime);
+        }
+
+        // Hide crosshair components when reloading
+        float alpha = isReloading ? 0f : 1f;
+        if (dot != null)
+        {
+            Color c = dot.color;
+            c.a = alpha;
+            dot.color = c;
+        }
+        if (circle != null)
+        {
+            Color c = circle.color;
+            c.a = alpha;
+            circle.color = c;
+        }
     }
 
     private void OnShot()

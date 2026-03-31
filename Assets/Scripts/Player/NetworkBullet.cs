@@ -55,6 +55,7 @@ public class NetworkBullet : MonoBehaviourPunCallbacks
             _isRicochet       = (bool)data[4];
             _isLifeSteal      = (bool)data[5];
             _ownerActorNumber = (int)data[6];
+            Debug.Log("--BULLET---bullet data from playerstats");
         }
         else
         {

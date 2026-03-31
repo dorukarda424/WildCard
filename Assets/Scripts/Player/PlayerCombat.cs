@@ -148,6 +148,7 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
                 // Hiçbir yere çarpmadıysa 1000 birim ilerideki noktayı hedef al
                 targetPoint = ray.GetPoint(1000f);
             }
+            Debug.DrawLine(firePoint.position, targetPoint, Color.red, 1f);
 
             // firePoint'i hedefe doğru çevir
             firePoint.rotation = Quaternion.LookRotation(targetPoint - firePoint.position);

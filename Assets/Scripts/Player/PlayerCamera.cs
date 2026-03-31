@@ -4,6 +4,7 @@ using Photon.Pun;
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerCamera : MonoBehaviourPunCallbacks
 {
+    public static PlayerCamera Instance { get; private set; }
     [Header("References")]
     [SerializeField] private Transform cameraHolder;
     [SerializeField] private Camera cam;
@@ -52,6 +53,18 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        _isLocalPlayer = testing
+                      || (photonView != null && photonView.IsMine)
+                      || !Photon.Pun.PhotonNetwork.InRoom;
+
+        if (_isLocalPlayer)
+        {
+            if (Instance == null)
+                Instance = this;
+            else if (Instance != this)
+                Debug.LogWarning("[PlayerCamera] Multiple local PlayerCamera instances found!", this);
+        }
+
         _movement = GetComponent<PlayerMovement>();
 
         // Find the child Animator (on the actual model), not the root one
@@ -74,13 +87,6 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        // Cache the local player decision ONCE at Start.
-        // This avoids issues when Launcher connects to Photon mid-game
-        // and PhotonNetwork.InRoom changes from false to true.
-        _isLocalPlayer = testing
-                      || (photonView != null && photonView.IsMine)
-                      || !Photon.Pun.PhotonNetwork.InRoom;
-
         if (!_isLocalPlayer)
         {
             if (cam != null)
@@ -285,5 +291,11 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
             var listener = otherCam.GetComponent<AudioListener>();
             if (listener != null) listener.enabled = false;
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
 }
