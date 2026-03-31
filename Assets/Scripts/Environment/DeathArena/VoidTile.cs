@@ -18,7 +18,7 @@ namespace WildCard.Environment.DeathArena
 
         [Header("Motion Sequence")]
         [Tooltip("How far the floor tile drops downward to create the hole.")]
-        public float dropDepth = 5f;
+        private float dropDepth = 10f;
         [Tooltip("How fast it drops/lifts back.")]
         public float dropSpeed = 15f; 
         
