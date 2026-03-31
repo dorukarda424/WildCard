@@ -113,7 +113,7 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         HandleHeadBob();
         HandleRecoilReturn();
         HandleAds();
-        SyncWeaponRotation();
+        //SyncWeaponRotation();
     }
 
     private void PlayerFollow()

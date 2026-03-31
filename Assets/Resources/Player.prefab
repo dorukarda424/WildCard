@@ -246,27 +246,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 41.2349
+      value: -63.08
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 26.07708
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -58.31463
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 5.67407
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.00001
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -81.1627
+      value: 11.74479
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1368,6 +1356,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NeckBoneOverride
   neckBone: {fileID: 2008197397809660694}
   headBone: {fileID: 1176797233165609580}
+--- !u!114 &7529144966625362185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580963254329074261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8340c2989072d1429c29ea1ad83ff17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AimIK
+  playerCamera: {fileID: 2663378614851893250}
+  spine1: {fileID: 5844923850573430528}
+  spine2: {fileID: 4946662352074018667}
+  neck: {fileID: 2008197397809660694}
+  maxPitch: 85
+  aimLerpSpeed: 12
+  testing: 1
 --- !u!143 &58215774726576354
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1473,7 +1480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
   cameraHolder: {fileID: 3111301100164374358}
   cam: {fileID: 7149393077626863251}
-  camOffset: {x: -0.19, y: 1.578, z: -5}
+  camOffset: {x: -0.19, y: 1.578, z: 0}
   mouseSensitivity: 2
   maxLookAngle: 85
   bobFrequency: 10
@@ -1631,25 +1638,6 @@ MonoBehaviour:
   pulseIntensity: 0.15
   damageFlashColor: {r: 0.8, g: 0.2, b: 0, a: 0.3}
   damageFlashDuration: 0.15
---- !u!114 &7529144966625362185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5580963254329074261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8340c2989072d1429c29ea1ad83ff17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AimIK
-  playerCamera: {fileID: 2663378614851893250}
-  spine1: {fileID: 5844923850573430528}
-  spine2: {fileID: 4946662352074018667}
-  neck: {fileID: 2008197397809660694}
-  maxPitch: 85
-  aimLerpSpeed: 12
-  testing: 1
 --- !u!4 &5844923850573430528 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8021001004253913084, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
