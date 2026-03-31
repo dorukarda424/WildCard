@@ -172,7 +172,6 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
 
         if (!testing && photonView != null)
         {
-            // Owner null ise -1 vererek hatanın önüne geçiyoruz
             int actorNumber = photonView.Owner != null ? photonView.Owner.ActorNumber : -1;
 
             object[] data = new object[]

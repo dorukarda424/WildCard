@@ -57,12 +57,29 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
                       || (photonView != null && photonView.IsMine)
                       || !Photon.Pun.PhotonNetwork.InRoom;
 
-        if (_isLocalPlayer)
+        if (!_isLocalPlayer)
         {
-            if (Instance == null)
-                Instance = this;
-            else if (Instance != this)
-                Debug.LogWarning("[PlayerCamera] Multiple local PlayerCamera instances found!", this);
+            // If not local player, destroy the camera object immediately
+            if (cam != null)
+            {
+                Destroy(cam.gameObject);
+            }
+            
+            // Also destroy the script if it's not local player
+            Destroy(this);
+            return;
+        }
+
+        // Singleton pattern for the local player's camera
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else if (Instance != this)
+        {
+            Debug.LogWarning("[PlayerCamera] Multiple local PlayerCamera instances found! Destroying the extra one.", this);
+            Destroy(gameObject);
+            return;
         }
 
         _movement = GetComponent<PlayerMovement>();
@@ -87,18 +104,6 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        if (!_isLocalPlayer)
-        {
-            if (cam != null)
-            {
-                cam.enabled = false;
-                var listener = cam.GetComponent<AudioListener>();
-                if (listener != null) listener.enabled = false;
-            }
-            enabled = false;
-            return;
-        }
-
         // Disable any other cameras in the scene so only the player camera renders
         DisableOtherCameras();
 
