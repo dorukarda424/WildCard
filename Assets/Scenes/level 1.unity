@@ -14144,7 +14144,7 @@ MonoBehaviour:
   healthBar: {fileID: 1258774132}
   healthText: {fileID: 0}
   ammoText: {fileID: 370264368}
-  reloadText: {fileID: 1956881102}
+  reloadText: {fileID: 0}
   roundText: {fileID: 14541830}
   stateText: {fileID: 909033133}
   countdownText: {fileID: 322846165}
@@ -16800,6 +16800,7 @@ MonoBehaviour:
   lerpSpeed: 10
   adsRadius: 20
   adsLerpSpeed: 12
+  rotationSpeed: 200
 --- !u!114 &1503085090
 MonoBehaviour:
   m_ObjectHideFlags: 0

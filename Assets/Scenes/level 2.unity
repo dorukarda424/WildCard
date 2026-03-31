@@ -21273,7 +21273,7 @@ MonoBehaviour:
   healthBar: {fileID: 1884047000}
   healthText: {fileID: 229884435}
   ammoText: {fileID: 1089913657}
-  reloadText: {fileID: 1032313921}
+  reloadText: {fileID: 0}
   roundText: {fileID: 1630067778}
   stateText: {fileID: 163659548}
   countdownText: {fileID: 1015886912}
