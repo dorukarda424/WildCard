@@ -54,7 +54,16 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
         _stats = GetComponent<PlayerStats>();
         _playerCamera = GetComponent<PlayerCamera>();
         _movement = GetComponent<PlayerMovement>();
+        
         _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            _audioSource = gameObject.AddComponent<AudioSource>();
+            _audioSource.spatialBlend = 1f; // 3D ses (Uzaklaştıkça ses azalır)
+            _audioSource.minDistance = 2f;
+            _audioSource.maxDistance = 50f;
+            _audioSource.playOnAwake = false;
+        }
     }
 
     private void Start()
