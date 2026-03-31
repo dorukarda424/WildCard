@@ -129,21 +129,41 @@ public class CardSelectionManager : MonoBehaviourPunCallbacks
         // Apply card to local player's stats
         if (card != null)
         {
+            Debug.Log($"[CardSelectionManager] FinishSelection — card: {card.cardName}, modifiers: {card.modifiers.Length}, specialEffects: {card.specialEffects}");
             var localPlayer = GetLocalPlayerStats();
             if (localPlayer != null)
             {
-                // EĞER ÇEVRİMDIŞIYSAK (Test Ediyorsak) VEYA OFFLINE MODDAYSAN
-                // Yalnızca Çevrimiçiyken Networklü Card Gönder
-                if (PhotonNetwork.InRoom)
+                Debug.Log($"[CardSelectionManager] Found local PlayerStats on: {localPlayer.gameObject.name} (active: {localPlayer.gameObject.activeSelf}, enabled: {localPlayer.enabled})");
+                Debug.Log($"[CardSelectionManager] BEFORE — Damage: {localPlayer.Damage}, MoveSpeed: {localPlayer.MoveSpeed}, MaxAmmo: {localPlayer.MaxAmmo}, AppliedCards: {localPlayer.AppliedCardIds.Count}");
+
+                // Use networked apply only if player has a valid photonView owner.
+                // If player was spawned locally (before Photon connected), Owner is null
+                // and RPC would fail — use local-only apply in that case.
+                bool canUseNetwork = PhotonNetwork.InRoom
+                                  && localPlayer.photonView != null
+                                  && localPlayer.photonView.Owner != null
+                                  && localPlayer.photonView.IsMine;
+
+                if (canUseNetwork)
                 {
                     localPlayer.ApplyCardNetworked(card);
                 }
                 else
                 {
-                    // Offline: apply locally only — no RPC
                     localPlayer.ApplyCard(card);
+                    Debug.Log("[CardSelectionManager] Applied card locally (player has no network owner).");
                 }
+
+                Debug.Log($"[CardSelectionManager] AFTER  — Damage: {localPlayer.Damage}, MoveSpeed: {localPlayer.MoveSpeed}, MaxAmmo: {localPlayer.MaxAmmo}, AppliedCards: {localPlayer.AppliedCardIds.Count}");
             }
+            else
+            {
+                Debug.LogError("[CardSelectionManager] FinishSelection — GetLocalPlayerStats() returned NULL! Card NOT applied!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[CardSelectionManager] FinishSelection — card is NULL, nothing to apply.");
         }
 
         // Notify RoundManager that this player has picked
@@ -161,13 +181,41 @@ public class CardSelectionManager : MonoBehaviourPunCallbacks
 
     private PlayerStats GetLocalPlayerStats()
     {
-        var players = FindObjectsByType<PlayerStats>(FindObjectsSortMode.None);
+        // Include inactive objects — player may be disabled after death
+        var players = FindObjectsByType<PlayerStats>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        Debug.Log($"[CardSelectionManager] GetLocalPlayerStats — found {players.Length} PlayerStats objects (including inactive). InRoom: {PhotonNetwork.InRoom}");
+
+        PlayerStats fallback = null;
+
         foreach (var player in players)
         {
-            // Eger cevrimdisi calisiyorsak o zaman photonView mineda degilse de onu dondurecek
-            if (!PhotonNetwork.InRoom || player.photonView.IsMine)
+            bool isMine = player.photonView != null && player.photonView.IsMine;
+            bool ownerIsNull = player.photonView != null && player.photonView.Owner == null;
+
+            Debug.Log($"[CardSelectionManager]   → {player.gameObject.name} | active: {player.gameObject.activeSelf} | enabled: {player.enabled} | IsMine: {isMine} | Owner: {(player.photonView?.Owner?.NickName ?? "NULL")}");
+
+            // Normal case: offline or IsMine
+            if (!PhotonNetwork.InRoom || isMine)
                 return player;
+
+            // Edge case: player was spawned via local Instantiate before Photon connected.
+            // photonView exists but Owner is null and IsMine is false.
+            // This player IS ours — it was locally spawned.
+            if (ownerIsNull)
+            {
+                Debug.Log($"[CardSelectionManager]   → Owner is NULL (locally spawned), using as fallback.");
+                fallback = player;
+            }
         }
+
+        // If no IsMine match but we found a locally-spawned player, use it
+        if (fallback != null)
+        {
+            Debug.Log($"[CardSelectionManager] Using fallback (locally spawned player): {fallback.gameObject.name}");
+            return fallback;
+        }
+
+        Debug.LogError("[CardSelectionManager] GetLocalPlayerStats — No matching PlayerStats found!");
         return null;
     }
 }

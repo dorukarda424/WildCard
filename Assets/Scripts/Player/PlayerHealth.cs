@@ -40,6 +40,13 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
     }
 
+    public void ForceRestoreHealth()
+    {
+        _currentHealth = MaxHealth;
+        OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
+        Debug.Log($"[PlayerHealth] Force restored health to {_currentHealth}");
+    }
+
     [PunRPC]
     public void RPC_TakeDamage(float amount, int attackerActorNumber)
     {

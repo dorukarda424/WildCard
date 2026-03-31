@@ -248,7 +248,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
             return;
         }
 
-        Debug.Log($"[Animator] State:{CurrentState} hasInput:{hasInput} Speed:{(hasInput ? Mathf.Clamp01(new Vector2(moveDirWorld.x, moveDirWorld.z).magnitude) : 0f)} IsGrounded:{IsGrounded}");
+        //Debug.Log($"[Animator] State:{CurrentState} hasInput:{hasInput} Speed:{(hasInput ? Mathf.Clamp01(new Vector2(moveDirWorld.x, moveDirWorld.z).magnitude) : 0f)} IsGrounded:{IsGrounded}");
 
         Vector3 local = transform.InverseTransformDirection(moveDirWorld);
         float moveX = hasInput ? local.x : 0f;
@@ -269,7 +269,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
             _animator.SetFloat("Speed", speed,  0.1f, Time.deltaTime);
         }
         
-        Debug.Log($"[AnimCheck] Set MoveY:{moveY:F3} → Got:{_animator.GetFloat("MoveY"):F3} on {_animator.gameObject.name}");
+        //Debug.Log($"[AnimCheck] Set MoveY:{moveY:F3} → Got:{_animator.GetFloat("MoveY"):F3} on {_animator.gameObject.name}");
 
         _animator.SetBool("IsGrounded", IsGrounded);
         _animator.SetBool("IsCrouching", CurrentState == PlayerState.Crouching);

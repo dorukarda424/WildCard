@@ -35,7 +35,7 @@ public class ZoneController : MonoBehaviour
 
     void Start()
     {
-        _initialScale = transform.localScale;
+        _initialScale = new(200,50,200);
         _isShrinking = false;
 
         CreateBoundaryWall();

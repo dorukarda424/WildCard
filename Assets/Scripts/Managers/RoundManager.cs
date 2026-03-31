@@ -19,6 +19,10 @@ public class RoundManager : MonoBehaviourPunCallbacks
     [SerializeField] private float cardSelectionTimeout = 15f;
     [SerializeField] private string playerPrefabName = "Player";
 
+    [Header("Map Rotation")]
+    [Tooltip("Scene names in sequential order. After each round the next map loads.")]
+    [SerializeField] private string[] mapRotation = { "level 1", "level 2", "level 3" };
+
     [Header("Debug")]
     [Tooltip("Inspector'dan tikla → mevcut round aninda biter")]
     [SerializeField] private bool forceEndRound = false;
@@ -44,6 +48,7 @@ public class RoundManager : MonoBehaviourPunCallbacks
     private HashSet<int> _alivePlayerActors = new HashSet<int>();
     private HashSet<int> _registeredPlayerActors = new HashSet<int>();
     private HashSet<int> _cardPickedActors = new HashSet<int>();
+    private bool _isLoadingNextMap = false;
 
     public System.Action<RoundState> OnStateChanged;
     public System.Action<int> OnRoundStarted;
@@ -306,14 +311,58 @@ public class RoundManager : MonoBehaviourPunCallbacks
             }
 
             // Eğer süre bittiyse (timeout) veya tıklayarak listeye eklendiysek geç
-            StartCountdown();
+            LoadNextMap();
             return;
         }
 
         // Multiplayer Orijinal Mantık: Herkes kartını seçtiyse veya Süre bittiyse geç.
         if (_cardPickedActors.Count >= _registeredPlayerActors.Count || StateTimer <= 0f)
         {
+            LoadNextMap();
+        }
+    }
+
+    // ────────── MAP ROTATION ──────────
+    private void LoadNextMap()
+    {
+        // Prevent multiple calls while scene is loading
+        if (_isLoadingNextMap) return;
+        _isLoadingNextMap = true;
+
+        // If no map rotation is configured or only one map, just stay on the same scene
+        if (mapRotation == null || mapRotation.Length <= 1)
+        {
+            _isLoadingNextMap = false;
             StartCountdown();
+            return;
+        }
+
+        // Get current map index from GameManager (persists across scenes)
+        int currentIndex = 0;
+        if (GameManager.instance != null)
+        {
+            currentIndex = GameManager.instance.currentMapIndex;
+        }
+
+        // Advance to next map
+        int nextIndex = (currentIndex + 1) % mapRotation.Length;
+        string nextMap = mapRotation[nextIndex];
+
+        // Save the new index so it persists after scene load
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.currentMapIndex = nextIndex;
+        }
+
+        Debug.Log($"[RoundManager] Map rotation: {mapRotation[currentIndex]} → {nextMap} (index {nextIndex})");
+
+        if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel(nextMap);
+        }
+        else if (!PhotonNetwork.InRoom)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(nextMap);
         }
     }
 

@@ -70,7 +70,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         lobbyPanel.SetActive(false);
         roomPanel.SetActive(true);
 
-        roomNameText.text = "Oda: " + PhotonNetwork.CurrentRoom.Name;
+        roomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
         UpdatePlayerList();
 
@@ -117,8 +117,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
+            // Reset map rotation for a fresh match
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.ResetMapRotation();
+            }
 
-            PhotonNetwork.LoadLevel("Level 2");
+            PhotonNetwork.LoadLevel("level 1");
         }
     }
 

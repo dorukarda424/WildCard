@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -13,6 +14,14 @@ public class GameManager : MonoBehaviour
     [Tooltip("Maximum players per room.")]
     public int maxPlayers = 4;
 
+    [Header("Map Rotation")]
+    [Tooltip("Tracks which map in the rotation we are on. Set by RoundManager.")]
+    [HideInInspector] public int currentMapIndex = 0;
+
+    [Header("Local Persisted Data")]
+    [Tooltip("Locally saved cards to bypass Photon network delays during quick scene transitions.")]
+    public List<string> localPlayerCards = new List<string>();
+
     void Awake()
     {
         if (instance == null)
@@ -24,5 +33,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    /// <summary>
+    /// Reset map index when a new match begins.
+    /// </summary>
+    public void ResetMapRotation()
+    {
+        currentMapIndex = 0;
+        localPlayerCards.Clear();
     }
 }

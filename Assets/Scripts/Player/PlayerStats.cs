@@ -66,10 +66,63 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
 
     // ────────── Core Methods ──────────
 
+    private void Start()
+    {
+        // Restore card stats across scene loads. 
+        // We now use GameManager's local list because Photon network queues get cleared/paused immediately during LoadLevel transitions,
+        // which was causing the CustomProperties to fail saving before the scene was destroyed.
+        if (photonView != null && photonView.IsMine)
+        {
+            if (GameManager.instance != null && GameManager.instance.localPlayerCards.Count > 0)
+            {
+                var savedCardIds = GameManager.instance.localPlayerCards;
+                CardDatabase db = FindCardDatabase();
+                if (db != null)
+                {
+                    int restoredCount = 0;
+                    foreach (string cardId in savedCardIds)
+                    {
+                        CardData card = db.GetCardById(cardId);
+                        if (card != null)
+                        {
+                            ApplyCard(card, skipSyncProperty: true); // Re-apply locally.
+                            restoredCount++;
+                        }
+                    }
+                    Debug.Log($"[PlayerStats] Successfully restored {restoredCount} cards from GameManager in Start.");
+                    
+                    var health = GetComponent<PlayerHealth>();
+                    if (health != null) health.ForceRestoreHealth();
+                    
+                    var combat = GetComponent<PlayerCombat>();
+                    if (combat != null) combat.ForceRestoreAmmo();
+
+                    // Re-sync CustomProperties to ensure late joiners or other clients receive our restored state
+                    if (PhotonNetwork.InRoom)
+                    {
+                        var props = new ExitGames.Client.Photon.Hashtable
+                        {
+                            { "AppliedCards", _appliedCardIds.ToArray() }
+                        };
+                        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("[PlayerStats] CardDatabase NOT found during restore!");
+                }
+            }
+            else
+            {
+                Debug.Log("[PlayerStats] No cards found in GameManager to restore.");
+            }
+        }
+    }
+
     /// <summary>
     /// Apply a card's modifiers and special effects to this player.
     /// </summary>
-    public void ApplyCard(CardData card)
+    public void ApplyCard(CardData card, bool skipSyncProperty = false)
     {
         if (card == null) return;
 
@@ -89,7 +142,27 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
         ActiveEffects |= card.specialEffects;
         _appliedCardIds.Add(card.CardId);
 
-        Debug.Log($"[PlayerStats] Applied card: {card.cardName} to {gameObject.name}");
+        if (photonView != null && photonView.IsMine)
+        {
+            // Instantly save to local GameManager to survive scene loads aggressively
+            if (GameManager.instance != null && !GameManager.instance.localPlayerCards.Contains(card.CardId))
+            {
+                GameManager.instance.localPlayerCards.Add(card.CardId);
+            }
+
+            // Sync to network so other players can read our stats
+            if (!skipSyncProperty && PhotonNetwork.InRoom)
+            {
+                var props = new ExitGames.Client.Photon.Hashtable
+                {
+                    { "AppliedCards", _appliedCardIds.ToArray() }
+                };
+                PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+                Debug.Log($"[PlayerStats] Saved {_appliedCardIds.Count} applied cards to CustomProperties (Photon).");
+            }
+        }
+
+        Debug.Log($"[PlayerStats] Applied card: {card.cardName} to {gameObject.name} (Total: {_appliedCardIds.Count})");
     }
 
     /// <summary>
@@ -101,6 +174,23 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
         _percentBonuses.Clear();
         ActiveEffects = SpecialEffect.None;
         _appliedCardIds.Clear();
+
+        if (photonView != null && photonView.IsMine)
+        {
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.localPlayerCards.Clear();
+            }
+
+            if (PhotonNetwork.InRoom)
+            {
+                var props = new ExitGames.Client.Photon.Hashtable
+                {
+                    { "AppliedCards", new string[0] }
+                };
+                PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+            }
+        }
 
         Debug.Log($"[PlayerStats] Stats reset for {gameObject.name}");
     }

@@ -1374,7 +1374,7 @@ MonoBehaviour:
   neck: {fileID: 2008197397809660694}
   maxPitch: 85
   aimLerpSpeed: 12
-  testing: 1
+  testing: 0
 --- !u!143 &58215774726576354
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1419,7 +1419,7 @@ MonoBehaviour:
   latchGravity: -2
   latchCooldown: 0.2
   camHolder: {fileID: 3111301100164374358}
-  testing: 1
+  testing: 0
 --- !u!114 &7390030092048330777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1437,7 +1437,7 @@ MonoBehaviour:
   baseFireRate: 0.3
   baseMaxAmmo: 8
   baseMoveSpeed: 5
-  baseBulletSpeed: 40
+  baseBulletSpeed: 10
   baseReloadSpeed: 1.5
   baseSprintSpeed: 10
   baseCrouchSpeed: 2.5
@@ -1462,10 +1462,10 @@ MonoBehaviour:
   firePoint: {fileID: 5438007274942653411}
   bulletPrefabName: Projectile_Blaster
   bulletPrefab: {fileID: 3659995153115176983, guid: 2877a5f6b12fca54ab754a8969468a90, type: 3}
-  shootSound: {fileID: 0}
-  reloadSound: {fileID: 0}
-  emptyClipSound: {fileID: 0}
-  testing: 1
+  shootSound: {fileID: 8300000, guid: 1739a2e1630f49d48899bf4b421c5c15, type: 3}
+  reloadSound: {fileID: 8300000, guid: bef72f713ac1156409e266a2f27d74e8, type: 3}
+  emptyClipSound: {fileID: 8300000, guid: c9180e31de2d1e74383a49931035531f, type: 3}
+  testing: 0
 --- !u!114 &2663378614851893250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1491,7 +1491,7 @@ MonoBehaviour:
   adsSensitivityMultiplier: 0.6
   adsLerpSpeed: 12
   weaponHolder: {fileID: 159156921722375644}
-  testing: 1
+  testing: 0
 --- !u!114 &8273985361589495333
 MonoBehaviour:
   m_ObjectHideFlags: 0
