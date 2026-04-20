@@ -312,7 +312,12 @@ public class GameHUD : MonoBehaviour
             if (texts.Length >= 4)
             {
                 string name = GetPlayerName(actorNumber);
-                texts[0].text = name;
+
+                // Get rank from Photon custom properties
+                int rank = GetPlayerRank(actorNumber);
+                string rankLabel = GetRankLabel(rank);
+
+                texts[0].text = $"{rankLabel} {name}";
                 texts[1].text = score.kills.ToString();
                 texts[2].text = score.deaths.ToString();
                 texts[3].text = score.roundWins.ToString();
@@ -397,5 +402,32 @@ public class GameHUD : MonoBehaviour
                 return string.IsNullOrEmpty(player.NickName) ? $"Player {actorNumber}" : player.NickName;
         }
         return $"Player {actorNumber}";
+    }
+
+    private int GetPlayerRank(int actorNumber)
+    {
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (player.ActorNumber == actorNumber)
+            {
+                if (player.CustomProperties.TryGetValue("rank", out object rankVal) && rankVal is int r)
+                    return r;
+            }
+        }
+        return 0;
+    }
+
+    /// <summary>
+    /// Converts a numeric rank value into a colored display label.
+    /// Must match the tiers in LobbyManager.GetRankLabel().
+    /// </summary>
+    private string GetRankLabel(int rankValue)
+    {
+        if (rankValue >= 5000) return "<color=#FF4500>Challenger</color>";
+        if (rankValue >= 4000) return "<color=#E040FB>Master</color>";
+        if (rankValue >= 3000) return "<color=#00BCD4>Diamond</color>";
+        if (rankValue >= 2000) return "<color=#FFD700>Gold</color>";
+        if (rankValue >= 1000) return "<color=#C0C0C0>Silver</color>";
+        return "<color=#CD7F32>Bronze</color>";
     }
 }

@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Player Info")]
     public string loggedInPlayerName;
+    [Tooltip("Player rank fetched from database (currency column).")]
+    public int playerRank = 0;
 
     [Header("Match Settings")]
     [Tooltip("Number of round wins needed to win the match.")]

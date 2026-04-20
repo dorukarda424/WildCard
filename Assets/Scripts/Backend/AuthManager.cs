@@ -1,9 +1,12 @@
-﻿using System.Collections;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using ExitGames.Client.Photon;
+using Photon.Pun;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class AuthManager : MonoBehaviour
 {
@@ -62,11 +65,16 @@ public class AuthManager : MonoBehaviour
                             int.TryParse(parts[1].Trim(), out money);
                         }
 
-                        Debug.Log("Player Money: " + money);
+                        Debug.Log("Player Rank: " + money);
 
-                        // GameManager.instance.playerMoney = money;
-                        Photon.Pun.PhotonNetwork.NickName = username; 
+                        PhotonNetwork.NickName = username;
                         GameManager.instance.loggedInPlayerName = username;
+                        GameManager.instance.playerRank = money;
+
+                        // Sync rank to Photon so other players can see it
+                        Hashtable props = new Hashtable { { "rank", money } };
+                        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
                         SceneManager.LoadScene("LobbyScene");
                     }
                 }
