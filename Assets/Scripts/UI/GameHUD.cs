@@ -44,6 +44,9 @@ public class GameHUD : MonoBehaviour
     [Header("Card Effects Display")]
     [SerializeField] private TextMeshProUGUI activeCardsText;
     
+    [Header("Kill Cam")]
+    [SerializeField] private GameObject killCamOverlay;
+
     private PlayerHealth _localHealth;
     private PlayerCombat _localCombat;
     private PlayerStats _localStats;
@@ -93,6 +96,7 @@ public class GameHUD : MonoBehaviour
         UpdateRoundUI();
         UpdateActiveCardsUI();
         UpdatePingUI();
+        UpdateKillCamUI();
 
         // Scoreboard toggle (Tab)
         if (scoreboardPanel != null)
@@ -100,6 +104,17 @@ public class GameHUD : MonoBehaviour
             bool showBoard = Input.GetKey(KeyCode.Tab);
             scoreboardPanel.SetActive(showBoard);
             if (showBoard) UpdateScoreboard();
+        }
+    }
+
+    private void UpdateKillCamUI()
+    {
+        if (killCamOverlay == null) return;
+
+        // PlayerCamera.Instance is usually the local player's camera
+        if (PlayerCamera.Instance != null)
+        {
+            killCamOverlay.SetActive(PlayerCamera.Instance.IsKillCamActive);
         }
     }
 

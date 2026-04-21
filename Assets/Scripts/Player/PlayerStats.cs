@@ -19,10 +19,21 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private float baseReloadSpeed = 1.5f;    // seconds to reload
     [SerializeField] private float baseSprintSpeed = 10f;
     [SerializeField] private float baseCrouchSpeed = 2.5f;
+    [SerializeField] private float baseSlideSpeed = 15f;
     [SerializeField] private float baseJumpForce = 10f;
     [SerializeField] private float baseGravity = -20f;
     [SerializeField] private int   baseMaxJumps = 1;
     [SerializeField] private float baseMaxFallSpeed = -30f;
+    [SerializeField] private float baseFallDamageThreshold = 15f;
+    [SerializeField] private float baseFallDamageMultiplier = 5f;
+    
+    // Physical configuration (Fixed)
+    public const float CrouchHeight = 1.0f;
+    public const float StandHeight = 2.0f;
+    public const float CrouchCameraY = 0.8f;
+    public const float StandCameraY = 1.6f;
+    public const float SlideDuration = 1.0f;
+    public const float CrouchTransitionSpeed = 10f;
 
     // Runtime modifiers accumulated from cards
     private Dictionary<StatType, float> _flatBonuses = new Dictionary<StatType, float>();
@@ -46,10 +57,13 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
     public float ReloadSpeed  => GetStat(StatType.ReloadSpeed, baseReloadSpeed);
     public float SprintSpeed  => GetStat(StatType.SprintSpeed, baseSprintSpeed);
     public float CrouchSpeed  => GetStat(StatType.CrouchSpeed, baseCrouchSpeed);
+    public float SlideSpeed   => GetStat(StatType.SlideSpeed, baseSlideSpeed);
     public float JumpForce    => GetStat(StatType.JumpForce, baseJumpForce);
     public float Gravity      => GetStat(StatType.Gravity, baseGravity, allowNegative: true);
     public int   MaxJumps     => Mathf.RoundToInt(GetStat(StatType.MaxJumps, baseMaxJumps));
     public float MaxFallSpeed => GetStat(StatType.MaxFallSpeed, baseMaxFallSpeed, allowNegative: true);
+    public float FallDamageThreshold => GetStat(StatType.FallDamageThreshold, baseFallDamageThreshold);
+    public float FallDamageMultiplier => GetStat(StatType.FallDamageMultiplier, baseFallDamageMultiplier);
 
     /// <summary>
     /// Returns effective max jumps, accounting for DoubleJump special effect.

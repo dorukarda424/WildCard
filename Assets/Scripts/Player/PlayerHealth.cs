@@ -7,6 +7,7 @@ using System;
 public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageable
 {
     private PlayerStats _stats;
+    private PlayerCamera _playerCamera;
     private float _currentHealth;
     private bool _isDead;
     private int _shieldCharges;
@@ -24,6 +25,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
     private void Awake()
     {
         _stats = GetComponent<PlayerStats>();
+        _playerCamera = GetComponent<PlayerCamera>();
     }
 
     private void Start()
@@ -112,6 +114,12 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         
         if (RoundManager.Instance != null)
             RoundManager.Instance.OnPlayerDied(myActorNumber, killerActorNumber);
+
+        // Notify local camera to start Kill Cam if it was us who died
+        if (photonView.IsMine && _playerCamera != null)
+        {
+            _playerCamera.StartKillCam(killerActorNumber);
+        }
 
         SetPlayerActive(false);
     }

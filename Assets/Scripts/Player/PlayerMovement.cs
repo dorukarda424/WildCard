@@ -5,7 +5,7 @@ using Photon.Pun;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 {
-    public enum PlayerState { Idle, Walking, Sprinting, Crouching, Airborne, Latched}
+    public enum PlayerState { Idle, Walking, Sprinting, Crouching, Airborne, Latched, Sliding}
     public PlayerState CurrentState { get; private set; } = PlayerState.Idle;
     
     [Header("Latching")]
@@ -40,6 +40,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     private int _jumpsRemaining;
     private float _latchTimer;
     private float _airborneTime;
+    private float _slideTimer;
+    private Vector3 _slideDirection;
+    private float _currentCrouchHeight;
+    private float _currentCameraY;
     private Vector3 _latchDirection;
     
     private Vector3 _networkPosition;
@@ -51,6 +55,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     private static readonly int IsAirborne = Animator.StringToHash("IsAirborne");
     private static readonly int IsLatched = Animator.StringToHash("IsLatched");
     private static readonly int IsAiming = Animator.StringToHash("IsAiming");
+    private static readonly int IsSliding = Animator.StringToHash("IsSliding");
     
     private float EffWalkSpeed   => _stats.MoveSpeed;
     private float EffSprintSpeed => _stats.SprintSpeed;
@@ -59,12 +64,24 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     private float EffGravity     => _stats.Gravity;
     private int   EffMaxJumps    => _stats.EffectiveMaxJumps;
     private float EffMaxFallSpeed=> _stats.MaxFallSpeed;
+    private float EffSlideSpeed  => _stats.SlideSpeed;
+    private float EffFallDamageThreshold => _stats.FallDamageThreshold;
+    private float EffFallDamageMultiplier => _stats.FallDamageMultiplier;
+    private float EffCrouchHeight => PlayerStats.CrouchHeight;
+    private float EffStandHeight => PlayerStats.StandHeight;
+    private float EffCrouchCameraY => PlayerStats.CrouchCameraY;
+    private float EffStandCameraY => PlayerStats.StandCameraY;
+    private float EffSlideDuration => PlayerStats.SlideDuration;
+    private float EffCrouchTransitionSpeed => PlayerStats.CrouchTransitionSpeed;
     
     private void Awake()
     {
         _cc = GetComponent<CharacterController>();
         _stats = GetComponent<PlayerStats>();
         _jumpsRemaining = EffMaxJumps;
+        _currentCrouchHeight = EffStandHeight;
+        _currentCameraY = EffStandCameraY;
+        
         Animator[] animators = GetComponentsInChildren<Animator>();
         foreach (Animator a in animators)
         {
@@ -166,11 +183,27 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
             return;
         }
 
+        if (CurrentState == PlayerState.Sliding)
+        {
+            HandleSlidingMovement();
+            UpdateAnimator(_slideDirection, true);
+            return;
+        }
+
         bool wasGrounded = IsGrounded;
         IsGrounded = CheckGrounded();
 
         if (!wasGrounded && IsGrounded)
         {
+            float fallSpeed = Mathf.Abs(_velocity.y);
+            if (fallSpeed > EffFallDamageThreshold)
+            {
+                float damage = (fallSpeed - EffFallDamageThreshold) * EffFallDamageMultiplier;
+                var health = GetComponent<PlayerHealth>();
+                if (health != null) health.TakeDamageLocal(damage);
+                Debug.Log($"[PlayerMovement] Fall damage: {damage} (FallSpeed: {fallSpeed})");
+            }
+
             _velocity.x = 0f;
             _velocity.z = 0f;
             _airborneTime = 0f;
@@ -201,8 +234,16 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
         if (hasInput) moveDir.Normalize();
         IsMoving = hasInput;
 
+        HandleCrouchingHeight();
+
         if (IsGrounded)
         {
+            if (_isCrouching && _isSprinting && IsMoving && CurrentState != PlayerState.Sliding)
+            {
+                StartSlide(moveDir);
+                return;
+            }
+
             if (!IsMoving && !_isCrouching) CurrentState = PlayerState.Idle;
             else if (_isCrouching)          CurrentState = PlayerState.Crouching;
             else if (_isSprinting)          CurrentState = PlayerState.Sprinting;
@@ -276,8 +317,84 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
         _animator.SetBool("IsLatched",   CurrentState == PlayerState.Latched);
         _animator.SetBool("IsAirborne",  CurrentState == PlayerState.Airborne);
         _animator.SetBool("IsSprinting", CurrentState == PlayerState.Sprinting);
+        _animator.SetBool("IsSliding",   CurrentState == PlayerState.Sliding);
         _animator.SetBool("IsAiming",    InputManager.Instance != null && InputManager.Instance.IsAiming);
     }
+
+    private void HandleCrouchingHeight()
+    {
+        bool targetCrouch = _isCrouching || CurrentState == PlayerState.Sliding;
+        float targetHeight = targetCrouch ? EffCrouchHeight : EffStandHeight;
+        float targetCamY = targetCrouch ? EffCrouchCameraY : EffStandCameraY;
+
+        _currentCrouchHeight = Mathf.MoveTowards(_currentCrouchHeight, targetHeight, Time.deltaTime * EffCrouchTransitionSpeed);
+        _cc.height = _currentCrouchHeight;
+        // Keep the bottom of the character at the same position
+        _cc.center = new Vector3(0, _currentCrouchHeight / 2f, 0);
+
+        if (camHolder != null)
+        {
+            // If we are in the editor and testing, we might want to see changes to baseStandCameraY instantly
+            if (Application.isEditor && testing)
+            {
+                _currentCameraY = targetCamY;
+            }
+            else
+            {
+                _currentCameraY = Mathf.MoveTowards(_currentCameraY, targetCamY, Time.deltaTime * EffCrouchTransitionSpeed);
+            }
+            
+            Vector3 camPos = transform.position + Vector3.up * _currentCameraY;
+            camHolder.position = camPos;
+        }
+    }
+
+    private void StartSlide(Vector3 direction)
+    {
+        CurrentState = PlayerState.Sliding;
+        _slideTimer = EffSlideDuration;
+        _slideDirection = direction;
+        // Keep some vertical velocity if we were falling slightly
+        _velocity.x = 0;
+        _velocity.z = 0;
+    }
+
+    private void HandleSlidingMovement()
+    {
+        _slideTimer -= Time.deltaTime;
+        
+        // Horizontal movement
+        float speed = EffSlideSpeed * (_slideTimer / EffSlideDuration);
+        Vector3 move = _slideDirection * speed;
+
+        // Gravity
+        if (IsGrounded) { if (_velocity.y < 0) _velocity.y = -2f; }
+        else
+        {
+            _velocity.y += EffGravity * Time.deltaTime;
+            if (_velocity.y < EffMaxFallSpeed) _velocity.y = EffMaxFallSpeed;
+        }
+
+        _cc.Move((move + _velocity) * Time.deltaTime);
+
+        if (_slideTimer <= 0 || !IsGrounded)
+        {
+            CurrentState = IsGrounded ? PlayerState.Crouching : PlayerState.Airborne;
+        }
+
+        // Jump to cancel slide
+        if (_isJumpPressed && _jumpsRemaining > 0)
+        {
+            _velocity.y = Mathf.Sqrt(EffJumpForce * -2f * EffGravity);
+            _jumpsRemaining--;
+            CurrentState = PlayerState.Airborne;
+            _isJumpPressed = false;
+            OnPlayerJump?.Invoke();
+        }
+
+        HandleCrouchingHeight();
+    }
+
     private void HandleLatchedMovement()
     {
         if (CheckGrounded())

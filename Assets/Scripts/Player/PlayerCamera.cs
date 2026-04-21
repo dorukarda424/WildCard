@@ -1,5 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerCamera : MonoBehaviourPunCallbacks
@@ -48,8 +49,15 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     private float _defaultFov;
     private float _defaultSensitivity;
 
+    private bool _isKillCamActive;
+    private List<PlayerRecorder.PlayerStateFrame> _killCamBuffer;
+    private int _killCamIndex;
+    private float _killCamStartTime;
+    private float _killCamDuration = 5f;
+
     public float GetPitch() => _xRotation;
     public Camera GetCamera() => cam;
+    public bool IsKillCamActive => _isKillCamActive;
 
     private void Awake()
     {
@@ -114,6 +122,12 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         if (!_isLocalPlayer) return;
         if (cameraHolder == null || cam == null) return;
 
+        if (_isKillCamActive)
+        {
+            UpdateKillCam();
+            return;
+        }
+
         PlayerFollow();
         HandleLook();
         HandleHeadBob();
@@ -122,9 +136,72 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         //SyncWeaponRotation();
     }
 
+    public void StartKillCam(int killerActorNumber)
+    {
+        if (KillCamManager.Instance == null) return;
+
+        _killCamBuffer = KillCamManager.Instance.GetKillerBuffer(killerActorNumber);
+        if (_killCamBuffer == null || _killCamBuffer.Count == 0)
+        {
+            Debug.LogWarning($"[PlayerCamera] No record found for killer {killerActorNumber}");
+            return;
+        }
+
+        _isKillCamActive = true;
+        _killCamStartTime = Time.time;
+        _killCamIndex = 0;
+        
+        // Optionally disable HUD or show "Kill Cam" text here
+    }
+
+    private void UpdateKillCam()
+    {
+        if (_killCamBuffer == null || _killCamIndex >= _killCamBuffer.Count)
+        {
+            StopKillCam();
+            return;
+        }
+
+        float elapsedTime = Time.time - _killCamStartTime;
+        
+        // Find the frame that corresponds to current elapsed time
+        // The buffer starts ~5s ago, so we want to play from start to end
+        while (_killCamIndex < _killCamBuffer.Count - 1 && 
+               (_killCamBuffer[_killCamIndex].timestamp - _killCamBuffer[0].timestamp) < elapsedTime)
+        {
+            _killCamIndex++;
+        }
+
+        var frame = _killCamBuffer[_killCamIndex];
+        
+        // Apply frame to camera
+        cameraHolder.position = frame.position;
+        transform.rotation = frame.rotation;
+        cameraHolder.localRotation = Quaternion.Euler(frame.cameraPitch, 0f, 0f);
+
+        if (elapsedTime >= _killCamDuration)
+        {
+            StopKillCam();
+        }
+    }
+
+    private void StopKillCam()
+    {
+        _isKillCamActive = false;
+        _killCamBuffer = null;
+        // Proceed to normal respawn flow if needed
+    }
+
     private void PlayerFollow()
     {
-        cameraHolder.position = transform.position + camOffset;
+        if (cameraHolder != null)
+        {
+            // Only update X and Z, Y is handled by PlayerMovement for crouching/sliding.
+            // We follow the cameraHolder's current Y position which is managed by PlayerMovement.
+            Vector3 targetPos = transform.position;
+            targetPos.y = cameraHolder.position.y; 
+            cameraHolder.position = targetPos;
+        }
     }
 
     private void HandleLook()
@@ -239,9 +316,10 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
         bool isAiming = InputManager.Instance.IsAiming;
 
-        // optional: disable ADS while sprinting
+        // optional: disable ADS while sprinting or sliding
         if (_movement != null &&
-            _movement.CurrentState == PlayerMovement.PlayerState.Sprinting)
+            (_movement.CurrentState == PlayerMovement.PlayerState.Sprinting ||
+             _movement.CurrentState == PlayerMovement.PlayerState.Sliding))
         {
             isAiming = false;
         }

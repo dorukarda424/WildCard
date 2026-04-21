@@ -15,7 +15,10 @@ public enum StatType
     JumpForce,
     Gravity,
     MaxJumps,
-    MaxFallSpeed
+    MaxFallSpeed,
+    SlideSpeed,
+    FallDamageThreshold,
+    FallDamageMultiplier
 }
 
 /// <summary>
