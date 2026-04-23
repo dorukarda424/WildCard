@@ -8,7 +8,6 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
     [Header("Weapon Visuals / Audio")]
     public WeaponData currentWeapon;
 
-    public Transform weaponHolder;
     [SerializeField] private Transform firePoint;
 
     [Header("Bullet")] 
@@ -44,6 +43,7 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
     public int CurrentAmmo => _currentAmmo;
     public int MaxAmmo => _stats != null ? _stats.MaxAmmo : 8;
     public bool IsReloading => _isReloading;
+    public bool IsShooting => _isShooting;
 
     public float ReloadProgress => (_isReloading && _stats != null && _stats.ReloadSpeed > 0)
         ? _reloadTimer / _stats.ReloadSpeed
@@ -63,6 +63,25 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
             _audioSource.minDistance = 2f;
             _audioSource.maxDistance = 50f;
             _audioSource.playOnAwake = false;
+        }
+
+        // Auto-find references if they are missing (Common in nested prefabs)
+        if (firePoint == null)
+        {
+            var foundFirePoint = transform.Find("FirePoint");
+            if (foundFirePoint == null) foundFirePoint = transform.GetComponentInChildren<FirePointMarker>()?.transform;
+            if (foundFirePoint != null) firePoint = foundFirePoint;
+        }
+    }
+
+    public void RefreshReferences()
+    {
+        // Try to find FirePoint in children
+        var foundFirePoint = transform.GetComponentInChildren<FirePointMarker>();
+        if (foundFirePoint != null)
+        {
+            firePoint = foundFirePoint.transform;
+            Debug.Log($"[PlayerCombat] Auto-assigned FirePoint: {firePoint.name} on {gameObject.name}");
         }
     }
 

@@ -61,9 +61,14 @@ public class PlayerRecorder : MonoBehaviourPunCallbacks
     private void RecordFrame()
     {
         float pitch = (_playerCamera != null) ? _playerCamera.GetPitch() : 0f;
-        // Simple check for shooting
+        
+        // Use the actual combat state if available
         bool shooting = false;
-        if (InputManager.Instance != null && photonView.IsMine)
+        if (_playerCombat != null)
+        {
+            shooting = _playerCombat.IsShooting;
+        }
+        else if (InputManager.Instance != null && photonView.IsMine)
         {
             shooting = InputManager.Instance.IsShooting;
         }

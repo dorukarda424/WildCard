@@ -21356,6 +21356,7 @@ MonoBehaviour:
   matchResultPanel: {fileID: 1308773147}
   matchResultText: {fileID: 925793884}
   activeCardsText: {fileID: 0}
+  killCamOverlay: {fileID: 0}
 --- !u!1 &644480365
 GameObject:
   m_ObjectHideFlags: 0
@@ -24786,7 +24787,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00012207031, y: 0}
+  m_AnchoredPosition: {x: 0.00024414062, y: 0}
   m_SizeDelta: {x: -300, y: -300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &752450176
@@ -45014,6 +45015,7 @@ GameObject:
   - component: {fileID: 1410716897}
   - component: {fileID: 1410716896}
   - component: {fileID: 1410716898}
+  - component: {fileID: 1410716899}
   m_Layer: 0
   m_Name: RoundManager
   m_TagString: Untagged
@@ -45085,6 +45087,20 @@ MonoBehaviour:
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &1410716899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410716895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72aa2e75efed4897b6dec2fe874a03be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRecorder
+  recordDuration: 5
+  recordInterval: 0.033
 --- !u!1 &1414900517
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
@@ -30,7 +31,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     public Vector3 Velocity => _velocity;
     
     private CharacterController _cc;
-    private Animator _animator;
+    private List<Animator> _animators = new List<Animator>();
     private PlayerStats _stats;
     private Vector3 _velocity;
     private Vector2 _moveInput;
@@ -82,19 +83,21 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
         _currentCrouchHeight = EffStandHeight;
         _currentCameraY = EffStandCameraY;
         
-        Animator[] animators = GetComponentsInChildren<Animator>();
-        foreach (Animator a in animators)
+        RefreshAnimators();
+    }
+
+    public void RefreshAnimators()
+    {
+        _animators.Clear();
+        Animator[] foundAnimators = GetComponentsInChildren<Animator>(true); // Include inactive
+        foreach (Animator a in foundAnimators)
         {
             if (a.runtimeAnimatorController != null)
             {
-                _animator = a;
-                Debug.Log($"[PlayerMovement] Found Animator with controller: {a.runtimeAnimatorController.name} on {a.gameObject.name}");
-                break;
+                _animators.Add(a);
+                Debug.Log($"[PlayerMovement] Registered Animator: {a.runtimeAnimatorController.name} on {a.gameObject.name}");
             }
         }
-
-        if (_animator == null)
-            Debug.LogError("[PlayerMovement] No Animator with a Controller found!");
     }
 
     private void Start()
@@ -120,6 +123,13 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
+            // Set initial camera height immediately to avoid ground-level spawn frames
+            if (camHolder != null)
+            {
+                _currentCameraY = EffStandCameraY;
+                camHolder.position = transform.position + Vector3.up * _currentCameraY;
+            }
+
             DynamicCrosshair crosshair = FindObjectOfType<DynamicCrosshair>();
             if (crosshair != null)
             {
@@ -283,42 +293,39 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     
     private void UpdateAnimator(Vector3 moveDirWorld, bool hasInput)
     {
-        if (_animator == null)
-        {
-            Debug.LogError("[PlayerMovement] _animator is NULL!");
-            return;
-        }
-
-        //Debug.Log($"[Animator] State:{CurrentState} hasInput:{hasInput} Speed:{(hasInput ? Mathf.Clamp01(new Vector2(moveDirWorld.x, moveDirWorld.z).magnitude) : 0f)} IsGrounded:{IsGrounded}");
+        if (_animators.Count == 0) return;
 
         Vector3 local = transform.InverseTransformDirection(moveDirWorld);
         float moveX = hasInput ? local.x : 0f;
         float moveY = hasInput ? local.z : 0f;
-        float speed  = hasInput ? Mathf.Clamp01(new Vector2(moveX, moveY).magnitude) : 0f;
+        float speed = hasInput ? Mathf.Clamp01(new Vector2(moveX, moveY).magnitude) : 0f;
+        bool isAiming = InputManager.Instance != null && InputManager.Instance.IsAiming;
 
-        // Snap to exact zero when no input — stops denormalized float drift
-        if (!hasInput)
+        foreach (Animator anim in _animators)
         {
-            _animator.SetFloat("MoveX", 0f);
-            _animator.SetFloat("MoveY", 0f);
-            _animator.SetFloat("Speed", 0f);
-        }
-        else
-        {
-            _animator.SetFloat("MoveX", moveX, 0.1f, Time.deltaTime);
-            _animator.SetFloat("MoveY", moveY, 0.1f, Time.deltaTime);
-            _animator.SetFloat("Speed", speed,  0.1f, Time.deltaTime);
-        }
-        
-        //Debug.Log($"[AnimCheck] Set MoveY:{moveY:F3} → Got:{_animator.GetFloat("MoveY"):F3} on {_animator.gameObject.name}");
+            if (anim == null) continue;
 
-        _animator.SetBool("IsGrounded", IsGrounded);
-        _animator.SetBool("IsCrouching", CurrentState == PlayerState.Crouching);
-        _animator.SetBool("IsLatched",   CurrentState == PlayerState.Latched);
-        _animator.SetBool("IsAirborne",  CurrentState == PlayerState.Airborne);
-        _animator.SetBool("IsSprinting", CurrentState == PlayerState.Sprinting);
-        _animator.SetBool("IsSliding",   CurrentState == PlayerState.Sliding);
-        _animator.SetBool("IsAiming",    InputManager.Instance != null && InputManager.Instance.IsAiming);
+            if (!hasInput)
+            {
+                anim.SetFloat("MoveX", 0f);
+                anim.SetFloat("MoveY", 0f);
+                anim.SetFloat("Speed", 0f);
+            }
+            else
+            {
+                anim.SetFloat("MoveX", moveX, 0.1f, Time.deltaTime);
+                anim.SetFloat("MoveY", moveY, 0.1f, Time.deltaTime);
+                anim.SetFloat("Speed", speed, 0.1f, Time.deltaTime);
+            }
+
+            anim.SetBool("IsGrounded", IsGrounded);
+            anim.SetBool("IsCrouching", CurrentState == PlayerState.Crouching);
+            anim.SetBool("IsLatched", CurrentState == PlayerState.Latched);
+            anim.SetBool("IsAirborne", CurrentState == PlayerState.Airborne);
+            anim.SetBool("IsSprinting", CurrentState == PlayerState.Sprinting);
+            anim.SetBool("IsSliding", CurrentState == PlayerState.Sliding);
+            anim.SetBool("IsAiming", isAiming);
+        }
     }
 
     private void HandleCrouchingHeight()

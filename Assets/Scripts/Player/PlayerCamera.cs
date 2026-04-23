@@ -28,14 +28,11 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     public float adsSensitivityMultiplier = 0.6f;
     public float adsLerpSpeed = 12f;
 
-    [Header("Weapon")]
-    [SerializeField] private Transform weaponHolder;
-    
     [Header("Debug")]
     public bool testing = false;
 
     private PlayerMovement _movement;
-    private Animator _anim;
+    private List<Animator> _animators = new List<Animator>();
     private bool _isLocalPlayer;
 
     private float _xRotation;
@@ -75,14 +72,8 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
         _movement = GetComponent<PlayerMovement>();
 
-        // Find the child Animator (on the actual model), not the root one
-        _anim = null;
-        var allAnims = GetComponentsInChildren<Animator>();
-        foreach (var a in allAnims)
-        {
-            if (a.gameObject != gameObject) { _anim = a; break; }
-        }
-        if (_anim == null) _anim = GetComponent<Animator>(); // fallback to root
+        // Find all child Animators (on both local and global models)
+        RefreshAnimators();
 
         if (cam != null)
         {
@@ -91,6 +82,19 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         }
 
         _defaultSensitivity = mouseSensitivity;
+    }
+
+    public void RefreshAnimators()
+    {
+        _animators.Clear();
+        var allAnims = GetComponentsInChildren<Animator>(true); // Include inactive
+        foreach (var a in allAnims)
+        {
+            if (a.runtimeAnimatorController != null)
+            {
+                _animators.Add(a);
+            }
+        }
     }
 
     private void Start()
@@ -133,7 +137,6 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         HandleHeadBob();
         HandleRecoilReturn();
         HandleAds();
-        //SyncWeaponRotation();
     }
 
     public void StartKillCam(int killerActorNumber)
@@ -196,8 +199,9 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     {
         if (cameraHolder != null)
         {
-            // Only update X and Z, Y is handled by PlayerMovement for crouching/sliding.
-            // We follow the cameraHolder's current Y position which is managed by PlayerMovement.
+            // Just sync the position to the player root. 
+            // The local Y height is managed by PlayerMovement.HandleCrouchingHeight() 
+            // which sets cameraHolder.position directly.
             Vector3 targetPos = transform.position;
             targetPos.y = cameraHolder.position.y; 
             cameraHolder.position = targetPos;
@@ -233,12 +237,15 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         cameraHolder.localRotation=Quaternion.Euler(_xRotation + _recoilOffset, 0f, 0f);
         transform.rotation = Quaternion.Euler(0f, _yRotation, 0f);
 
-        // drive AimPitch for upper-body layer
-        if (_anim != null)
+        // drive AimPitch for upper-body layers on all animators
+        if (_animators.Count > 0)
         {
             float t = Mathf.InverseLerp(-maxLookAngle * 1.5f, maxLookAngle * 1.5f, _xRotation);
             float aimPitch = t * 2f - 1f;
-            _anim.SetFloat("AimPitch", aimPitch, 0.1f, Time.deltaTime);
+            foreach (var anim in _animators)
+            {
+                if (anim != null) anim.SetFloat("AimPitch", aimPitch, 0.1f, Time.deltaTime);
+            }
         }
     }
 
@@ -342,12 +349,6 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     {
         Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
         Cursor.visible = !locked;
-    }
-    
-    private void SyncWeaponRotation()
-    {
-        if (weaponHolder == null) return;
-        weaponHolder.rotation = cameraHolder.rotation;
     }
 
     /// <summary>
