@@ -151,12 +151,16 @@ public class WarmupManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
-            // Room full → start immediately
-            if (playerCount >= maxPlayers)
+            // Room full → start countdown immediately (but don't skip warmup)
+            if (playerCount >= maxPlayers && !_countdownActive)
             {
-                _countdownActive = false;
-                StartMatch();
-                return;
+                _countdownActive = true;
+                _countdownTimer = matchCountdown;
+
+                int endTimestamp = PhotonNetwork.ServerTimestamp + (int)(matchCountdown * 1000f);
+                PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { CD_END_PROP, endTimestamp } });
+
+                Debug.Log($"[WarmupManager] Room full — countdown started: {matchCountdown}s");
             }
 
             if (playerCount >= minPlayersToStart)

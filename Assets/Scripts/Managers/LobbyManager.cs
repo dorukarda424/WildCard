@@ -35,11 +35,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     // ── Internal state ──
     private bool _isAutoMatch = false;
-    private bool _countdownActive = false;
-    private float _countdownTimer;
-
-    // Room custom property key for syncing countdown end timestamp
-    private const string CD_END_PROP = "cdEnd";
 
     List<RoomInfo> cachedRoomList = new List<RoomInfo>();
 
@@ -65,9 +60,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (!PhotonNetwork.InRoom || !_isAutoMatch) return;
-
-        UpdateAutoMatchCountdown();
+        // Auto-match countdown is now handled entirely by WarmupManager.
+        // Nothing to do here for auto-match.
     }
 
     // ══════════════════════════════════════════════════════════
@@ -111,107 +105,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(null, options);
     }
 
-    // ── Countdown logic (runs every frame while in auto-match room) ──
-
-    private void UpdateAutoMatchCountdown()
-    {
-        int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
-        int maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
-
-        // ─── Master Client: drive the countdown ───
-        if (PhotonNetwork.IsMasterClient)
-        {
-            // Room is full → start immediately
-            if (playerCount >= maxPlayers)
-            {
-                _countdownActive = false;
-                AutoStartGame();
-                return;
-            }
-
-            if (playerCount >= minPlayersToStart)
-            {
-                if (!_countdownActive)
-                {
-                    // Begin countdown
-                    _countdownActive = true;
-                    _countdownTimer = autoStartCountdown;
-
-                    // Sync countdown end time to all clients via room property
-                    int endTimestamp = PhotonNetwork.ServerTimestamp + (int)(autoStartCountdown * 1000f);
-                    PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { CD_END_PROP, endTimestamp } });
-
-                    Debug.Log($"[AutoMatch] Countdown started: {autoStartCountdown}s");
-                }
-
-                _countdownTimer -= Time.deltaTime;
-
-                if (_countdownTimer <= 0f)
-                {
-                    _countdownActive = false;
-                    AutoStartGame();
-                    return;
-                }
-
-                SetCountdownUI($"Game starts in {Mathf.CeilToInt(_countdownTimer)}s  ({playerCount}/{maxPlayers})");
-            }
-            else
-            {
-                // Not enough players → cancel countdown if active
-                if (_countdownActive)
-                {
-                    _countdownActive = false;
-                    PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { CD_END_PROP, -1 } });
-                    Debug.Log("[AutoMatch] Countdown cancelled — not enough players.");
-                }
-
-                SetCountdownUI($"Waiting for players... ({playerCount}/{minPlayersToStart})");
-            }
-        }
-        // ─── Non-Master Client: read countdown from room properties ───
-        else
-        {
-            object cdVal;
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CD_END_PROP, out cdVal) && cdVal is int endTime && endTime > 0)
-            {
-                int remainingMs = endTime - PhotonNetwork.ServerTimestamp;
-                float remainingS = remainingMs / 1000f;
-
-                if (remainingS > 0f)
-                    SetCountdownUI($"Game starts in {Mathf.CeilToInt(remainingS)}s  ({playerCount}/{maxPlayers})");
-                else
-                    SetCountdownUI("Starting...");
-            }
-            else
-            {
-                SetCountdownUI($"Waiting for players... ({playerCount}/{minPlayersToStart})");
-            }
-        }
-    }
-
-    private void SetCountdownUI(string text)
-    {
-        if (countdownText != null) countdownText.text = text;
-    }
-
-    /// <summary>
-    /// Master Client auto-starts the game (auto-match only).
-    /// </summary>
-    private void AutoStartGame()
-    {
-        if (!PhotonNetwork.IsMasterClient) return;
-
-        Debug.Log("[AutoMatch] Starting game!");
-
-        if (GameManager.instance != null)
-            GameManager.instance.ResetMapRotation();
-
-        // Close room so no one else joins mid-game
-        PhotonNetwork.CurrentRoom.IsOpen = false;
-        PhotonNetwork.CurrentRoom.IsVisible = false;
-
-        PhotonNetwork.LoadLevel("level 1");
-    }
+    // NOTE: Auto-match countdown and game start logic has been moved
+    // entirely to WarmupManager (in the WarmupLobby scene).
+    // LobbyManager only handles joining/creating the room and loading WarmupLobby.
 
     // ══════════════════════════════════════════════════════════
     //  CUSTOM LOBBY (unchanged)
@@ -255,10 +151,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 statusText.text = "Loading warmup...";
             }
 
-            // ── Disable auto-match loop so UpdateAutoMatchCountdown
-            //    does NOT fire AutoStartGame() while we transition. ──
+            // ── Disable auto-match flag so no stale logic fires while we transition. ──
             _isAutoMatch = false;
-            _countdownActive = false;
 
             if (PhotonNetwork.IsMasterClient)
             {
@@ -313,51 +207,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         UpdatePlayerList();
-
-        // Auto-match: if player count drops below minimum, cancel countdown
-        if (_isAutoMatch && PhotonNetwork.IsMasterClient)
-        {
-            if (PhotonNetwork.CurrentRoom.PlayerCount < minPlayersToStart && _countdownActive)
-            {
-                _countdownActive = false;
-                PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { CD_END_PROP, -1 } });
-                Debug.Log("[AutoMatch] Countdown cancelled — player left, below minimum.");
-            }
-        }
     }
 
     /// <summary>
-    /// If the Master Client leaves, the new Master takes over the countdown.
+    /// If the Master Client leaves, update UI for custom lobby.
+    /// Auto-match countdown takeover is handled by WarmupManager.
     /// </summary>
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        if (_isAutoMatch && PhotonNetwork.IsMasterClient)
-        {
-            // Re-evaluate countdown based on current player count
-            int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
-            if (playerCount >= minPlayersToStart)
-            {
-                // Read remaining time from room property and continue
-                object cdVal;
-                if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CD_END_PROP, out cdVal) && cdVal is int endTime && endTime > 0)
-                {
-                    int remainingMs = endTime - PhotonNetwork.ServerTimestamp;
-                    _countdownTimer = Mathf.Max(0f, remainingMs / 1000f);
-                    _countdownActive = true;
-                    Debug.Log($"[AutoMatch] New Master took over countdown: {_countdownTimer:F1}s remaining.");
-                }
-                else
-                {
-                    // No active countdown — start a fresh one
-                    _countdownActive = false; // Will be started on next Update
-                }
-            }
-            else
-            {
-                _countdownActive = false;
-            }
-        }
-
         // Update start button interactability for custom lobby
         if (!_isAutoMatch)
         {
@@ -384,7 +241,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void OnClickLeaveRoom()
     {
         _isAutoMatch = false;
-        _countdownActive = false;
         PhotonNetwork.LeaveRoom();
     }
 
