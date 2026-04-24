@@ -1676,9 +1676,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   loggedInPlayerName: 
+  playerRank: 0
   roundsToWin: 5
   maxPlayers: 4
   currentMapIndex: 0
+  localPlayerCards: []
 --- !u!1 &1432417979
 GameObject:
   m_ObjectHideFlags: 0

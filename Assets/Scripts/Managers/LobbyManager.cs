@@ -244,31 +244,31 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("Odaya girildi!");
-        lobbyPanel.SetActive(false);
-        roomPanel.SetActive(true);
-
-        roomNameText.text = _isAutoMatch ? "Quick Play" : PhotonNetwork.CurrentRoom.Name;
-
-        UpdatePlayerList();
 
         if (_isAutoMatch)
         {
-            // Hide manual start button in auto-match
-            startGameButton.gameObject.SetActive(false);
-
-            _countdownActive = false;
-            _countdownTimer = autoStartCountdown;
-
-            if (countdownText != null) countdownText.gameObject.SetActive(true);
+            // Auto match → Load the playable warmup lobby scene
+            // WarmupManager in that scene handles spawning, countdown, and match start
             if (statusText != null)
             {
                 statusText.gameObject.SetActive(true);
-                statusText.text = "Match found!";
+                statusText.text = "Loading warmup...";
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.LoadLevel("WarmupLobby");
             }
         }
         else
         {
-            // Custom lobby → show start button for master
+            // Custom lobby → show room panel with player list
+            lobbyPanel.SetActive(false);
+            roomPanel.SetActive(true);
+
+            roomNameText.text = PhotonNetwork.CurrentRoom.Name;
+            UpdatePlayerList();
+
             startGameButton.gameObject.SetActive(true);
             startGameButton.interactable = PhotonNetwork.IsMasterClient;
 

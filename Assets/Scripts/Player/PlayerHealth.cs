@@ -111,6 +111,20 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         OnDied?.Invoke(myActorNumber, killerActorNumber);
         
         Debug.Log($"[PlayerHealth] {gameObject.name} killed by actor {killerActorNumber}");
+
+        // During warmup, respawn instead of ending the round
+        if (WarmupManager.IsWarmup)
+        {
+            if (photonView.IsMine)
+            {
+                WarmupManager.Instance.OnWarmupDeath(this);
+            }
+            else
+            {
+                SetPlayerActive(false);
+            }
+            return;
+        }
         
         if (RoundManager.Instance != null)
             RoundManager.Instance.OnPlayerDied(myActorNumber, killerActorNumber);

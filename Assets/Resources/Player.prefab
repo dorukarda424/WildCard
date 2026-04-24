@@ -108,7 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMeshSwitcher
   localMesh: {fileID: 52505246076197151}
   globalMesh: {fileID: 8829996840815392644}
-  testing: 1
+  testing: 0
 --- !u!114 &8790200501163227676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
   latchGravity: -2
   latchCooldown: 0.2
   camHolder: {fileID: 7529769993672508493}
-  testing: 1
+  testing: 0
 --- !u!114 &4168701337419765822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,7 +231,7 @@ MonoBehaviour:
   - {fileID: 380239719270005347}
   - {fileID: 4965409537128299735}
   - {fileID: 1594698467300737717}
-  sceneViewId: 2
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &380239719270005347
@@ -269,7 +269,7 @@ MonoBehaviour:
   shootSound: {fileID: 0}
   reloadSound: {fileID: 0}
   emptyClipSound: {fileID: 0}
-  testing: 1
+  testing: 0
 --- !u!114 &5695401824522528915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,7 +476,7 @@ MonoBehaviour:
   adsFov: 55
   adsSensitivityMultiplier: 0.6
   adsLerpSpeed: 12
-  testing: 1
+  testing: 0
 --- !u!114 &729677808937672196
 MonoBehaviour:
   m_ObjectHideFlags: 0
