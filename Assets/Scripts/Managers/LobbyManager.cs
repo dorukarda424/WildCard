@@ -98,7 +98,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             MaxPlayers = (byte)maxP,
             IsVisible = true,
-            IsOpen = true
+            IsOpen = true,
+            // Mark this room as a Quick Play room so the manual room list can filter it out
+            CustomRoomProperties = new Hashtable { { "qp", true } },
+            CustomRoomPropertiesForLobby = new string[] { "qp" }
         };
 
         // null name = Photon generates a unique GUID name
@@ -141,9 +144,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Odaya girildi!");
 
-        if (_isAutoMatch)
+        // Detect if we joined a Quick Play room (either via button or from room list)
+        bool isQuickPlayRoom = false;
+        object qpVal;
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("qp", out qpVal) && qpVal is bool qp && qp)
         {
-            // Auto match → Load the playable warmup lobby scene
+            isQuickPlayRoom = true;
+        }
+
+        if (_isAutoMatch || isQuickPlayRoom)
+        {
+            // Auto match / Quick Play room → Load the playable warmup lobby scene
             // WarmupManager in that scene handles spawning, countdown, and match start
             if (statusText != null)
             {
@@ -158,6 +169,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 PhotonNetwork.LoadLevel("WarmupLobby");
             }
+            // Non-master: AutomaticallySyncScene will load WarmupLobby automatically
         }
         else
         {
@@ -279,11 +291,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         foreach (Transform child in roomListContent) Destroy(child.gameObject);
         foreach (RoomInfo room in cachedRoomList)
         {
-            if (room.IsOpen && room.IsVisible && room.PlayerCount < room.MaxPlayers)
-            {
-                RoomItem newRoom = Instantiate(roomItemPrefab, roomListContent);
-                newRoom.SetRoomInfo(room.Name, this);
-            }
+            if (!room.IsOpen || !room.IsVisible || room.PlayerCount >= room.MaxPlayers)
+                continue;
+
+            // Skip Quick Play rooms — they should only be joined via the Quick Play button
+            object qpVal;
+            if (room.CustomProperties.TryGetValue("qp", out qpVal) && qpVal is bool qp && qp)
+                continue;
+
+            RoomItem newRoom = Instantiate(roomItemPrefab, roomListContent);
+            newRoom.SetRoomInfo(room.Name, this);
         }
     }
 
