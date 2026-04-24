@@ -219,9 +219,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   currentWeapon: {fileID: 11400000, guid: 2da647858199ed54784572871bf291a1, type: 2}
-  firePoint: {fileID: 0}
-  bulletPrefabName: NetworkBullet
-  bulletPrefab: {fileID: 0}
+  firePoint: {fileID: 8671362774719195083}
+  bulletPrefabName: Projectile_Blaster
+  bulletPrefab: {fileID: 3659995153115176983, guid: 2877a5f6b12fca54ab754a8969468a90, type: 3}
   shootSound: {fileID: 8300000, guid: 1739a2e1630f49d48899bf4b421c5c15, type: 3}
   reloadSound: {fileID: 8300000, guid: bef72f713ac1156409e266a2f27d74e8, type: 3}
   emptyClipSound: {fileID: 8300000, guid: c9180e31de2d1e74383a49931035531f, type: 3}
@@ -451,6 +451,37 @@ MonoBehaviour:
   localAimRig: {fileID: 6280074164534053089}
   localHandRig: {fileID: 0}
   weightTransitionSpeed: 10
+--- !u!1 &4084110680391100292
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8671362774719195083}
+  m_Layer: 0
+  m_Name: Firepoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8671362774719195083
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4084110680391100292}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.081, y: 0.024, z: 0.265}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 396674156770263877}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4033505446837196241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -506,7 +537,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5580963254329074261, guid: 1c69aa1142b917f4f8fd16da70f8d291, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1986185350131338158}
   m_SourcePrefab: {fileID: 100100000, guid: 1c69aa1142b917f4f8fd16da70f8d291, type: 3}
 --- !u!4 &8197013097138826558 stripped
 Transform:
@@ -518,6 +552,54 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5580963254329074261, guid: 1c69aa1142b917f4f8fd16da70f8d291, type: 3}
   m_PrefabInstance: {fileID: 4033505446837196241}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1986185350131338158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8829996840815392644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonAnimatorView
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsGrounded
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsLatched
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsAirborne
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsSprinting
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsCrouching
+  - Type: 1
+    SynchronizeType: 2
+    Name: MoveX
+  - Type: 1
+    SynchronizeType: 2
+    Name: MoveY
+  - Type: 1
+    SynchronizeType: 2
+    Name: Speed
+  - Type: 1
+    SynchronizeType: 2
+    Name: AimPitch
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsAiming
+  m_SynchronizeLayers:
+  - SynchronizeType: 1
+    LayerIndex: 0
 --- !u!1001 &5605039508832500554
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -592,12 +674,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5208514913158510607, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8671362774719195083}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
 --- !u!1 &52505246076197151 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5580963254329074261, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
+  m_PrefabInstance: {fileID: 5605039508832500554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &396674156770263877 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5208514913158510607, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
   m_PrefabInstance: {fileID: 5605039508832500554}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &860567490215216037 stripped
