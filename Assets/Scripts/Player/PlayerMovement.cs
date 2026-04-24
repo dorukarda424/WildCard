@@ -51,6 +51,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     private float _networkRotationY;
     private float _networkPitch;
     public float NetworkPitch => _networkPitch;
+    public float CurrentCameraY => _currentCameraY;
     private bool _isRemotePlayer;
     
     private static readonly int IsSprinting = Animator.StringToHash("IsSprinting");
@@ -84,6 +85,14 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
         _jumpsRemaining = EffMaxJumps;
         _currentCrouchHeight = EffStandHeight;
         _currentCameraY = EffStandCameraY;
+
+        // Keep the controller grounded by centering it at half-height.
+        // A zero-centered controller places half of the collider below the player root.
+        if (_cc != null)
+        {
+            _cc.height = Mathf.Max(_cc.height, EffStandHeight);
+            _cc.center = new Vector3(0f, _cc.height * 0.5f, 0f);
+        }
         
         RefreshAnimators();
     }
@@ -120,6 +129,9 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 
             _networkPosition = transform.position;
             _networkRotationY = transform.eulerAngles.y;
+            
+            ApplyBodyOffset();
+            
             Debug.Log($"[PlayerMovement] Remote player initialized at {transform.position}");
             StartCoroutine(VisibilityDebugRoutine());
         }
@@ -131,6 +143,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
                 _currentCameraY = EffStandCameraY;
                 camHolder.position = transform.position + Vector3.up * _currentCameraY;
             }
+
+            ApplyBodyOffset();
 
             DynamicCrosshair crosshair = FindObjectOfType<DynamicCrosshair>();
             if (crosshair != null)
@@ -199,6 +213,41 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     /// Called by PlayerCamera after spawning the camera at runtime.
     /// </summary>
     public void SetCamHolder(Transform cam) => camHolder = cam;
+
+    private void ApplyBodyOffset()
+    {
+        // Find all Animators that are NOT children of the camera holder
+        // These are the full-body models
+        foreach (var anim in _animators)
+        {
+            if (anim == null) continue;
+            
+            bool isUnderCamera = false;
+            if (camHolder != null)
+            {
+                Transform p = anim.transform;
+                while (p != null && p != transform)
+                {
+                    if (p == camHolder)
+                    {
+                        isUnderCamera = true;
+                        break;
+                    }
+                    p = p.parent;
+                }
+            }
+
+            if (!isUnderCamera)
+            {
+                anim.transform.localPosition = new Vector3(
+                    anim.transform.localPosition.x,
+                    PlayerStats.BodyModelOffset,
+                    anim.transform.localPosition.z
+                );
+                Debug.Log($"[PlayerMovement] Applied BodyModelOffset to {anim.gameObject.name}");
+            }
+        }
+    }
     
     private void HandleMovement()
     {

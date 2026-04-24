@@ -32,6 +32,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
     public const float StandHeight = 2.0f;
     public const float CrouchCameraY = 0.8f;
     public const float StandCameraY = 1.6f;
+    public const float BodyModelOffset = 1.0f; // Offset for models with center pivot
     public const float SlideDuration = 1.0f;
     public const float CrouchTransitionSpeed = 10f;
 

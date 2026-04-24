@@ -61,6 +61,15 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     [SerializeField] private float spectatorSpeed = 10f;
     private bool _isSpectatorMode;
 
+    public float CurrentCameraY
+    {
+        get
+        {
+            if (_movement != null) return _movement.CurrentCameraY;
+            return camOffset.y; // Fallback
+        }
+    }
+
     public Transform CameraHolder => cameraHolder;
     public float GetPitch() => _xRotation;
     public Camera GetCamera() => cam;
@@ -292,9 +301,7 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     {
         if (cameraHolder != null)
         {
-            Vector3 targetPos = transform.position;
-            targetPos.y = cameraHolder.position.y; 
-            cameraHolder.position = targetPos;
+            cameraHolder.position = transform.position + Vector3.up * CurrentCameraY;
         }
     }
 
