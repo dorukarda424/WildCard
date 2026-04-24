@@ -132,7 +132,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         // Notify local camera to start Kill Cam if it was us who died
         if (photonView.IsMine && _playerCamera != null)
         {
-            _playerCamera.StartKillCam(killerActorNumber);
+            _playerCamera.StartKillCam(myActorNumber, killerActorNumber);
         }
 
         SetPlayerActive(false);
@@ -197,6 +197,11 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
 
         var controller = GetComponent<PlayerMovement>();
         if (controller != null) controller.enabled = active;
+
+        if (active && _playerCamera != null)
+        {
+            _playerCamera.StopSpectatorMode();
+        }
 
         var combat = GetComponent<PlayerCombat>();
         if (combat != null) combat.enabled = active;

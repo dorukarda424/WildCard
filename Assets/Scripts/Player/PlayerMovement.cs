@@ -49,6 +49,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     
     private Vector3 _networkPosition;
     private float _networkRotationY;
+    private float _networkPitch;
+    public float NetworkPitch => _networkPitch;
     private bool _isRemotePlayer;
     
     private static readonly int IsSprinting = Animator.StringToHash("IsSprinting");
@@ -147,6 +149,20 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
             transform.position = Vector3.Lerp(transform.position, _networkPosition, Time.deltaTime * 15f);
             float smoothY = Mathf.LerpAngle(transform.eulerAngles.y, _networkRotationY, Time.deltaTime * 15f);
             transform.rotation = Quaternion.Euler(0f, smoothY, 0f);
+
+            // Apply network pitch to animators for remote players
+            if (_animators.Count > 0)
+            {
+                // Convert -85..85 range to -1..1 for AimPitch
+                // Using a slightly wider range for safety as in PlayerCamera.HandleLook
+                float t = Mathf.InverseLerp(-127.5f, 127.5f, _networkPitch);
+                float aimPitch = t * 2f - 1f;
+                foreach (var anim in _animators)
+                {
+                    if (anim != null) anim.SetFloat("AimPitch", aimPitch, 0.1f, Time.deltaTime);
+                }
+            }
+
             return;
         }
 
@@ -476,11 +492,18 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(transform.position);
             stream.SendNext(transform.eulerAngles.y);
+
+            // Send camera pitch if possible
+            float pitch = 0f;
+            var pc = GetComponent<PlayerCamera>();
+            if (pc != null) pitch = pc.GetPitch();
+            stream.SendNext(pitch);
         }
         else
         {
             _networkPosition = (Vector3)stream.ReceiveNext();
             _networkRotationY = (float)stream.ReceiveNext();
+            _networkPitch = (float)stream.ReceiveNext();
         }
     }
 

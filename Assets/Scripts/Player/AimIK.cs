@@ -5,6 +5,7 @@ public class AimIK : MonoBehaviourPunCallbacks
 {
     [Header("Aim IK")]
     public PlayerCamera playerCamera;
+    public PlayerMovement playerMovement;
     [SerializeField] private Transform spine1;
     [SerializeField] private Transform spine2;
     [SerializeField] private Transform neck;
@@ -20,12 +21,22 @@ public class AimIK : MonoBehaviourPunCallbacks
     {
         if (playerCamera == null)
             playerCamera = GetComponentInParent<PlayerCamera>();
+        if (playerMovement == null)
+            playerMovement = GetComponentInParent<PlayerMovement>();
     }
 
     private void LateUpdate()
     {
-        if (playerCamera == null) return;
-        if (!testing && photonView != null && !photonView.IsMine) return;
+        bool isMine = testing || (photonView != null && photonView.IsMine);
+
+        if (!isMine)
+        {
+            if (playerMovement == null) return;
+        }
+        else
+        {
+            if (playerCamera == null) return;
+        }
 
         // Capture rest pose on first frame AFTER Animator has initialized
         if (!_restCaptured)
@@ -37,7 +48,8 @@ public class AimIK : MonoBehaviourPunCallbacks
             return;
         }
 
-        float targetPitch = Mathf.Clamp(playerCamera.GetPitch(), -maxPitch, maxPitch);
+        float pitch = isMine ? playerCamera.GetPitch() : playerMovement.NetworkPitch;
+        float targetPitch = Mathf.Clamp(pitch, -maxPitch, maxPitch);
         _currentPitch = Mathf.Lerp(_currentPitch, targetPitch, Time.deltaTime * aimLerpSpeed);
 
         // Always set from rest pose — no accumulation possible

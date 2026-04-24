@@ -44,7 +44,16 @@ public class PlayerRecorder : MonoBehaviourPunCallbacks
     {
         if (KillCamManager.Instance != null)
         {
-            int actorNumber = photonView.Owner != null ? photonView.Owner.ActorNumber : -1;
+            int actorNumber = -1;
+            if (photonView.Owner != null)
+            {
+                actorNumber = photonView.Owner.ActorNumber;
+            }
+            else if (photonView.IsMine && PhotonNetwork.LocalPlayer != null)
+            {
+                actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+            }
+            
             KillCamManager.Instance.RegisterRecorder(actorNumber, this);
         }
     }
@@ -73,8 +82,12 @@ public class PlayerRecorder : MonoBehaviourPunCallbacks
             shooting = InputManager.Instance.IsShooting;
         }
 
+        Vector3 recordPos = (_playerCamera != null && _playerCamera.CameraHolder != null) 
+            ? _playerCamera.CameraHolder.position 
+            : transform.position;
+
         PlayerStateFrame frame = new PlayerStateFrame(
-            transform.position,
+            recordPos,
             transform.rotation,
             pitch,
             shooting,
@@ -95,7 +108,16 @@ public class PlayerRecorder : MonoBehaviourPunCallbacks
     {
         if (KillCamManager.Instance != null)
         {
-            int actorNumber = photonView.Owner != null ? photonView.Owner.ActorNumber : -1;
+            int actorNumber = -1;
+            if (photonView.Owner != null)
+            {
+                actorNumber = photonView.Owner.ActorNumber;
+            }
+            else if (photonView.IsMine && PhotonNetwork.LocalPlayer != null)
+            {
+                actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+            }
+
             KillCamManager.Instance.UnregisterRecorder(actorNumber);
         }
     }

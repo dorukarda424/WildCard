@@ -51,7 +51,17 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     private int _killCamIndex;
     private float _killCamStartTime;
     private float _killCamDuration = 5f;
+    private enum KillCamStage { Victim, Killer }
+    private KillCamStage _currentKillCamStage;
+    private int _victimActorNumber;
+    private int _killerActorNumber;
+    private float _victimReplayDuration = 2f; // Show last 2 seconds of victim's life
 
+    [Header("Spectator")]
+    [SerializeField] private float spectatorSpeed = 10f;
+    private bool _isSpectatorMode;
+
+    public Transform CameraHolder => cameraHolder;
     public float GetPitch() => _xRotation;
     public Camera GetCamera() => cam;
     public bool IsKillCamActive => _isKillCamActive;
@@ -132,6 +142,13 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
             return;
         }
 
+        if (_isSpectatorMode)
+        {
+            UpdateSpectatorMode();
+            HandleLook();
+            return;
+        }
+
         PlayerFollow();
         HandleLook();
         HandleHeadBob();
@@ -139,69 +156,142 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         HandleAds();
     }
 
-    public void StartKillCam(int killerActorNumber)
+    public void StartKillCam(int victimActorNumber, int killerActorNumber)
     {
         if (KillCamManager.Instance == null) return;
 
-        _killCamBuffer = KillCamManager.Instance.GetKillerBuffer(killerActorNumber);
-        if (_killCamBuffer == null || _killCamBuffer.Count == 0)
+        _victimActorNumber = victimActorNumber;
+        _killerActorNumber = killerActorNumber;
+
+        // Try to start with victim replay
+        _killCamBuffer = KillCamManager.Instance.GetKillerBuffer(victimActorNumber);
+        
+        if (_killCamBuffer != null && _killCamBuffer.Count > 0)
         {
-            Debug.LogWarning($"[PlayerCamera] No record found for killer {killerActorNumber}");
-            return;
+            _currentKillCamStage = KillCamStage.Victim;
+            // Only play the last 2 seconds of the victim's buffer
+            float totalBufferTime = _killCamBuffer[_killCamBuffer.Count - 1].timestamp - _killCamBuffer[0].timestamp;
+            if (totalBufferTime > _victimReplayDuration)
+            {
+                // Find index to start from
+                float startTime = _killCamBuffer[_killCamBuffer.Count - 1].timestamp - _victimReplayDuration;
+                _killCamIndex = 0;
+                while (_killCamIndex < _killCamBuffer.Count - 1 && _killCamBuffer[_killCamIndex].timestamp < startTime)
+                {
+                    _killCamIndex++;
+                }
+            }
+            else
+            {
+                _killCamIndex = 0;
+            }
+        }
+        else
+        {
+            // Skip to killer if victim buffer missing
+            _killCamBuffer = KillCamManager.Instance.GetKillerBuffer(killerActorNumber);
+            if (_killCamBuffer == null || _killCamBuffer.Count == 0)
+            {
+                Debug.LogWarning($"[PlayerCamera] No record found for victim {victimActorNumber} or killer {killerActorNumber}");
+                return;
+            }
+            _currentKillCamStage = KillCamStage.Killer;
+            _killCamIndex = 0;
         }
 
         _isKillCamActive = true;
         _killCamStartTime = Time.time;
-        _killCamIndex = 0;
-        
-        // Optionally disable HUD or show "Kill Cam" text here
     }
 
     private void UpdateKillCam()
     {
         if (_killCamBuffer == null || _killCamIndex >= _killCamBuffer.Count)
         {
-            StopKillCam();
+            SwitchKillCamStage();
             return;
         }
 
         float elapsedTime = Time.time - _killCamStartTime;
+        float bufferStartTime = _killCamBuffer[0].timestamp;
         
-        // Find the frame that corresponds to current elapsed time
-        // The buffer starts ~5s ago, so we want to play from start to end
+        // Find the correct frame based on elapsed time
         while (_killCamIndex < _killCamBuffer.Count - 1 && 
-               (_killCamBuffer[_killCamIndex].timestamp - _killCamBuffer[0].timestamp) < elapsedTime)
+               (_killCamBuffer[_killCamIndex].timestamp - bufferStartTime) < elapsedTime)
         {
             _killCamIndex++;
         }
 
         var frame = _killCamBuffer[_killCamIndex];
         
-        // Apply frame to camera
         cameraHolder.position = frame.position;
         transform.rotation = frame.rotation;
         cameraHolder.localRotation = Quaternion.Euler(frame.cameraPitch, 0f, 0f);
 
-        if (elapsedTime >= _killCamDuration)
+        float currentStageMaxDuration = (_currentKillCamStage == KillCamStage.Victim) ? _victimReplayDuration : _killCamDuration;
+
+        if (elapsedTime >= currentStageMaxDuration)
         {
-            StopKillCam();
+            SwitchKillCamStage();
         }
+    }
+
+    private void SwitchKillCamStage()
+    {
+        if (_currentKillCamStage == KillCamStage.Victim)
+        {
+            // Switch to Killer
+            _killCamBuffer = KillCamManager.Instance.GetKillerBuffer(_killerActorNumber);
+            if (_killCamBuffer != null && _killCamBuffer.Count > 0)
+            {
+                _currentKillCamStage = KillCamStage.Killer;
+                _killCamIndex = 0;
+                _killCamStartTime = Time.time;
+                return;
+            }
+        }
+        
+        // If we finished Killer stage or no Killer buffer found
+        StopKillCam();
+    }
+
+    private void UpdateSpectatorMode()
+    {
+        if (InputManager.Instance == null) return;
+
+        Vector2 moveInput = InputManager.Instance.MoveInput;
+        
+        Vector3 moveDir = transform.forward * moveInput.y + transform.right * moveInput.x;
+        
+        float vertical = 0f;
+        if (InputManager.Instance.IsJumpPressed) vertical += 1f;
+        if (InputManager.Instance.IsCrouching) vertical -= 1f;
+        
+        moveDir.y += vertical;
+
+        transform.position += moveDir * spectatorSpeed * Time.deltaTime;
+
+        cameraHolder.position = transform.position + camOffset;
+        
+        if (InputManager.Instance.IsJumpPressed) InputManager.Instance.ConsumeJump();
     }
 
     private void StopKillCam()
     {
         _isKillCamActive = false;
         _killCamBuffer = null;
-        // Proceed to normal respawn flow if needed
+        
+        _isSpectatorMode = true;
+    }
+
+    public void StopSpectatorMode()
+    {
+        _isSpectatorMode = false;
     }
 
     private void PlayerFollow()
     {
         if (cameraHolder != null)
         {
-            // Just sync the position to the player root. 
-            // The local Y height is managed by PlayerMovement.HandleCrouchingHeight() 
-            // which sets cameraHolder.position directly.
             Vector3 targetPos = transform.position;
             targetPos.y = cameraHolder.position.y; 
             cameraHolder.position = targetPos;
@@ -212,7 +302,6 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     {
         if (InputManager.Instance == null || InputManager.Instance.InputActions == null) return;
 
-        // read current frame delta directly from the action
         Vector2 raw = InputManager.Instance.InputActions.Player.Look.ReadValue<Vector2>();
         if (raw.sqrMagnitude < 0.01f) raw = Vector2.zero;
         float lookX, lookY;
@@ -264,7 +353,6 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
         var state = _movement.CurrentState;
 
-        // no bob while latched or in air
         if (state == PlayerMovement.PlayerState.Latched ||
             state == PlayerMovement.PlayerState.Airborne)
         {
