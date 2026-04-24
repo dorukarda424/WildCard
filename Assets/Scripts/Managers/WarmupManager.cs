@@ -47,6 +47,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
     private bool _countdownActive = false;
     private float _countdownTimer;
     private bool _gameStarting = false;
+    private bool _localPlayerSpawned = false;
 
     private void Awake()
     {
@@ -81,6 +82,13 @@ public class WarmupManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+        // Fallback: if Start() couldn't spawn because the room wasn't ready yet,
+        // retry every frame until we succeed (handles AutomaticallySyncScene timing)
+        if (!_localPlayerSpawned && PhotonNetwork.InRoom)
+        {
+            SpawnLocalPlayer();
+        }
+
         if (!PhotonNetwork.InRoom || _gameStarting) return;
 
         UpdatePlayerCountUI();
@@ -93,6 +101,9 @@ public class WarmupManager : MonoBehaviourPunCallbacks
 
     private void SpawnLocalPlayer()
     {
+        if (_localPlayerSpawned) return;
+        _localPlayerSpawned = true;
+
         int localActor = PhotonNetwork.LocalPlayer.ActorNumber;
         Vector3 spawnPos = GetSpawnPosition(localActor);
 
