@@ -273,10 +273,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
             {
                 anim.transform.localPosition = new Vector3(
                     anim.transform.localPosition.x,
-                    PlayerStats.BodyModelOffset,
+                    0f, // Force feet to floor
                     anim.transform.localPosition.z
                 );
-                Debug.Log($"[PlayerMovement] Applied BodyModelOffset to {anim.gameObject.name}");
+                Debug.Log($"[PlayerMovement] Grounded full-body model {anim.gameObject.name} (Y=0)");
             }
         }
     }
