@@ -1213,7 +1213,7 @@ MonoBehaviour:
   playerListContent: {fileID: 520358562}
   playerItemPrefab: {fileID: 4696021977842130361, guid: 72da998635d33b24ea9161138873335e, type: 3}
   startGameButton: {fileID: 503903783}
-  minPlayersToStart: 1
+  minPlayersToStart: 2
   autoStartCountdown: 30
   countdownText: {fileID: 1077843997}
   statusText: {fileID: 705071210}

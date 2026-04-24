@@ -255,6 +255,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 statusText.text = "Loading warmup...";
             }
 
+            // ── Disable auto-match loop so UpdateAutoMatchCountdown
+            //    does NOT fire AutoStartGame() while we transition. ──
+            _isAutoMatch = false;
+            _countdownActive = false;
+
             if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.LoadLevel("WarmupLobby");
