@@ -48,12 +48,14 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     private Vector3 _latchDirection;
     
     private Vector3 _networkPosition;
+    private Vector3 _lastNetworkPosition;
     private float _networkRotationY;
     private float _networkPitch;
     public float NetworkPitch => _networkPitch;
     public float CurrentCameraY => _currentCameraY;
     private bool _isRemotePlayer;
-    
+    private bool _networkIsAiming;
+
     private static readonly int IsSprinting = Animator.StringToHash("IsSprinting");
     private static readonly int IsCrouching = Animator.StringToHash("IsCrouching");
     private static readonly int IsAirborne = Animator.StringToHash("IsAirborne");
@@ -160,23 +162,53 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (_isRemotePlayer)
         {
+            _lastNetworkPosition = transform.position;
             transform.position = Vector3.Lerp(transform.position, _networkPosition, Time.deltaTime * 15f);
             float smoothY = Mathf.LerpAngle(transform.eulerAngles.y, _networkRotationY, Time.deltaTime * 15f);
             transform.rotation = Quaternion.Euler(0f, smoothY, 0f);
 
+            // Calculate movement delta from world motion
+            Vector3 delta = (transform.position - _lastNetworkPosition);
+            
+            // Reconstruct movement direction for remote animator
+            // Use _moveInput if available (synced), otherwise fallback to delta
+            Vector3 moveDir = Vector3.zero;
+            bool hasInput = false;
+
+            if (_moveInput.sqrMagnitude > 0.01f)
+            {
+                moveDir = transform.forward * _moveInput.y + transform.right * _moveInput.x;
+                hasInput = true;
+            }
+            else if (delta.sqrMagnitude > 0.0001f)
+            {
+                moveDir = delta / Time.deltaTime;
+                moveDir.y = 0f;
+                hasInput = moveDir.sqrMagnitude > 0.01f;
+            }
+
+            UpdateAnimator(moveDir, hasInput);
+
+            // Synchronize vertical position of the body if needed
+            // (Wait, ApplyBodyOffset already handles localPosition)
+
             // Apply network pitch to animators for remote players
             if (_animators.Count > 0)
             {
-                // Convert -85..85 range to -1..1 for AimPitch
-                // Using a slightly wider range for safety as in PlayerCamera.HandleLook
                 float t = Mathf.InverseLerp(-127.5f, 127.5f, _networkPitch);
                 float aimPitch = t * 2f - 1f;
                 foreach (var anim in _animators)
                 {
-                    if (anim != null) anim.SetFloat("AimPitch", aimPitch, 0.1f, Time.deltaTime);
+                    if (anim != null)
+                    {
+                        anim.SetFloat("AimPitch", aimPitch, 0.1f, Time.deltaTime);
+                        
+                        // Sync important booleans that might not be in CurrentState or moveInput
+                        anim.SetBool("IsGrounded", IsGrounded);
+                        anim.SetBool("IsCrouching", CurrentState == PlayerState.Crouching);
+                    }
                 }
             }
-
             return;
         }
 
@@ -364,7 +396,33 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
         float moveX = hasInput ? local.x : 0f;
         float moveY = hasInput ? local.z : 0f;
         float speed = hasInput ? Mathf.Clamp01(new Vector2(moveX, moveY).magnitude) : 0f;
-        bool isAiming = InputManager.Instance != null && InputManager.Instance.IsAiming;
+
+        bool isAiming = false;
+        bool isShooting = false;
+        bool isReloading = false;
+
+        if (!_isRemotePlayer)
+        {
+            if (InputManager.Instance != null) isAiming = InputManager.Instance.IsAiming;
+            PlayerCombat combat = GetComponent<PlayerCombat>();
+            if (combat != null)
+            {
+                isShooting = combat.IsShooting;
+                isReloading = combat.IsReloading;
+            }
+        }
+        else
+        {
+            isAiming = _networkIsAiming;
+            
+            // For remote players, check if PlayerCombat is present and if it has a way to sync shooting
+            PlayerCombat combat = GetComponent<PlayerCombat>();
+            if (combat != null)
+            {
+                isShooting = combat.IsShooting;
+                isReloading = combat.IsReloading;
+            }
+        }
 
         foreach (Animator anim in _animators)
         {
@@ -372,9 +430,9 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 
             if (!hasInput)
             {
-                anim.SetFloat("MoveX", 0f);
-                anim.SetFloat("MoveY", 0f);
-                anim.SetFloat("Speed", 0f);
+                anim.SetFloat("MoveX", 0f, 0.1f, Time.deltaTime);
+                anim.SetFloat("MoveY", 0f, 0.1f, Time.deltaTime);
+                anim.SetFloat("Speed", 0f, 0.1f, Time.deltaTime);
             }
             else
             {
@@ -390,6 +448,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
             anim.SetBool("IsSprinting", CurrentState == PlayerState.Sprinting);
             anim.SetBool("IsSliding", CurrentState == PlayerState.Sliding);
             anim.SetBool("IsAiming", isAiming);
+            anim.SetBool("IsShooting", isShooting);
+            anim.SetBool("IsReloading", isReloading);
         }
     }
 
@@ -542,17 +602,26 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(transform.position);
             stream.SendNext(transform.eulerAngles.y);
 
-            // Send camera pitch if possible
             float pitch = 0f;
             var pc = GetComponent<PlayerCamera>();
             if (pc != null) pitch = pc.GetPitch();
             stream.SendNext(pitch);
+
+            stream.SendNext(IsGrounded);
+            stream.SendNext((int)CurrentState);
+            stream.SendNext(_moveInput);
+            stream.SendNext(InputManager.Instance != null && InputManager.Instance.IsAiming);
         }
         else
         {
             _networkPosition = (Vector3)stream.ReceiveNext();
             _networkRotationY = (float)stream.ReceiveNext();
             _networkPitch = (float)stream.ReceiveNext();
+
+            IsGrounded = (bool)stream.ReceiveNext();
+            CurrentState = (PlayerState)(int)stream.ReceiveNext();
+            _moveInput = (Vector2)stream.ReceiveNext();
+            _networkIsAiming = (bool)stream.ReceiveNext();
         }
     }
 

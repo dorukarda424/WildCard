@@ -298,11 +298,13 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(_currentAmmo);
             stream.SendNext(_isReloading);
+            stream.SendNext(_isShooting);
         }
         else
         {
             _currentAmmo = (int)stream.ReceiveNext();
             _isReloading = (bool)stream.ReceiveNext();
+            _isShooting = (bool)stream.ReceiveNext();
         }
     }
 }
