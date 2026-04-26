@@ -24,8 +24,11 @@ namespace WildCard.Environment
             var pv = health.GetComponent<PhotonView>();
             if (pv != null && !pv.IsMine) return;
 
+            // Use RPC so ALL clients (including MasterClient) process the death.
+            // TakeDamageLocal only ran locally, which meant non-MasterClient
+            // deaths were never broadcast and the round never ended.
             // -1 = environment kill (no killer credit)
-            health.TakeDamageLocal(damage, -1);
+            health.TakeDamageFromNetwork(damage, -1);
         }
     }
 }

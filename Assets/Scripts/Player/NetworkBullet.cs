@@ -108,7 +108,8 @@ public class NetworkBullet : MonoBehaviourPunCallbacks
             if (_homingTarget == null) return;
         }
 
-        Vector3 direction = (_homingTarget.position - transform.position).normalized;
+        Vector3 targetPos = _homingTarget.position + Vector3.up * 1.0f;
+        Vector3 direction = (targetPos - transform.position).normalized;
         Vector3 newVelocity = Vector3.Lerp(_rb.linearVelocity.normalized, direction, homingStrength * Time.fixedDeltaTime);
         _rb.linearVelocity = newVelocity.normalized * _speed;
         transform.forward = _rb.linearVelocity.normalized;
