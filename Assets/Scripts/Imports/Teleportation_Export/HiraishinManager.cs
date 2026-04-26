@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.FPS.Game;
+using Photon.Pun;
 
 namespace Unity.FPS.Gameplay
 {
@@ -39,15 +40,38 @@ namespace Unity.FPS.Gameplay
 
         private void Start()
         {
-            m_PlayerController = FindFirstObjectByType<PlayerCharacterController>();
             m_GameFlowManager = FindFirstObjectByType<GameFlowManager>();
+            LinkToLocalPlayer();
+        }
 
+        private void LinkToLocalPlayer()
+        {
+            PlayerCharacterController[] allControllers = FindObjectsByType<PlayerCharacterController>(FindObjectsSortMode.None);
+            foreach (var controller in allControllers)
+            {
+                PhotonView pv = controller.GetComponent<PhotonView>();
+                if (pv != null && pv.IsMine)
+                {
+                    m_PlayerController = controller;
+                    Debug.Log("HiraishinManager: Local PlayerCharacterController linked via PhotonView.");
+                    return;
+                }
+            }
+
+            // Fallback for single player or if Photon is not used on the player
+            m_PlayerController = FindFirstObjectByType<PlayerCharacterController>();
+            
             if (m_PlayerController == null) Debug.LogError("HiraishinManager: PlayerCharacterController not found!");
-            else Debug.Log("HiraishinManager: PlayerCharacterController linked.");
+            else Debug.Log("HiraishinManager: PlayerCharacterController linked (fallback).");
         }
 
         private void Update()
         {
+            if (m_PlayerController == null)
+            {
+                LinkToLocalPlayer();
+                if (m_PlayerController == null) return;
+            }
             // Guard: only allow teleport when mouse is locked (i.e., in gameplay, not in menus)
             bool canAct = Cursor.lockState == CursorLockMode.Locked
                           && (m_GameFlowManager == null || !m_GameFlowManager.GameIsEnding);

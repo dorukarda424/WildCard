@@ -3859,9 +3859,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
       insertIndex: -1
       addedObject: {fileID: 407337873731657357}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1682714627352556326}
   m_SourcePrefab: {fileID: 100100000, guid: f79e6b006c4ef7d4d96f521112593f80, type: 3}
 --- !u!4 &5059864748409665775 stripped
 Transform:
@@ -3943,19 +3940,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1682714627352556326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5580963254329074261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.RigBuilder
-  m_RigLayers:
-  - m_Rig: {fileID: 1940584771467129771}
-    m_Active: 1
-  m_Effectors: []

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3814490976768833366}
   - component: {fileID: 7826945834586462510}
   - component: {fileID: 3594753174537759907}
+  - component: {fileID: -1591508923389461004}
   - component: {fileID: 4168701337419765822}
   - component: {fileID: 380239719270005347}
   - component: {fileID: 4965409537128299735}
@@ -24,7 +25,6 @@ GameObject:
   - component: {fileID: 8248626033275103989}
   - component: {fileID: 3684935998521264107}
   - component: {fileID: 1120967927213681622}
-  - component: {fileID: -1591508923389461004}
   - component: {fileID: 729677808937672196}
   m_Layer: 0
   m_Name: Player
@@ -42,7 +42,7 @@ Transform:
   m_GameObject: {fileID: 2672267509951206161}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.95748, y: 30, z: -51.35198}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -162,6 +162,32 @@ MonoBehaviour:
   latchCooldown: 0.2
   camHolder: {fileID: 7529769993672508493}
   testing: 0
+--- !u!114 &-1591508923389461004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2672267509951206161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57cf82525a67e8c43a9f118b6c38b4f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
+  cameraHolder: {fileID: 7529769993672508493}
+  cam: {fileID: 2334321631922447752}
+  camOffset: {x: 0, y: 0.8, z: 0}
+  mouseSensitivity: 2
+  maxLookAngle: 85
+  bobFrequency: 10
+  bobAmplitude: 0.05
+  bobReturnSpeed: 5
+  recoilReturnSpeed: 5
+  adsFov: 55
+  adsSensitivityMultiplier: 0.6
+  adsLerpSpeed: 12
+  testing: 0
+  spectatorSpeed: 10
 --- !u!114 &4168701337419765822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,32 +435,6 @@ MonoBehaviour:
   pulseIntensity: 0.15
   damageFlashColor: {r: 0.8, g: 0.2, b: 0, a: 0.3}
   damageFlashDuration: 0.15
---- !u!114 &-1591508923389461004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2672267509951206161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57cf82525a67e8c43a9f118b6c38b4f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
-  cameraHolder: {fileID: 7529769993672508493}
-  cam: {fileID: 2334321631922447752}
-  camOffset: {x: 0, y: 0.8, z: 0}
-  mouseSensitivity: 2
-  maxLookAngle: 85
-  bobFrequency: 10
-  bobAmplitude: 0.05
-  bobReturnSpeed: 5
-  recoilReturnSpeed: 5
-  adsFov: 55
-  adsSensitivityMultiplier: 0.6
-  adsLerpSpeed: 12
-  testing: 0
-  spectatorSpeed: 10
 --- !u!114 &729677808937672196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,7 +449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRigController
   globalAimRig: {fileID: 0}
   globalHandRig: {fileID: 0}
-  localAimRig: {fileID: 6280074164534053089}
+  localAimRig: {fileID: 0}
   localHandRig: {fileID: 0}
   weightTransitionSpeed: 10
 --- !u!1 &4084110680391100292
@@ -497,7 +497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5059864748409665775, guid: 1c69aa1142b917f4f8fd16da70f8d291, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5059864748409665775, guid: 1c69aa1142b917f4f8fd16da70f8d291, type: 3}
       propertyPath: m_LocalPosition.z
@@ -601,6 +601,8 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
+  - SynchronizeType: 0
+    LayerIndex: 1
 --- !u!1001 &5605039508832500554
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -615,7 +617,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5059864748409665775, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5059864748409665775, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -674,7 +676,8 @@ PrefabInstance:
       value: 0.24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8869610839922280535, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5208514913158510607, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
       insertIndex: -1
@@ -712,17 +715,6 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 7902749258632322754, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
   m_PrefabInstance: {fileID: 5605039508832500554}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6280074164534053089 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1940584771467129771, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
-  m_PrefabInstance: {fileID: 5605039508832500554}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.Rig
 --- !u!4 &7529769993672508493 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2717364195711745799, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
