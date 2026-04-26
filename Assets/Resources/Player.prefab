@@ -136,7 +136,7 @@ MonoBehaviour:
   baseSprintSpeed: 10
   baseCrouchSpeed: 2.5
   baseSlideSpeed: 15
-  baseJumpForce: 10
+  baseJumpForce: 4
   baseGravity: -20
   baseMaxJumps: 1
   baseMaxFallSpeed: -30
