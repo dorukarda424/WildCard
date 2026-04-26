@@ -65,6 +65,12 @@ public class RoundManager : MonoBehaviourPunCallbacks
         }
         Instance = this;
 
+        // Restore round counter from GameManager (persists across scene loads)
+        if (GameManager.instance != null)
+        {
+            CurrentRound = GameManager.instance.currentRound;
+        }
+
         // Çevrimdışı isen veya Odadaysan oyuncuyu direk spawnla
         if (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom != null)
         {
@@ -148,6 +154,13 @@ public class RoundManager : MonoBehaviourPunCallbacks
     private void StartCountdown()
     {
         CurrentRound++;
+
+        // Persist to GameManager so it survives scene transitions
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.currentRound = CurrentRound;
+        }
+
         if (PhotonNetwork.InRoom) photonView.RPC(nameof(RPC_ChangeState), RpcTarget.All, (int)RoundState.Countdown, CurrentRound, countdownDuration);
         else RPC_ChangeState((int)RoundState.Countdown, CurrentRound, countdownDuration);
     }

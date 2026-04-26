@@ -20,6 +20,10 @@ public class GameManager : MonoBehaviour
     [Tooltip("Tracks which map in the rotation we are on. Set by RoundManager.")]
     [HideInInspector] public int currentMapIndex = 0;
 
+    [Header("Round Tracking")]
+    [Tooltip("Current round number. Persisted across scene transitions by RoundManager.")]
+    [HideInInspector] public int currentRound = 0;
+
     [Header("Local Persisted Data")]
     [Tooltip("Locally saved cards to bypass Photon network delays during quick scene transitions.")]
     public List<string> localPlayerCards = new List<string>();
@@ -38,11 +42,12 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Reset map index when a new match begins.
+    /// Reset map index and round counter when a new match begins.
     /// </summary>
     public void ResetMapRotation()
     {
         currentMapIndex = 0;
+        currentRound = 0;
         localPlayerCards.Clear();
     }
 }

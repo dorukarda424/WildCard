@@ -41,6 +41,40 @@ public class ScoreManager : MonoBehaviourPunCallbacks
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        // When a new scene loads, re-read scores from Photon Custom Properties
+        // so we don't lose data accumulated in previous rounds.
+        BootstrapFromPhoton();
+    }
+
+    /// <summary>
+    /// Reads existing scores from Photon Custom Properties for every player in the room.
+    /// Called on scene load to restore data that the local _scores cache lost.
+    /// </summary>
+    private void BootstrapFromPhoton()
+    {
+        if (!PhotonNetwork.InRoom) return;
+
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            int actor = player.ActorNumber;
+            var score = new PlayerScore();
+
+            if (player.CustomProperties.TryGetValue("kills", out object k) && k is int ki)
+                score.kills = ki;
+            if (player.CustomProperties.TryGetValue("deaths", out object d) && d is int di)
+                score.deaths = di;
+            if (player.CustomProperties.TryGetValue("roundWins", out object w) && w is int wi)
+                score.roundWins = wi;
+
+            _scores[actor] = score;
+        }
+
+        Debug.Log($"[ScoreManager] Bootstrapped {_scores.Count} player scores from Photon.");
     }
 
     // ────────── Score Tracking ──────────
@@ -113,6 +147,9 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     /// </summary>
     public List<(int actorNumber, PlayerScore score)> GetLeaderboard()
     {
+        // Make sure every player in the room has at least an empty entry
+        EnsureAllPlayersRegistered();
+
         var list = new List<(int actorNumber, PlayerScore score)>();
         foreach (var kvp in _scores)
         {
@@ -120,6 +157,24 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         }
         list.Sort((a, b) => b.score.roundWins.CompareTo(a.score.roundWins));
         return list;
+    }
+
+    /// <summary>
+    /// Ensures every player currently in the Photon room has a score entry,
+    /// even if they haven't scored yet. Prevents players from being invisible
+    /// on the scoreboard.
+    /// </summary>
+    private void EnsureAllPlayersRegistered()
+    {
+        if (!PhotonNetwork.InRoom) return;
+
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (!_scores.ContainsKey(player.ActorNumber))
+            {
+                _scores[player.ActorNumber] = new PlayerScore();
+            }
+        }
     }
 
     /// <summary>
