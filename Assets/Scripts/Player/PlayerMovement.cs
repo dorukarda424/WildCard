@@ -203,9 +203,6 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
                     {
                         anim.SetFloat("AimPitch", aimPitch, 0.1f, Time.deltaTime);
                         
-                        // Sync important booleans that might not be in CurrentState or moveInput
-                        anim.SetBool("IsGrounded", IsGrounded);
-                        anim.SetBool("IsCrouching", CurrentState == PlayerState.Crouching);
                     }
                 }
             }
@@ -441,15 +438,18 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
                 anim.SetFloat("Speed", speed, 0.1f, Time.deltaTime);
             }
 
-            anim.SetBool("IsGrounded", IsGrounded);
-            anim.SetBool("IsCrouching", CurrentState == PlayerState.Crouching);
-            anim.SetBool("IsLatched", CurrentState == PlayerState.Latched);
-            anim.SetBool("IsAirborne", CurrentState == PlayerState.Airborne);
-            anim.SetBool("IsSprinting", CurrentState == PlayerState.Sprinting);
-            anim.SetBool("IsSliding", CurrentState == PlayerState.Sliding);
-            anim.SetBool("IsAiming", isAiming);
-            anim.SetBool("IsShooting", isShooting);
-            anim.SetBool("IsReloading", isReloading);
+            if (!_isRemotePlayer)
+            {
+                anim.SetBool("IsGrounded", IsGrounded);
+                anim.SetBool("IsCrouching", CurrentState == PlayerState.Crouching);
+                anim.SetBool("IsLatched", CurrentState == PlayerState.Latched);
+                anim.SetBool("IsAirborne", CurrentState == PlayerState.Airborne);
+                anim.SetBool("IsSprinting", CurrentState == PlayerState.Sprinting);
+                anim.SetBool("IsSliding", CurrentState == PlayerState.Sliding);
+                anim.SetBool("IsAiming", isAiming);
+                anim.SetBool("IsShooting", isShooting);
+                anim.SetBool("IsReloading", isReloading);
+            }
         }
     }
 

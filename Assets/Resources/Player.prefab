@@ -131,7 +131,7 @@ MonoBehaviour:
   baseFireRate: 0.3
   baseMaxAmmo: 8
   baseMoveSpeed: 5
-  baseBulletSpeed: 5
+  baseBulletSpeed: 20
   baseReloadSpeed: 1.5
   baseSprintSpeed: 10
   baseCrouchSpeed: 2.5
