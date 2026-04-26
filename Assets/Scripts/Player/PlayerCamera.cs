@@ -57,6 +57,10 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     private int _victimActorNumber;
     private int _killerActorNumber;
     private float _victimReplayDuration = 2f; // Show last 2 seconds of victim's life
+    private bool _wasShootingInKillCam;
+
+    [Header("Kill Cam Bullets")]
+    [SerializeField] private string killCamBulletName = "Projectile_Blaster";
 
     [Header("Spectator")]
     [SerializeField] private float spectatorSpeed = 10f;
@@ -224,6 +228,7 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
         _isKillCamActive = true;
         _killCamStartTime = Time.time;
+        _wasShootingInKillCam = false;
 
         // Ensure the camera itself is enabled during kill cam
         if (cam != null) cam.enabled = true;
@@ -262,12 +267,48 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         transform.rotation = frame.rotation;
         cameraHolder.localRotation = Quaternion.Euler(frame.cameraPitch, 0f, 0f);
 
+        // BULLET RECORDING/REPLAY
+        if (frame.isShooting && !_wasShootingInKillCam)
+        {
+            SpawnKillCamBullet();
+        }
+        _wasShootingInKillCam = frame.isShooting;
+
         float currentStageMaxDuration = (_currentKillCamStage == KillCamStage.Victim) ? _victimReplayDuration : _killCamDuration;
 
         // End stage if time expired OR we've reached the end of the buffer
         if (elapsedTime >= currentStageMaxDuration || _killCamIndex >= _killCamBuffer.Count - 1)
         {
             SwitchKillCamStage();
+        }
+    }
+
+    private void SpawnKillCamBullet()
+    {
+        if (string.IsNullOrEmpty(killCamBulletName)) return;
+
+        // Spawn a visual-only bullet during kill cam
+        // We use regular Instantiate because we don't want this networked bullet to be synced as a real bullet
+        // However, since NetworkBullet REQUIRES a photonView, we should ideally use a non-networked version
+        // or just spawn it locally. PhotonNetwork.Instantiate always makes it networked.
+        // Let's use a simple Instantiate and manually add the visual script if needed, 
+        // but for now, the most compatible way is to use Resources.Load and Instantiate.
+        
+        GameObject prefab = Resources.Load<GameObject>(killCamBulletName);
+        if (prefab == null) return;
+
+        GameObject bulletObj = Instantiate(prefab, cameraHolder.position, cameraHolder.rotation);
+        if (bulletObj != null)
+        {
+            NetworkBullet bullet = bulletObj.GetComponent<NetworkBullet>();
+            if (bullet != null)
+            {
+                bullet.SetKillCamMode(true);
+            }
+            
+            // Also disable PhotonView to avoid errors on non-networked object
+            PhotonView pv = bulletObj.GetComponent<PhotonView>();
+            if (pv != null) pv.enabled = false;
         }
     }
 
@@ -283,6 +324,7 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
                 _killCamIndex = 0;
                 _killCamStartIndex = 0;
                 _killCamStartTime = Time.time;
+                _wasShootingInKillCam = false;
                 Debug.Log($"[PlayerCamera] Switching to Killer stage — {_killCamBuffer.Count} frames");
                 return;
             }

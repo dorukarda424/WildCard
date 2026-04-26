@@ -32,12 +32,28 @@ public class NetworkBullet : MonoBehaviourPunCallbacks
     private bool _isLifeSteal;
     private int _ownerActorNumber;
     private int _ricochetCount;
+    private bool _isKillCamBullet;
 
     private Rigidbody _rb;
     private Transform _homingTarget;
 
     // Cached once on spawn to avoid FindObjectsByType every FixedUpdate tick
     private PlayerHealth[] _cachedPlayers;
+
+    public void SetKillCamMode(bool active)
+    {
+        _isKillCamBullet = active;
+        if (_isKillCamBullet)
+        {
+            // Visual only
+            GetComponent<Collider>().enabled = false;
+            _damage = 0;
+            _isHoming = false;
+            _isExplosive = false;
+            _isRicochet = false;
+            _isLifeSteal = false;
+        }
+    }
 
     private void Awake()
     {
@@ -178,6 +194,14 @@ public class NetworkBullet : MonoBehaviourPunCallbacks
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (_isKillCamBullet)
+        {
+            // Just destroy on any hit without logic
+            if (photonView.IsMine) PhotonNetwork.Destroy(gameObject);
+            else Destroy(gameObject);
+            return;
+        }
+
         // Don't damage self
         var targetHealth = collision.gameObject.GetComponent<PlayerHealth>();
         if (targetHealth != null)
