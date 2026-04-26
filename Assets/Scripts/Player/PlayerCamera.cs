@@ -47,6 +47,17 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     private float _defaultSensitivity;
 
     private bool _isKillCamActive;
+    private List<PlayerRecorder.PlayerStateFrame> _victimBuffer;
+    private List<PlayerRecorder.PlayerStateFrame> _killerBuffer;
+    private GameObject _victimClone;
+    private GameObject _killerClone;
+    private int _victimBufferIndex;
+    private int _killerBufferIndex;
+    private int _victimStartIndex;
+    private int _killerStartIndex;
+    private int _oldCullingMask;
+    private int _killCamLayer;
+    
     private List<PlayerRecorder.PlayerStateFrame> _killCamBuffer;
     private int _killCamIndex;
     private int _killCamStartIndex; // Track where we started in the buffer
@@ -183,55 +194,80 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
         Debug.Log($"[PlayerCamera] Starting KillCam — victim:{victimActorNumber}, killer:{killerActorNumber}");
 
-        // Try to start with victim replay
-        _killCamBuffer = KillCamManager.Instance.GetKillerBuffer(victimActorNumber);
-        
-        if (_killCamBuffer != null && _killCamBuffer.Count > 0)
+        _victimBuffer = KillCamManager.Instance.GetKillerBuffer(victimActorNumber);
+        _killerBuffer = KillCamManager.Instance.GetKillerBuffer(killerActorNumber);
+
+        if ((_victimBuffer == null || _victimBuffer.Count == 0) && (_killerBuffer == null || _killerBuffer.Count == 0))
+        {
+            Debug.LogWarning("[PlayerCamera] No replay data available for victim or killer.");
+            _isSpectatorMode = true;
+            return;
+        }
+
+        _killCamLayer = LayerMask.NameToLayer("KillCam");
+        if (_killCamLayer == -1) _killCamLayer = 31; // Fallback
+
+        // Setup replay bodies from KillCamManager
+        _victimClone = KillCamManager.Instance.victimReplayBody;
+        _killerClone = KillCamManager.Instance.killerReplayBody;
+
+        if (_victimClone == null && _killerClone == null)
+        {
+            Debug.LogError("[PlayerCamera] Replay bodies not assigned in KillCamManager!");
+            _isSpectatorMode = true;
+            return;
+        }
+
+        // Prepare initial indices
+        if (_victimBuffer != null && _victimBuffer.Count > 0)
+        {
+            float totalTime = _victimBuffer[_victimBuffer.Count - 1].timestamp - _victimBuffer[0].timestamp;
+            float startTimestamp = _victimBuffer[_victimBuffer.Count - 1].timestamp - _victimReplayDuration;
+            _victimStartIndex = 0;
+            while (_victimStartIndex < _victimBuffer.Count - 1 && _victimBuffer[_victimStartIndex].timestamp < startTimestamp)
+                _victimStartIndex++;
+            _victimBufferIndex = _victimStartIndex;
+        }
+
+        if (_killerBuffer != null && _killerBuffer.Count > 0)
+        {
+            _killerStartIndex = 0;
+            _killerBufferIndex = 0;
+        }
+
+        // Start with victim stage
+        if (_victimBuffer != null && _victimBuffer.Count > 0)
         {
             _currentKillCamStage = KillCamStage.Victim;
-            // Only play the last N seconds of the victim's buffer
-            float totalBufferTime = _killCamBuffer[_killCamBuffer.Count - 1].timestamp - _killCamBuffer[0].timestamp;
-            if (totalBufferTime > _victimReplayDuration)
-            {
-                // Find index to start from
-                float startTime = _killCamBuffer[_killCamBuffer.Count - 1].timestamp - _victimReplayDuration;
-                _killCamIndex = 0;
-                while (_killCamIndex < _killCamBuffer.Count - 1 && _killCamBuffer[_killCamIndex].timestamp < startTime)
-                {
-                    _killCamIndex++;
-                }
-            }
-            else
-            {
-                _killCamIndex = 0;
-            }
-
-            _killCamStartIndex = _killCamIndex;
-            Debug.Log($"[PlayerCamera] Victim buffer: {_killCamBuffer.Count} frames, starting at index {_killCamIndex}");
+            _killCamBuffer = _victimBuffer;
+            _killCamIndex = _victimBufferIndex;
+            _killCamStartIndex = _victimStartIndex;
         }
         else
         {
-            // Skip to killer if victim buffer missing
-            _killCamBuffer = KillCamManager.Instance.GetKillerBuffer(killerActorNumber);
-            if (_killCamBuffer == null || _killCamBuffer.Count == 0)
-            {
-                Debug.LogWarning($"[PlayerCamera] No record found for victim {victimActorNumber} or killer {killerActorNumber}");
-                // Fallback: go straight to spectator mode
-                _isSpectatorMode = true;
-                return;
-            }
             _currentKillCamStage = KillCamStage.Killer;
-            _killCamIndex = 0;
-            _killCamStartIndex = 0;
-            Debug.Log($"[PlayerCamera] Killer buffer: {_killCamBuffer.Count} frames");
+            _killCamBuffer = _killerBuffer;
+            _killCamIndex = _killerBufferIndex;
+            _killCamStartIndex = _killerStartIndex;
         }
 
         _isKillCamActive = true;
         _killCamStartTime = Time.time;
         _wasShootingInKillCam = false;
 
-        // Ensure the camera itself is enabled during kill cam
-        if (cam != null) cam.enabled = true;
+        // Activate KillCam UI/Camera/Bodies
+        KillCamManager.Instance.SetKillCamActive(true);
+
+        // Disable our main camera component while killcam camera is active
+        if (cam != null) cam.enabled = false;
+    }
+
+
+    private void SetLayerRecursive(GameObject obj, int layer)
+    {
+        obj.layer = layer;
+        foreach (Transform child in obj.transform)
+            SetLayerRecursive(child.gameObject, layer);
     }
 
     private void UpdateKillCam()
@@ -243,70 +279,76 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         }
 
         float elapsedTime = Time.time - _killCamStartTime;
-
-        // Use the start index's timestamp as the reference, not buffer[0]
         float bufferStartTime = _killCamBuffer[_killCamStartIndex].timestamp;
-        
-        // Find the correct frame based on elapsed time
-        while (_killCamIndex < _killCamBuffer.Count - 1 && 
-               (_killCamBuffer[_killCamIndex].timestamp - bufferStartTime) < elapsedTime)
-        {
-            _killCamIndex++;
-        }
+        float currentReplayTimestamp = bufferStartTime + elapsedTime;
 
-        // Clamp to valid range
-        if (_killCamIndex >= _killCamBuffer.Count)
-        {
-            SwitchKillCamStage();
-            return;
-        }
+        // Drive main camera (position/rotation) via the KillCamManager's camera holder
+        while (_killCamIndex < _killCamBuffer.Count - 1 && _killCamBuffer[_killCamIndex].timestamp < currentReplayTimestamp)
+            _killCamIndex++;
 
         var frame = _killCamBuffer[_killCamIndex];
         
-        cameraHolder.position = frame.position;
-        transform.rotation = frame.rotation;
-        cameraHolder.localRotation = Quaternion.Euler(frame.cameraPitch, 0f, 0f);
-
-        // BULLET RECORDING/REPLAY
-        if (frame.isShooting && !_wasShootingInKillCam)
+        Camera kCam = KillCamManager.Instance.killCamCamera;
+        if (kCam != null)
         {
-            SpawnKillCamBullet();
+            kCam.transform.position = frame.position;
+            kCam.transform.rotation = frame.rotation * Quaternion.Euler(frame.cameraPitch, 0f, 0f);
         }
+
+        // Drive Replay Bodies
+        DriveClone(_victimClone, _victimBuffer, currentReplayTimestamp);
+        DriveClone(_killerClone, _killerBuffer, currentReplayTimestamp);
+
+        // Replay shooting (visual only)
+        if (frame.isShooting && !_wasShootingInKillCam)
+            SpawnKillCamBulletFromFrame(frame);
         _wasShootingInKillCam = frame.isShooting;
 
-        float currentStageMaxDuration = (_currentKillCamStage == KillCamStage.Victim) ? _victimReplayDuration : _killCamDuration;
-
-        // End stage if time expired OR we've reached the end of the buffer
-        if (elapsedTime >= currentStageMaxDuration || _killCamIndex >= _killCamBuffer.Count - 1)
-        {
+        float maxDuration = (_currentKillCamStage == KillCamStage.Victim) ? _victimReplayDuration : _killCamDuration;
+        if (elapsedTime >= maxDuration || _killCamIndex >= _killCamBuffer.Count - 1)
             SwitchKillCamStage();
+    }
+
+    private void DriveClone(GameObject clone, List<PlayerRecorder.PlayerStateFrame> buffer, float timestamp)
+    {
+        if (clone == null || buffer == null || buffer.Count == 0) return;
+
+        // Find frame for clone
+        int idx = 0;
+        while (idx < buffer.Count - 1 && buffer[idx].timestamp < timestamp)
+            idx++;
+        
+        var frame = buffer[idx];
+        // The recorded position is cameraHolder.position, so we need to offset it down to get player base
+        clone.transform.position = frame.position - (frame.rotation * Vector3.up * CurrentCameraY);
+        clone.transform.rotation = frame.rotation;
+
+        // Drive Pitch for upper-body layers on clone's animator
+        Animator anim = clone.GetComponentInChildren<Animator>();
+        if (anim != null)
+        {
+            float t = Mathf.InverseLerp(-maxLookAngle * 1.5f, maxLookAngle * 1.5f, frame.cameraPitch);
+            float aimPitch = t * 2f - 1f;
+            anim.SetFloat("AimPitch", aimPitch, 0.1f, Time.deltaTime);
+            
+            // Note: Since we don't record movement speed/directions, they will stay at 0 or whatever they are.
         }
     }
 
-    private void SpawnKillCamBullet()
+    private void SpawnKillCamBulletFromFrame(PlayerRecorder.PlayerStateFrame frame)
     {
         if (string.IsNullOrEmpty(killCamBulletName)) return;
 
-        // Spawn a visual-only bullet during kill cam
-        // We use regular Instantiate because we don't want this networked bullet to be synced as a real bullet
-        // However, since NetworkBullet REQUIRES a photonView, we should ideally use a non-networked version
-        // or just spawn it locally. PhotonNetwork.Instantiate always makes it networked.
-        // Let's use a simple Instantiate and manually add the visual script if needed, 
-        // but for now, the most compatible way is to use Resources.Load and Instantiate.
-        
         GameObject prefab = Resources.Load<GameObject>(killCamBulletName);
         if (prefab == null) return;
 
-        GameObject bulletObj = Instantiate(prefab, cameraHolder.position, cameraHolder.rotation);
+        // Spawn at recorded camera position/rotation
+        GameObject bulletObj = Instantiate(prefab, frame.position, frame.rotation * Quaternion.Euler(frame.cameraPitch, 0f, 0f));
         if (bulletObj != null)
         {
+            SetLayerRecursive(bulletObj, _killCamLayer);
             NetworkBullet bullet = bulletObj.GetComponent<NetworkBullet>();
-            if (bullet != null)
-            {
-                bullet.SetKillCamMode(true);
-            }
-            
-            // Also disable PhotonView to avoid errors on non-networked object
+            if (bullet != null) bullet.SetKillCamMode(true);
             PhotonView pv = bulletObj.GetComponent<PhotonView>();
             if (pv != null) pv.enabled = false;
         }
@@ -316,22 +358,19 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     {
         if (_currentKillCamStage == KillCamStage.Victim)
         {
-            // Switch to Killer
-            _killCamBuffer = KillCamManager.Instance.GetKillerBuffer(_killerActorNumber);
-            if (_killCamBuffer != null && _killCamBuffer.Count > 0)
+            if (_killerBuffer != null && _killerBuffer.Count > 0)
             {
                 _currentKillCamStage = KillCamStage.Killer;
+                _killCamBuffer = _killerBuffer;
                 _killCamIndex = 0;
                 _killCamStartIndex = 0;
                 _killCamStartTime = Time.time;
                 _wasShootingInKillCam = false;
-                Debug.Log($"[PlayerCamera] Switching to Killer stage — {_killCamBuffer.Count} frames");
+                Debug.Log($"[PlayerCamera] Switching to Killer stage — {_killerBuffer.Count} frames");
                 return;
             }
         }
         
-        // If we finished Killer stage or no Killer buffer found
-        Debug.Log("[PlayerCamera] KillCam finished, entering spectator mode.");
         StopKillCam();
     }
 
@@ -361,6 +400,20 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         _isKillCamActive = false;
         _killCamBuffer = null;
         
+        // Hide Replay UI/Camera/Bodies
+        if (KillCamManager.Instance != null)
+        {
+            KillCamManager.Instance.SetKillCamActive(false);
+        }
+
+        _victimClone = null;
+        _killerClone = null;
+
+        if (cam != null)
+        {
+            cam.enabled = true;
+        }
+
         _isSpectatorMode = true;
     }
 
@@ -543,5 +596,8 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     {
         if (Instance == this)
             Instance = null;
+            
+        // Clean up replay bodies if we own them? 
+        // No, KillCamManager owns them now.
     }
 }
