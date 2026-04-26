@@ -180767,6 +180767,7 @@ MonoBehaviour:
   matchResultPanel: {fileID: 1074605446}
   matchResultText: {fileID: 1177901984}
   activeCardsText: {fileID: 0}
+  killCamOverlay: {fileID: 0}
 --- !u!114 &1420148134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194054,9 +194055,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoundManager
   roundsToWin: 5
   countdownDuration: 3
-  roundOverDelay: 2
+  roundOverDelay: 8
   cardSelectionTimeout: 15
   playerPrefabName: Player
+  mapRotation:
+  - level 1
+  - level 2
+  - level 3
   forceEndRound: 0
   spawnPoints:
   - {fileID: 76448785}

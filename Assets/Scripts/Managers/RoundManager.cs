@@ -15,7 +15,7 @@ public class RoundManager : MonoBehaviourPunCallbacks
     [Header("Round Settings")]
     [SerializeField] private int roundsToWin = 5;
     [SerializeField] private float countdownDuration = 3f;
-    [SerializeField] private float roundOverDelay = 2f;
+    [SerializeField] private float roundOverDelay = 8f; // Must be >= kill cam total (victim 2s + killer 5s)
     [SerializeField] private float cardSelectionTimeout = 15f;
     [SerializeField] private string playerPrefabName = "Player";
 

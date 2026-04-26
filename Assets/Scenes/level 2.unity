@@ -44899,7 +44899,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoundManager
   roundsToWin: 5
   countdownDuration: 3
-  roundOverDelay: 2
+  roundOverDelay: 8
   cardSelectionTimeout: 15
   playerPrefabName: Player
   mapRotation:

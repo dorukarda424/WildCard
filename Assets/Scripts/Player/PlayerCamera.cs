@@ -49,6 +49,7 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     private bool _isKillCamActive;
     private List<PlayerRecorder.PlayerStateFrame> _killCamBuffer;
     private int _killCamIndex;
+    private int _killCamStartIndex; // Track where we started in the buffer
     private float _killCamStartTime;
     private float _killCamDuration = 5f;
     private enum KillCamStage { Victim, Killer }
@@ -167,10 +168,16 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
     public void StartKillCam(int victimActorNumber, int killerActorNumber)
     {
-        if (KillCamManager.Instance == null) return;
+        if (KillCamManager.Instance == null)
+        {
+            Debug.LogWarning("[PlayerCamera] KillCamManager.Instance is null — cannot start kill cam.");
+            return;
+        }
 
         _victimActorNumber = victimActorNumber;
         _killerActorNumber = killerActorNumber;
+
+        Debug.Log($"[PlayerCamera] Starting KillCam — victim:{victimActorNumber}, killer:{killerActorNumber}");
 
         // Try to start with victim replay
         _killCamBuffer = KillCamManager.Instance.GetKillerBuffer(victimActorNumber);
@@ -178,7 +185,7 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         if (_killCamBuffer != null && _killCamBuffer.Count > 0)
         {
             _currentKillCamStage = KillCamStage.Victim;
-            // Only play the last 2 seconds of the victim's buffer
+            // Only play the last N seconds of the victim's buffer
             float totalBufferTime = _killCamBuffer[_killCamBuffer.Count - 1].timestamp - _killCamBuffer[0].timestamp;
             if (totalBufferTime > _victimReplayDuration)
             {
@@ -194,6 +201,9 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
             {
                 _killCamIndex = 0;
             }
+
+            _killCamStartIndex = _killCamIndex;
+            Debug.Log($"[PlayerCamera] Victim buffer: {_killCamBuffer.Count} frames, starting at index {_killCamIndex}");
         }
         else
         {
@@ -202,32 +212,48 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
             if (_killCamBuffer == null || _killCamBuffer.Count == 0)
             {
                 Debug.LogWarning($"[PlayerCamera] No record found for victim {victimActorNumber} or killer {killerActorNumber}");
+                // Fallback: go straight to spectator mode
+                _isSpectatorMode = true;
                 return;
             }
             _currentKillCamStage = KillCamStage.Killer;
             _killCamIndex = 0;
+            _killCamStartIndex = 0;
+            Debug.Log($"[PlayerCamera] Killer buffer: {_killCamBuffer.Count} frames");
         }
 
         _isKillCamActive = true;
         _killCamStartTime = Time.time;
+
+        // Ensure the camera itself is enabled during kill cam
+        if (cam != null) cam.enabled = true;
     }
 
     private void UpdateKillCam()
     {
-        if (_killCamBuffer == null || _killCamIndex >= _killCamBuffer.Count)
+        if (_killCamBuffer == null || _killCamBuffer.Count == 0)
         {
             SwitchKillCamStage();
             return;
         }
 
         float elapsedTime = Time.time - _killCamStartTime;
-        float bufferStartTime = _killCamBuffer[0].timestamp;
+
+        // Use the start index's timestamp as the reference, not buffer[0]
+        float bufferStartTime = _killCamBuffer[_killCamStartIndex].timestamp;
         
         // Find the correct frame based on elapsed time
         while (_killCamIndex < _killCamBuffer.Count - 1 && 
                (_killCamBuffer[_killCamIndex].timestamp - bufferStartTime) < elapsedTime)
         {
             _killCamIndex++;
+        }
+
+        // Clamp to valid range
+        if (_killCamIndex >= _killCamBuffer.Count)
+        {
+            SwitchKillCamStage();
+            return;
         }
 
         var frame = _killCamBuffer[_killCamIndex];
@@ -238,7 +264,8 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
         float currentStageMaxDuration = (_currentKillCamStage == KillCamStage.Victim) ? _victimReplayDuration : _killCamDuration;
 
-        if (elapsedTime >= currentStageMaxDuration)
+        // End stage if time expired OR we've reached the end of the buffer
+        if (elapsedTime >= currentStageMaxDuration || _killCamIndex >= _killCamBuffer.Count - 1)
         {
             SwitchKillCamStage();
         }
@@ -254,12 +281,15 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
             {
                 _currentKillCamStage = KillCamStage.Killer;
                 _killCamIndex = 0;
+                _killCamStartIndex = 0;
                 _killCamStartTime = Time.time;
+                Debug.Log($"[PlayerCamera] Switching to Killer stage — {_killCamBuffer.Count} frames");
                 return;
             }
         }
         
         // If we finished Killer stage or no Killer buffer found
+        Debug.Log("[PlayerCamera] KillCam finished, entering spectator mode.");
         StopKillCam();
     }
 

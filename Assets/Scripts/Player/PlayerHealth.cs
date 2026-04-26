@@ -135,7 +135,8 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
             _playerCamera.StartKillCam(myActorNumber, killerActorNumber);
         }
 
-        SetPlayerActive(false);
+        // Pass true for isLocalDeath so we keep the camera alive for kill cam
+        SetPlayerActive(false, isLocalDeath: photonView.IsMine);
     }
 
     public void Respawn(Vector3 position)
@@ -181,7 +182,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         OnRespawned?.Invoke();
     }
 
-    private void SetPlayerActive(bool active)
+    private void SetPlayerActive(bool active, bool isLocalDeath = false)
     {
         var renderers = GetComponentsInChildren<Renderer>();
         foreach (var r in renderers) r.enabled = active;
@@ -205,6 +206,13 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
 
         var combat = GetComponent<PlayerCombat>();
         if (combat != null) combat.enabled = active;
+
+        // When the local player dies, keep the camera enabled so kill cam can render.
+        // The camera script handles its own state (kill cam → spectator → normal).
+        if (!active && isLocalDeath && _playerCamera != null)
+        {
+            _playerCamera.enabled = true;
+        }
     }
     
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
