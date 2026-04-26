@@ -188,6 +188,7 @@ MonoBehaviour:
   adsSensitivityMultiplier: 0.6
   adsLerpSpeed: 12
   testing: 0
+  killCamBulletName: Projectile_Blaster
   spectatorSpeed: 10
 --- !u!114 &4168701337419765822
 MonoBehaviour:
