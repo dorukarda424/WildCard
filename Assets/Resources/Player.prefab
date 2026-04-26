@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 3684935998521264107}
   - component: {fileID: 1120967927213681622}
   - component: {fileID: 729677808937672196}
+  - component: {fileID: 8144500229948268745}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -452,6 +453,22 @@ MonoBehaviour:
   localAimRig: {fileID: 0}
   localHandRig: {fileID: 0}
   weightTransitionSpeed: 10
+--- !u!114 &8144500229948268745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2672267509951206161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4132256d6e1a88045a19ce9ad0e2591e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageFlashOverlay
+  flashColor: {r: 0.8, g: 0.05, b: 0.05, a: 0.35}
+  flashDuration: 0.25
+  scaleWithDamage: 1
+  useVignette: 1
 --- !u!1 &4084110680391100292
 GameObject:
   m_ObjectHideFlags: 0
