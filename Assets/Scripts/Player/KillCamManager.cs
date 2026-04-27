@@ -32,7 +32,12 @@ public class KillCamManager : MonoBehaviour
     {
         if (victimReplayBody != null) victimReplayBody.SetActive(false);
         if (killerReplayBody != null) killerReplayBody.SetActive(false);
-        if (killCamCamera != null) killCamCamera.enabled = false;
+        if (killCamCamera != null) 
+        {
+            killCamCamera.enabled = false;
+            killCamCamera.gameObject.SetActive(false);
+        }
+        if (replayRoot != null) replayRoot.SetActive(false);
         
         // Disable gameplay scripts on replay bodies if they are not already disabled
         DisableGameplayScripts(victimReplayBody);
@@ -53,7 +58,11 @@ public class KillCamManager : MonoBehaviour
 
     public void SetKillCamActive(bool active)
     {
-        if (killCamCamera != null) killCamCamera.enabled = active;
+        if (killCamCamera != null) 
+        {
+            killCamCamera.enabled = active;
+            killCamCamera.gameObject.SetActive(active);
+        }
         if (victimReplayBody != null) victimReplayBody.SetActive(active);
         if (killerReplayBody != null) killerReplayBody.SetActive(active);
         if (replayRoot != null) replayRoot.SetActive(active);
