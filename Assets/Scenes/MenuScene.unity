@@ -730,7 +730,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: WILDCARDS
+  m_text: WILD CARDS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6bf3bb3f5d5284248998f235cb5a0c68, type: 2}
   m_sharedMaterial: {fileID: -633393761115410925, guid: 6bf3bb3f5d5284248998f235cb5a0c68, type: 2}
@@ -1680,7 +1680,9 @@ MonoBehaviour:
   roundsToWin: 5
   maxPlayers: 4
   currentMapIndex: 0
+  currentRound: 0
   localPlayerCards: []
+  nextSceneName: 
 --- !u!1 &1432417979
 GameObject:
   m_ObjectHideFlags: 0
