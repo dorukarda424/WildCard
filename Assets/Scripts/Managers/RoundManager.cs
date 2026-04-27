@@ -49,6 +49,7 @@ public class RoundManager : MonoBehaviourPunCallbacks
     private HashSet<int> _registeredPlayerActors = new HashSet<int>();
     private HashSet<int> _cardPickedActors = new HashSet<int>();
     private bool _isLoadingNextMap = false;
+    private bool _localPlayerSpawned = false;
 
     public System.Action<RoundState> OnStateChanged;
     public System.Action<int> OnRoundStarted;
@@ -80,6 +81,13 @@ public class RoundManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+        // Fallback: if Awake() couldn't spawn because the room wasn't ready yet,
+        // retry every frame until we succeed (handles AutomaticallySyncScene timing)
+        if (!_localPlayerSpawned && (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom != null))
+        {
+            SpawnLocalPlayer();
+        }
+
         // ------------- DEBUG: FORCE END ROUND -------------
         if (forceEndRound)
         {
@@ -401,6 +409,9 @@ public class RoundManager : MonoBehaviourPunCallbacks
     // ────────── SPAWNING & FREEZE ──────────
     private void SpawnLocalPlayer()
     {
+        if (_localPlayerSpawned) return;
+        _localPlayerSpawned = true;
+
         Vector3 spawnPos = Vector3.zero;
         int localActor = PhotonNetwork.InRoom ? PhotonNetwork.LocalPlayer.ActorNumber : 1;
 
