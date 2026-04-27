@@ -73,6 +73,9 @@ public class GameHUD : MonoBehaviour
             RoundManager.Instance.OnStateChanged += OnRoundStateChanged;
             RoundManager.Instance.OnPlayerKilled += OnPlayerKilled;
             RoundManager.Instance.OnMatchWon += OnMatchWon;
+
+            // Force initial UI update to prevent missing the first state if events fire before Start
+            OnRoundStateChanged(RoundManager.Instance.CurrentState);
         }
     }
 

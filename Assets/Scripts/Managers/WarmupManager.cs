@@ -112,20 +112,29 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         if (_localPlayerSpawned) return;
         _localPlayerSpawned = true;
 
-        int localActor = PhotonNetwork.LocalPlayer.ActorNumber;
-        Vector3 spawnPos = GetSpawnPosition(localActor);
+        try
+        {
+            int localActor = PhotonNetwork.LocalPlayer.ActorNumber;
+            Vector3 spawnPos = GetSpawnPosition(localActor);
 
-        PhotonNetwork.Instantiate(playerPrefabName, spawnPos, Quaternion.identity);
+            PhotonNetwork.Instantiate(playerPrefabName, spawnPos, Quaternion.identity);
 
-        Debug.Log($"[WarmupManager] Local player spawned at {spawnPos}");
+            Debug.Log($"[WarmupManager] Local player spawned at {spawnPos}");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"[WarmupManager] Failed to spawn local player: {e.Message}\n{e.StackTrace}");
+            _localPlayerSpawned = false; // Allow retrying next frame
+        }
     }
 
     private Vector3 GetSpawnPosition(int actorNumber)
     {
         if (spawnPoints != null && spawnPoints.Length > 0)
         {
-            int index = (actorNumber - 1) % spawnPoints.Length;
-            return spawnPoints[index].position;
+            int index = Mathf.Max(0, actorNumber - 1) % spawnPoints.Length;
+            if (spawnPoints[index] != null)
+                return spawnPoints[index].position;
         }
         return new Vector3((actorNumber - 1) * 3f, 1f, 0f);
     }

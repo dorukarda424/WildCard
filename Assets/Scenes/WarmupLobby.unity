@@ -2753,8 +2753,8 @@ MonoBehaviour:
   - {fileID: 508830994}
   - {fileID: 1181066407}
   - {fileID: 622779365}
-  minPlayersToStart: 2
-  matchCountdown: 30
+  minPlayersToStart: 1
+  matchCountdown: 15
   disableDamage: 0
   respawnDelay: 2
   countdownText: {fileID: 263954013}

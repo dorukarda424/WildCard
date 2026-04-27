@@ -412,31 +412,47 @@ public class RoundManager : MonoBehaviourPunCallbacks
         if (_localPlayerSpawned) return;
         _localPlayerSpawned = true;
 
-        Vector3 spawnPos = Vector3.zero;
-        int localActor = PhotonNetwork.InRoom ? PhotonNetwork.LocalPlayer.ActorNumber : 1;
+        try
+        {
+            Vector3 spawnPos = Vector3.zero;
+            int localActor = PhotonNetwork.InRoom ? PhotonNetwork.LocalPlayer.ActorNumber : 1;
 
-        if (spawnPoints != null && spawnPoints.Length > 0)
-        {
-            int spawnIndex = (localActor - 1) % spawnPoints.Length;
-            spawnPos = spawnPoints[spawnIndex].position;
-        }
-        else
-        {
-            // Fallback to prevent spawning inside each other if spawn points aren't linked in Inspector
-            spawnPos = new Vector3((localActor - 1) * 3f, 1f, 0f);
-        }
+            if (spawnPoints != null && spawnPoints.Length > 0)
+            {
+                int spawnIndex = Mathf.Max(0, localActor - 1) % spawnPoints.Length;
+                if (spawnPoints[spawnIndex] != null)
+                {
+                    spawnPos = spawnPoints[spawnIndex].position;
+                }
+                else
+                {
+                    spawnPos = new Vector3((localActor - 1) * 3f, 1f, 0f);
+                }
+            }
+            else
+            {
+                // Fallback to prevent spawning inside each other if spawn points aren't linked in Inspector
+                spawnPos = new Vector3((localActor - 1) * 3f, 1f, 0f);
+            }
 
-        if (PhotonNetwork.InRoom)
-        {
-            PhotonNetwork.Instantiate(playerPrefabName, spawnPos, Quaternion.identity);
-        }
-        else
-        {
-            // Çevrimdışı mode test için Resources'tan spawn
-            Instantiate(Resources.Load(playerPrefabName), spawnPos, Quaternion.identity);
-        }
+            if (PhotonNetwork.InRoom)
+            {
+                PhotonNetwork.Instantiate(playerPrefabName, spawnPos, Quaternion.identity);
+            }
+            else
+            {
+                // Çevrimdışı mode test için Resources'tan spawn
+                Instantiate(Resources.Load(playerPrefabName), spawnPos, Quaternion.identity);
+            }
 
-        RegisterPlayer(localActor);
+            RegisterPlayer(localActor);
+            Debug.Log($"[RoundManager] Local player successfully spawned at {spawnPos}");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"[RoundManager] Failed to spawn local player: {e.Message}\n{e.StackTrace}");
+            _localPlayerSpawned = false; // Allow retrying if it was a temporary error
+        }
     }
 
     private void RespawnAllPlayers()

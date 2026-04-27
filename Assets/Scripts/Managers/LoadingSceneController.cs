@@ -68,22 +68,23 @@ public class LoadingSceneController : MonoBehaviour
         // Wait for the specified duration
         yield return new WaitForSeconds(waitDuration);
 
+        string targetScene = "level 1"; // Default fallback
         if (GameManager.instance != null && !string.IsNullOrEmpty(GameManager.instance.nextSceneName))
         {
-            string targetScene = GameManager.instance.nextSceneName;
-
-            if (PhotonNetwork.InRoom)
-            {
-                PhotonNetwork.LoadLevel(targetScene);
-            }
-            else
-            {
-                SceneManager.LoadScene(targetScene);
-            }
+            targetScene = GameManager.instance.nextSceneName;
         }
         else
         {
-            Debug.LogWarning("[LoadingSceneController] Next scene name is missing in GameManager!");
+            Debug.LogWarning("[LoadingSceneController] Next scene name is missing in GameManager! Falling back to 'level 1'.");
+        }
+
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LoadLevel(targetScene);
+        }
+        else
+        {
+            SceneManager.LoadScene(targetScene);
         }
     }
 }
