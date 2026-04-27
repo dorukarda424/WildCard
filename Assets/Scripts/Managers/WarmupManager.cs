@@ -58,6 +58,14 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         }
         Instance = this;
     }
+    
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
 
     private void Start()
     {
@@ -333,5 +341,5 @@ public class WarmupManager : MonoBehaviourPunCallbacks
     /// Other scripts (like PlayerHealth) can check this to decide
     /// whether death should end the round or just respawn.
     /// </summary>
-    public static bool IsWarmup => Instance != null;
+    public static bool IsWarmup => Instance != null && Instance.gameObject != null;
 }

@@ -349,7 +349,7 @@ MonoBehaviour:
   baseFireRate: 0.3
   baseMaxAmmo: 8
   baseMoveSpeed: 5
-  baseBulletSpeed: 20
+  baseBulletSpeed: 60
   baseReloadSpeed: 1.5
   baseSprintSpeed: 10
   baseCrouchSpeed: 2.5
@@ -840,7 +840,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 521
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
