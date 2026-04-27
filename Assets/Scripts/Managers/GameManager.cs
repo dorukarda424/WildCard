@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     [Tooltip("Locally saved cards to bypass Photon network delays during quick scene transitions.")]
     public List<string> localPlayerCards = new List<string>();
 
+    [Header("Next Scene")]
+    public string nextSceneName;
     void Awake()
     {
         if (instance == null)

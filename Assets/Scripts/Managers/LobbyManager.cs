@@ -246,7 +246,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 GameManager.instance.ResetMapRotation();
             }
 
-            PhotonNetwork.LoadLevel("level 1");
+            GameManager.instance.nextSceneName = "level 1"; // Set destination
+            PhotonNetwork.LoadLevel("LoadingScene");       // Load intermediate
         }
     }
 

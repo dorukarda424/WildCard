@@ -369,13 +369,18 @@ public class RoundManager : MonoBehaviourPunCallbacks
 
         Debug.Log($"[RoundManager] Map rotation: {mapRotation[currentIndex]} → {nextMap} (index {nextIndex})");
 
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.nextSceneName = nextMap;
+        }
+        
         if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel(nextMap);
+            PhotonNetwork.LoadLevel("LoadingScene");
         }
         else if (!PhotonNetwork.InRoom)
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(nextMap);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("LoadingScene");
         }
     }
 
