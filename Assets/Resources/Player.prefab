@@ -240,7 +240,6 @@ GameObject:
   - component: {fileID: 8248626033275103989}
   - component: {fileID: 3684935998521264107}
   - component: {fileID: 1120967927213681622}
-  - component: {fileID: 729677808937672196}
   - component: {fileID: 8144500229948268745}
   - component: {fileID: 6965045710309797887}
   m_Layer: 0
@@ -657,23 +656,6 @@ MonoBehaviour:
   pulseIntensity: 0.15
   damageFlashColor: {r: 0.8, g: 0.2, b: 0, a: 0.3}
   damageFlashDuration: 0.15
---- !u!114 &729677808937672196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2672267509951206161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08b859eff2080ae45a33c309c8cc7fcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerRigController
-  globalAimRig: {fileID: 0}
-  globalHandRig: {fileID: 0}
-  localAimRig: {fileID: 0}
-  localHandRig: {fileID: 0}
-  weightTransitionSpeed: 10
 --- !u!114 &8144500229948268745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -778,7 +760,7 @@ Transform:
   m_GameObject: {fileID: 4084110680391100292}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.081, y: 0.024, z: 0.265}
+  m_LocalPosition: {x: 0.0727, y: 0.0268, z: 0.265}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1940,6 +1922,18 @@ PrefabInstance:
     - target: {fileID: 5580963254329074261, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
       propertyPath: m_Name
       value: LocalPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824410947730661290, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.3738
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824410947730661290, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.4549
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824410947730661290, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0488
       objectReference: {fileID: 0}
     - target: {fileID: 7902749258632322754, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
       propertyPath: near clip plane

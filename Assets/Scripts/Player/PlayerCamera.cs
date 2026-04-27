@@ -93,8 +93,7 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        _isLocalPlayer = (photonView != null && photonView.IsMine)
-                      || !Photon.Pun.PhotonNetwork.InRoom;
+        _isLocalPlayer = (photonView != null && photonView.IsMine) || !Photon.Pun.PhotonNetwork.InRoom;
 
         if (_isLocalPlayer)
         {

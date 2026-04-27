@@ -414,32 +414,32 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 
         foreach (Animator anim in _animators)
         {
-            if (anim == null) continue;
+            if (anim == null || !anim.hasBoundPlayables) continue; // Check if animator is active and playing
 
             if (!hasInput)
             {
-                anim.SetFloat("MoveX", 0f, 0.1f, Time.deltaTime);
-                anim.SetFloat("MoveY", 0f, 0.1f, Time.deltaTime);
-                anim.SetFloat("Speed", 0f, 0.1f, Time.deltaTime);
+                if (HasParameter("MoveX", anim)) anim.SetFloat("MoveX", 0f, 0.1f, Time.deltaTime);
+                if (HasParameter("MoveY", anim)) anim.SetFloat("MoveY", 0f, 0.1f, Time.deltaTime);
+                if (HasParameter("Speed", anim)) anim.SetFloat("Speed", 0f, 0.1f, Time.deltaTime);
             }
             else
             {
-                anim.SetFloat("MoveX", moveX, 0.1f, Time.deltaTime);
-                anim.SetFloat("MoveY", moveY, 0.1f, Time.deltaTime);
-                anim.SetFloat("Speed", speed, 0.1f, Time.deltaTime);
+                if (HasParameter("MoveX", anim)) anim.SetFloat("MoveX", moveX, 0.1f, Time.deltaTime);
+                if (HasParameter("MoveY", anim)) anim.SetFloat("MoveY", moveY, 0.1f, Time.deltaTime);
+                if (HasParameter("Speed", anim)) anim.SetFloat("Speed", speed, 0.1f, Time.deltaTime);
             }
 
             if (!_isRemotePlayer)
             {
-                anim.SetBool("IsGrounded", IsGrounded);
-                anim.SetBool("IsCrouching", CurrentState == PlayerState.Crouching);
-                anim.SetBool("IsLatched", CurrentState == PlayerState.Latched);
-                anim.SetBool("IsAirborne", CurrentState == PlayerState.Airborne);
-                anim.SetBool("IsSprinting", CurrentState == PlayerState.Sprinting);
-                anim.SetBool("IsSliding", CurrentState == PlayerState.Sliding);
-                anim.SetBool("IsAiming", isAiming);
-                anim.SetBool("IsShooting", isShooting);
-                anim.SetBool("IsReloading", isReloading);
+                if (HasParameter("IsGrounded", anim)) anim.SetBool("IsGrounded", IsGrounded);
+                if (HasParameter("IsCrouching", anim)) anim.SetBool("IsCrouching", CurrentState == PlayerState.Crouching);
+                if (HasParameter("IsLatched", anim)) anim.SetBool("IsLatched", CurrentState == PlayerState.Latched);
+                if (HasParameter("IsAirborne", anim)) anim.SetBool("IsAirborne", CurrentState == PlayerState.Airborne);
+                if (HasParameter("IsSprinting", anim)) anim.SetBool("IsSprinting", CurrentState == PlayerState.Sprinting);
+                if (HasParameter("IsSliding", anim)) anim.SetBool("IsSliding", CurrentState == PlayerState.Sliding);
+                if (HasParameter("IsAiming", anim)) anim.SetBool("IsAiming", isAiming);
+                if (HasParameter("IsShooting", anim)) anim.SetBool("IsShooting", isShooting);
+                if (HasParameter("IsReloading", anim)) anim.SetBool("IsReloading", isReloading);
             }
         }
     }
@@ -633,5 +633,14 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
             }
             yield return new WaitForSeconds(5f);
         }
+    }
+    
+    private bool HasParameter(string paramName, Animator anim)
+    {
+        foreach (AnimatorControllerParameter param in anim.parameters)
+        {
+            if (param.name == paramName) return true;
+        }
+        return false;
     }
 }
