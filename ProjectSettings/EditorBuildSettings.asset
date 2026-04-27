@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/GameScene.unity
     guid: 02bb6103da5377646823d70dfc171682
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LoadingScene.unity
     guid: 1c431f8fb4e3729449c94c2a608c6bfc
   - enabled: 1
@@ -29,7 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/level 3.unity
     guid: 9e00d88e6919aaa4d855bc607c5a34ce
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Mechanics.unity
     guid: cc06eceab3cc38448890fe5148950b78
   - enabled: 1
