@@ -414,7 +414,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 
         foreach (Animator anim in _animators)
         {
-            if (anim == null) continue;
+            if (anim == null || anim.runtimeAnimatorController == null) continue;
 
             if (!hasInput)
             {
@@ -431,15 +431,16 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 
             if (!_isRemotePlayer)
             {
-                anim.SetBool("IsGrounded", IsGrounded);
-                anim.SetBool("IsCrouching", CurrentState == PlayerState.Crouching);
-                anim.SetBool("IsLatched", CurrentState == PlayerState.Latched);
-                anim.SetBool("IsAirborne", CurrentState == PlayerState.Airborne);
-                anim.SetBool("IsSprinting", CurrentState == PlayerState.Sprinting);
-                anim.SetBool("IsSliding", CurrentState == PlayerState.Sliding);
-                anim.SetBool("IsAiming", isAiming);
-                anim.SetBool("IsShooting", isShooting);
-                anim.SetBool("IsReloading", isReloading);
+                // Use a helper method for safety or check manually
+                SetBoolSafe(anim, "IsGrounded", IsGrounded);
+                SetBoolSafe(anim, "IsCrouching", CurrentState == PlayerState.Crouching);
+                SetBoolSafe(anim, "IsLatched", CurrentState == PlayerState.Latched);
+                SetBoolSafe(anim, "IsAirborne", CurrentState == PlayerState.Airborne);
+                SetBoolSafe(anim, "IsSprinting", CurrentState == PlayerState.Sprinting);
+                SetBoolSafe(anim, "IsSliding", CurrentState == PlayerState.Sliding);
+                SetBoolSafe(anim, "IsAiming", isAiming);
+                SetBoolSafe(anim, "IsShooting", isShooting);
+                SetBoolSafe(anim, "IsReloading", isReloading);
             }
         }
     }
@@ -632,6 +633,21 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
                 Debug.Log($"[VisibilityDebug] {gameObject.name}: Pos={transform.position}, Scale={transform.localScale}, Renderers={enabledCount}/{renderers.Length} enabled, ActiveSelf={gameObject.activeSelf}");
             }
             yield return new WaitForSeconds(5f);
+        }
+    }
+    private bool HasParameter(Animator anim, string paramName)
+    {
+        foreach (AnimatorControllerParameter param in anim.parameters)
+        {
+            if (param.name == paramName) return true;
+        }
+        return false;
+    }
+    private void SetBoolSafe(Animator anim, string paramName, bool value)
+    {
+        if (HasParameter(anim, paramName))
+        {
+            anim.SetBool(paramName, value);
         }
     }
 }
