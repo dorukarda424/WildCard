@@ -299,6 +299,15 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 
         if (!wasGrounded && IsGrounded)
         {
+            float fallSpeed = Mathf.Abs(_velocity.y);
+            if (fallSpeed > EffFallDamageThreshold)
+            {
+                float damage = (fallSpeed - EffFallDamageThreshold) * EffFallDamageMultiplier;
+                var health = GetComponent<PlayerHealth>();
+                if (health != null) health.TakeDamageLocal(damage);
+                Debug.Log($"[PlayerMovement] Fall damage: {damage} (FallSpeed: {fallSpeed})");
+            }
+
             _velocity.x = 0f;
             _velocity.z = 0f;
             _airborneTime = 0f;
