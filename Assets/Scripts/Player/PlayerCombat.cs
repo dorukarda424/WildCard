@@ -38,7 +38,7 @@ public class PlayerCombat : MonoBehaviourPunCallbacks, IPunObservable
     private PlayerCamera _playerCamera;
     private AudioSource _as;
     
-    private bool IsLocalPlayer => testing || !PhotonNetwork.InRoom || (photonView != null && photonView.IsMine);
+    private bool IsLocalPlayer => (photonView != null && photonView.IsMine) || !PhotonNetwork.InRoom;
 
     public int CurrentAmmo => _currentAmmo;
     public int MaxAmmo => _stats != null ? _stats.MaxAmmo : 8;

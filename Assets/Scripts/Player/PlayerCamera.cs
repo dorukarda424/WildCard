@@ -93,8 +93,7 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        _isLocalPlayer = testing
-                      || (photonView != null && photonView.IsMine)
+        _isLocalPlayer = (photonView != null && photonView.IsMine)
                       || !Photon.Pun.PhotonNetwork.InRoom;
 
         if (_isLocalPlayer)
@@ -199,8 +198,8 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
         if ((_victimBuffer == null || _victimBuffer.Count == 0) && (_killerBuffer == null || _killerBuffer.Count == 0))
         {
-            Debug.LogWarning("[PlayerCamera] No replay data available for victim or killer.");
-            _isSpectatorMode = true;
+            Debug.LogWarning("[PlayerCamera] No replay data available for victim or killer. Not starting KillCam.");
+            // _isSpectatorMode = true; // Don't force spectator mode here, let the caller decide
             return;
         }
 
@@ -214,7 +213,7 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         if (_victimClone == null && _killerClone == null)
         {
             Debug.LogError("[PlayerCamera] Replay bodies not assigned in KillCamManager!");
-            _isSpectatorMode = true;
+            // _isSpectatorMode = true;
             return;
         }
 
@@ -572,23 +571,26 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Disables all other cameras in the scene so the player sees through their own camera.
-    /// This handles the case where a scene camera (e.g. Main Camera) is left active.
+    /// Disables the default scene camera so the player sees through their own camera.
     /// </summary>
     private void DisableOtherCameras()
     {
         if (cam == null) return;
 
-        Camera[] allCameras = FindObjectsByType<Camera>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-        foreach (Camera otherCam in allCameras)
+        // Instead of disabling ALL cameras, we only disable the one tagged MainCamera
+        // to avoid disabling other players' cameras in multiplayer.
+        GameObject mainCamObj = GameObject.FindWithTag("MainCamera");
+        if (mainCamObj != null)
         {
-            if (otherCam == cam) continue; // Skip our own camera
-
-            Debug.Log($"[PlayerCamera] Disabling competing camera: {otherCam.gameObject.name}");
-            otherCam.enabled = false;
-
-            var listener = otherCam.GetComponent<AudioListener>();
-            if (listener != null) listener.enabled = false;
+            Camera mainCam = mainCamObj.GetComponent<Camera>();
+            if (mainCam != null && mainCam != cam)
+            {
+                Debug.Log($"[PlayerCamera] Disabling scene camera: {mainCamObj.name}");
+                mainCam.enabled = false;
+                
+                var listener = mainCamObj.GetComponent<AudioListener>();
+                if (listener != null) listener.enabled = false;
+            }
         }
     }
 

@@ -12,7 +12,7 @@ public class PlayerMeshSwitcher : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        bool isLocal = testing || !PhotonNetwork.InRoom || (photonView != null && photonView.IsMine);
+        bool isLocal = (photonView != null && photonView.IsMine) || !PhotonNetwork.InRoom;
 
         if (isLocal)
         {

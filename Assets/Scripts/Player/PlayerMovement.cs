@@ -115,7 +115,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Start()
     {
-        _isRemotePlayer = !testing && photonView != null && !photonView.IsMine;
+        _isRemotePlayer = (photonView != null && !photonView.IsMine) && PhotonNetwork.InRoom;
 
         if (_isRemotePlayer)
         {
