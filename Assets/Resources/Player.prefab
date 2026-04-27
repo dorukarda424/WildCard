@@ -242,6 +242,7 @@ GameObject:
   - component: {fileID: 1120967927213681622}
   - component: {fileID: 729677808937672196}
   - component: {fileID: 8144500229948268745}
+  - component: {fileID: 6965045710309797887}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -689,6 +690,22 @@ MonoBehaviour:
   flashDuration: 0.25
   scaleWithDamage: 1
   useVignette: 1
+--- !u!114 &6965045710309797887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2672267509951206161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf75091f3bce4c71ab05968b06692f3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KillCamManager
+  killCamCamera: {fileID: 4045636387308030628}
+  victimReplayBody: {fileID: 717238065877260198}
+  killerReplayBody: {fileID: 8663522323803012717}
+  replayRoot: {fileID: 2266836320064900279}
 --- !u!1 &3966192699344817981
 GameObject:
   m_ObjectHideFlags: 0
@@ -1927,6 +1944,10 @@ PrefabInstance:
     - target: {fileID: 7902749258632322754, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
       propertyPath: near clip plane
       value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902749258632322754, guid: e4b9fe4fd193c674ea3c58f527591b4f, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 511
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
