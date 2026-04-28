@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 1120967927213681622}
   - component: {fileID: 729677808937672196}
   - component: {fileID: 8144500229948268745}
+  - component: {fileID: 1864518941704328862}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -470,6 +471,25 @@ MonoBehaviour:
   flashDuration: 0.25
   scaleWithDamage: 1
   useVignette: 1
+--- !u!114 &1864518941704328862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2672267509951206161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39229fbb674171540a237eab365f1723, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerNameTag
+  heightOffset: 2.3
+  fontSize: 3
+  backgroundPadding: {x: 0.4, y: 0.15}
+  maxVisibleDistance: 30
+  fadeStartDistance: 20
+  testing: 0
+  testName: TestPlayer
 --- !u!1 &4084110680391100292
 GameObject:
   m_ObjectHideFlags: 0
