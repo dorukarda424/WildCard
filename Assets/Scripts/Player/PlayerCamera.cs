@@ -404,11 +404,20 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         _isSpectatorMode = false;
         
         // Re-attach camera holder to player transform if it was detached
-        if (cameraHolder != null && cameraHolder.parent == null)
+        if (cameraHolder != null)
         {
-            cameraHolder.SetParent(transform);
-            cameraHolder.localPosition = camOffset;
-            cameraHolder.localRotation = Quaternion.identity;
+            if (cameraHolder.parent == null)
+            {
+                cameraHolder.SetParent(transform);
+                cameraHolder.localPosition = camOffset;
+                cameraHolder.localRotation = Quaternion.identity;
+            }
+
+            // Ensure Y rotation is synced back to player body
+            _yRotation = transform.eulerAngles.y;
+            // Ensure X rotation is synced back to pitch
+            _xRotation = cameraHolder.localEulerAngles.x;
+            if (_xRotation > 180f) _xRotation -= 360f;
         }
     }
 
@@ -445,8 +454,17 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         
         _yRotation += lookX;
 
-        cameraHolder.localRotation=Quaternion.Euler(_xRotation + _recoilOffset, 0f, 0f);
-        transform.rotation = Quaternion.Euler(0f, _yRotation, 0f);
+        if (_isSpectatorMode)
+        {
+            // In spectator mode, apply ALL rotation to the cameraHolder because it's detached
+            cameraHolder.rotation = Quaternion.Euler(_xRotation, _yRotation, 0f);
+        }
+        else
+        {
+            // Normal mode: X on holder, Y on body
+            cameraHolder.localRotation = Quaternion.Euler(_xRotation + _recoilOffset, 0f, 0f);
+            transform.rotation = Quaternion.Euler(0f, _yRotation, 0f);
+        }
 
         // drive AimPitch for upper-body layers on all animators
         if (_animators.Count > 0)
