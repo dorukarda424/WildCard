@@ -162,6 +162,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (_isRemotePlayer)
         {
+            // If the player is dead, don't update their position or animations.
+            // PlayerHealth will handle hiding the model.
+            var health = GetComponent<PlayerHealth>();
+            if (health != null && health.IsDead) return;
+
             _lastNetworkPosition = transform.position;
             transform.position = Vector3.Lerp(transform.position, _networkPosition, Time.deltaTime * 15f);
             float smoothY = Mathf.LerpAngle(transform.eulerAngles.y, _networkRotationY, Time.deltaTime * 15f);

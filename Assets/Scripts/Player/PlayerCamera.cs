@@ -78,7 +78,15 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     public Transform CameraHolder => cameraHolder;
     public float GetPitch() => _xRotation;
     public Camera GetCamera() => cam;
-    public bool IsKillCamActive => _isKillCamActive;
+    public bool IsSpectatorMode => _isSpectatorMode;
+
+    public void StartSpectatorMode()
+    {
+        _isKillCamActive = false;
+        _isSpectatorMode = true;
+        if (cam != null) cam.enabled = true;
+        Debug.Log("[PlayerCamera] Spectator Mode started.");
+    }
 
     private void Awake()
     {
@@ -150,11 +158,13 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         if (!_isLocalPlayer) return;
         if (cameraHolder == null || cam == null) return;
 
+        /* Kill Cam logic disabled for submission
         if (_isKillCamActive)
         {
-            UpdateKillCam();
+            // UpdateKillCam();
             return;
         }
+        */
 
         if (_isSpectatorMode)
         {
@@ -170,6 +180,7 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         HandleAds();
     }
 
+    /*
     public void StartKillCam(int victimActorNumber, int killerActorNumber)
     {
         if (KillCamManager.Instance == null)
@@ -334,6 +345,7 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         Debug.Log("[PlayerCamera] KillCam finished, entering spectator mode.");
         StopKillCam();
     }
+    */
 
     private void UpdateSpectatorMode()
     {
@@ -351,6 +363,7 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
         transform.position += moveDir * spectatorSpeed * Time.deltaTime;
 
+        // In spectator mode, we want the camera to follow its own transform
         cameraHolder.position = transform.position + camOffset;
         
         if (InputManager.Instance.IsJumpPressed) InputManager.Instance.ConsumeJump();

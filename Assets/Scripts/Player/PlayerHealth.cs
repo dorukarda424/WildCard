@@ -129,13 +129,13 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         if (RoundManager.Instance != null)
             RoundManager.Instance.OnPlayerDied(myActorNumber, killerActorNumber);
 
-        // Notify local camera to start Kill Cam if it was us who died
+        // Notify local camera to start Spectator Mode if it was us who died
         if (photonView.IsMine && _playerCamera != null)
         {
-            _playerCamera.StartKillCam(myActorNumber, killerActorNumber);
+            _playerCamera.StartSpectatorMode();
         }
 
-        // Pass true for isLocalDeath so we keep the camera alive for kill cam
+        // Pass true for isLocalDeath so we keep the camera alive
         SetPlayerActive(false, isLocalDeath: photonView.IsMine);
     }
 
@@ -229,8 +229,20 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         else
         {
             _currentHealth = (float)stream.ReceiveNext();
+            bool wasDead = _isDead;
             _isDead = (bool)stream.ReceiveNext();
+            
             OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
+
+            // If we just found out this remote player died, sync their visual state
+            if (_isDead && !wasDead)
+            {
+                SetPlayerActive(false);
+            }
+            else if (!_isDead && wasDead)
+            {
+                SetPlayerActive(true);
+            }
         }
     }
     

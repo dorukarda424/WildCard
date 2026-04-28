@@ -114,7 +114,8 @@ public class GameHUD : MonoBehaviour
         // PlayerCamera.Instance is usually the local player's camera
         if (PlayerCamera.Instance != null)
         {
-            killCamOverlay.SetActive(PlayerCamera.Instance.IsKillCamActive);
+            // Kill Cam is disabled for now, so we keep the overlay hidden
+            killCamOverlay.SetActive(false);
         }
     }
 

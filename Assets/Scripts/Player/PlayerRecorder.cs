@@ -60,11 +60,13 @@ public class PlayerRecorder : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+        /* Kill Cam disabled for submission
         if (Time.time >= _nextRecordTime)
         {
             RecordFrame();
             _nextRecordTime = Time.time + recordInterval;
         }
+        */
     }
 
     private void RecordFrame()

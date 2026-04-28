@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 4168701337419765822}
   - component: {fileID: 380239719270005347}
   - component: {fileID: 4965409537128299735}
-  - component: {fileID: 5695401824522528915}
   - component: {fileID: 143087060618451133}
   - component: {fileID: 7354495380826156600}
   - component: {fileID: 8248626033275103989}
@@ -256,20 +255,6 @@ MonoBehaviour:
   reloadSound: {fileID: 8300000, guid: bef72f713ac1156409e266a2f27d74e8, type: 3}
   emptyClipSound: {fileID: 8300000, guid: c9180e31de2d1e74383a49931035531f, type: 3}
   testing: 0
---- !u!114 &5695401824522528915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2672267509951206161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72aa2e75efed4897b6dec2fe874a03be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerRecorder
-  recordDuration: 5
-  recordInterval: 0.033
 --- !u!82 &143087060618451133
 AudioSource:
   m_ObjectHideFlags: 0
