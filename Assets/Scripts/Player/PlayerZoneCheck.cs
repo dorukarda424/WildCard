@@ -70,8 +70,9 @@ public class PlayerZoneCheck : MonoBehaviourPun
 
             if (_damageTimer >= 1f)
             {
-                // Use local damage — zone damage doesn't need RPC
-                _playerHealth.TakeDamageLocal(damagePerTick);
+                // Use TakeDamageFromNetwork to ensure death is registered across the network (e.g., for RoundManager)
+                // -1 = environment/zone kill (no killer credit)
+                _playerHealth.TakeDamageFromNetwork(damagePerTick, -1);
                 _damageTimer = 0f;
             }
         }
