@@ -248,6 +248,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.IsVisible = false;
 
         // Load the first game level
+        LoadingScreenManager.Show();
         PhotonNetwork.LoadLevel("level 1");
     }
 
@@ -281,6 +282,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         // Return to the UI lobby scene
+        LoadingScreenManager.Show();
         UnityEngine.SceneManagement.SceneManager.LoadScene("LobbyScene");
     }
 

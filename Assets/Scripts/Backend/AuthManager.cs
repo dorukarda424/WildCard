@@ -75,6 +75,7 @@ public class AuthManager : MonoBehaviour
                         Hashtable props = new Hashtable { { "rank", money } };
                         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
+                        LoadingScreenManager.Show();
                         SceneManager.LoadScene("LobbyScene");
                     }
                 }

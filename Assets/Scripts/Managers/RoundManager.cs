@@ -369,6 +369,8 @@ public class RoundManager : MonoBehaviourPunCallbacks
 
         Debug.Log($"[RoundManager] Map rotation: {mapRotation[currentIndex]} → {nextMap} (index {nextIndex})");
 
+        LoadingScreenManager.Show();
+
         if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.LoadLevel(nextMap);

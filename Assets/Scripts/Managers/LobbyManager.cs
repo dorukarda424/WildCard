@@ -165,6 +165,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             // ── Disable auto-match flag so no stale logic fires while we transition. ──
             _isAutoMatch = false;
 
+            LoadingScreenManager.Show();
+
             if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.LoadLevel("WarmupLobby");
@@ -246,6 +248,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 GameManager.instance.ResetMapRotation();
             }
 
+            LoadingScreenManager.Show();
             PhotonNetwork.LoadLevel("level 1");
         }
     }
