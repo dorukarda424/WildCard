@@ -84,7 +84,17 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     {
         _isKillCamActive = false;
         _isSpectatorMode = true;
-        if (cam != null) cam.enabled = true;
+        
+        if (cam != null) 
+        {
+            cam.enabled = true;
+            var listener = cam.GetComponent<AudioListener>();
+            if (listener != null) listener.enabled = true;
+        }
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         Debug.Log("[PlayerCamera] Spectator Mode started.");
     }
 
@@ -353,15 +363,19 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
 
         Vector2 moveInput = InputManager.Instance.MoveInput;
         
-        Vector3 moveDir = transform.forward * moveInput.y + transform.right * moveInput.x;
+        // Use cameraHolder's forward/right for better intuition (looking up moves up)
+        Vector3 moveDir = cameraHolder.forward * moveInput.y + cameraHolder.right * moveInput.x;
         
         float vertical = 0f;
         if (InputManager.Instance.IsJumpPressed) vertical += 1f;
         if (InputManager.Instance.IsCrouching) vertical -= 1f;
         
-        moveDir.y += vertical;
+        moveDir += Vector3.up * vertical;
 
-        transform.position += moveDir * spectatorSpeed * Time.deltaTime;
+        if (moveDir.sqrMagnitude > 0.001f)
+        {
+            transform.position += moveDir * spectatorSpeed * Time.deltaTime;
+        }
 
         // In spectator mode, we want the camera to follow its own transform
         cameraHolder.position = transform.position + camOffset;

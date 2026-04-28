@@ -44,7 +44,8 @@ public class PlayerNameTag : MonoBehaviourPunCallbacks
     private RectTransform _canvasRect;
     private Transform _cameraTransform;
     private bool _isLocalPlayer;
-    private bool _initialized;
+    private bool _isInitialized;
+    private bool _forceHidden;
 
     private void Start()
     {
@@ -59,12 +60,18 @@ public class PlayerNameTag : MonoBehaviourPunCallbacks
 
         CreateNameTagUI();
         SetPlayerName();
-        _initialized = true;
+        _isInitialized = true;
     }
 
     private void LateUpdate()
     {
-        if (!_initialized || _canvas == null) return;
+        if (!_isInitialized || _canvas == null) return;
+
+        if (_forceHidden)
+        {
+            if (_canvas.gameObject.activeSelf) _canvas.gameObject.SetActive(false);
+            return;
+        }
 
         // Cache the camera transform (may change if cameras switch)
         if (_cameraTransform == null || !_cameraTransform.gameObject.activeInHierarchy)
@@ -234,7 +241,7 @@ public class PlayerNameTag : MonoBehaviourPunCallbacks
     /// </summary>
     public void RefreshName()
     {
-        if (_initialized)
+        if (_isInitialized)
         {
             SetPlayerName();
         }
@@ -246,6 +253,7 @@ public class PlayerNameTag : MonoBehaviourPunCallbacks
     /// </summary>
     public void SetVisible(bool visible)
     {
+        _forceHidden = !visible;
         if (_canvas != null)
         {
             _canvas.gameObject.SetActive(visible);
