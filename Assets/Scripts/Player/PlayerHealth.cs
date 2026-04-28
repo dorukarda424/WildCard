@@ -12,7 +12,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
     private bool _isDead;
     private int _shieldCharges;
     private bool _deathProcessed;
-    [SerializeField] private float deathDelay = 3f; // Time to show death screen
+    [SerializeField] private float deathDelay = 1.3f; // Time to show death screen
 
     public event Action<float, float> OnHealthChanged;
     public event Action<int, int> OnDied;
