@@ -207,6 +207,10 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         var combat = GetComponent<PlayerCombat>();
         if (combat != null) combat.enabled = active;
 
+        // Hide/show the name tag together with the player
+        var nameTag = GetComponent<PlayerNameTag>();
+        if (nameTag != null) nameTag.SetVisible(active);
+
         // When the local player dies, keep the camera enabled so kill cam can render.
         // The camera script handles its own state (kill cam → spectator → normal).
         if (!active && isLocalDeath && _playerCamera != null)

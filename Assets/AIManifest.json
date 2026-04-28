@@ -1,0 +1,33 @@
+{
+  "manifest_id": "pillartide_unity_orchestration",
+  "engine_context": "unity_csharp_2d",
+  "performance_target": {
+    "fps": "stable_60",
+    "memory": "zero_gc_alloc_on_update",
+    "draw_calls": "under_100"
+  },
+  "roles": {
+    "architect": {
+      "focus": ["task_decomposition", "scriptable_object_architecture", "dependency_management"],
+      "output": ["technical_plan", "file_structure"]
+    },
+    "gameplay_ui": {
+      "focus": ["unity_ui_optimization", "animator_states", "sprite_atlasing"],
+      "constraints": ["minimized_overdraw", "input_system_v2"]
+    },
+    "systems_logic": {
+      "focus": ["state_machines", "save_system_serialization", "inventory_logic"],
+      "standards": ["modularity", "so_based_data"]
+    },
+    "stability_audit": {
+      "focus": ["profiler_monitoring", "null_reference_prevention", "refactoring"],
+      "standard": "zero_console_errors"
+    }
+  },
+  "protocol": {
+    "1": "analyze_scope",
+    "2": "concurrent_implementation",
+    "3": "profiler_check",
+    "4": "walkthrough_delivery"
+  }
+}
