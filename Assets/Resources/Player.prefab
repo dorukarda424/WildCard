@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdb5e8c920582d4589cee788566c5a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  deathDelay: 3
 --- !u!143 &3814490976768833366
 CharacterController:
   m_ObjectHideFlags: 0
