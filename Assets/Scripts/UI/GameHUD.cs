@@ -189,10 +189,19 @@ public class GameHUD : MonoBehaviour
     private void OnLocalPlayerDied(int myActor, int killerActor)
     {
         if (deathOverlay != null) deathOverlay.SetActive(true);
+        // Automatically hide the death overlay after a duration, regardless of respawn
+        // This ensures the player can see the spectator mode.
+        Invoke(nameof(HideDeathOverlay), 2.0f); 
+    }
+
+    private void HideDeathOverlay()
+    {
+        if (deathOverlay != null) deathOverlay.SetActive(false);
     }
 
     private void OnLocalPlayerRespawned()
     {
+        CancelInvoke(nameof(HideDeathOverlay));
         if (deathOverlay != null) deathOverlay.SetActive(false);
     }
 

@@ -88,14 +88,22 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
         if (cam != null) 
         {
             cam.enabled = true;
+            cam.gameObject.SetActive(true); // Ensure GameObject is active
             var listener = cam.GetComponent<AudioListener>();
             if (listener != null) listener.enabled = true;
+        }
+
+        // Detach camera holder from any parent to ensure it stays at death position
+        // and doesn't get disabled if the player object is disabled or moved.
+        if (cameraHolder != null)
+        {
+            cameraHolder.SetParent(null);
         }
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        Debug.Log("[PlayerCamera] Spectator Mode started.");
+        Debug.Log("[PlayerCamera] Spectator Mode started and detached.");
     }
 
     private void Awake()
@@ -394,6 +402,14 @@ public class PlayerCamera : MonoBehaviourPunCallbacks
     public void StopSpectatorMode()
     {
         _isSpectatorMode = false;
+        
+        // Re-attach camera holder to player transform if it was detached
+        if (cameraHolder != null && cameraHolder.parent == null)
+        {
+            cameraHolder.SetParent(transform);
+            cameraHolder.localPosition = camOffset;
+            cameraHolder.localRotation = Quaternion.identity;
+        }
     }
 
     private void PlayerFollow()
