@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
     private bool _isDead;
     private int _shieldCharges;
     private bool _deathProcessed;
+    [SerializeField] private float deathDelay = 3f; // Time to show death screen
 
     public event Action<float, float> OnHealthChanged;
     public event Action<int, int> OnDied;
@@ -129,14 +130,26 @@ public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable, IDamageab
         if (RoundManager.Instance != null)
             RoundManager.Instance.OnPlayerDied(myActorNumber, killerActorNumber);
 
-        // Notify local camera to start Spectator Mode if it was us who died
-        if (photonView.IsMine && _playerCamera != null)
+        // Start the death sequence if it's the local player
+        if (photonView.IsMine)
         {
-            _playerCamera.StartSpectatorMode();
+            StartCoroutine(DeathSequence());
         }
 
         // Pass true for isLocalDeath so we keep the camera alive
         SetPlayerActive(false, isLocalDeath: photonView.IsMine);
+    }
+
+    private System.Collections.IEnumerator DeathSequence()
+    {
+        // Wait for the specified duration (showing the "Dead" UI)
+        yield return new WaitForSeconds(deathDelay);
+
+        // After the delay, transition to Spectator Mode
+        if (photonView.IsMine && _playerCamera != null)
+        {
+            _playerCamera.StartSpectatorMode();
+        }
     }
 
     public void Respawn(Vector3 position)

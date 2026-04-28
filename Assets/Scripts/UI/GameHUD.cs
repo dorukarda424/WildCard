@@ -47,6 +47,9 @@ public class GameHUD : MonoBehaviour
     [Header("Kill Cam")]
     [SerializeField] private GameObject killCamOverlay;
 
+    [Header("Death UI")]
+    [SerializeField] private GameObject deathOverlay;
+
     private PlayerHealth _localHealth;
     private PlayerCombat _localCombat;
     private PlayerStats _localStats;
@@ -164,14 +167,33 @@ public class GameHUD : MonoBehaviour
         {
             // Unsubscribe from old player (prevents event handler leak)
             if (_localHealth != null)
+            {
                 _localHealth.OnHealthChanged -= OnHealthChanged;
+                _localHealth.OnDied -= OnLocalPlayerDied;
+                _localHealth.OnRespawned -= OnLocalPlayerRespawned;
+            }
 
             _localHealth = found;
             _localCombat = found.GetComponent<PlayerCombat>();
             _localStats = found.GetComponent<PlayerStats>();
 
             _localHealth.OnHealthChanged += OnHealthChanged;
+            _localHealth.OnDied += OnLocalPlayerDied;
+            _localHealth.OnRespawned += OnLocalPlayerRespawned;
+
+            // Sync initial UI state
+            if (deathOverlay != null) deathOverlay.SetActive(_localHealth.IsDead);
         }
+    }
+
+    private void OnLocalPlayerDied(int myActor, int killerActor)
+    {
+        if (deathOverlay != null) deathOverlay.SetActive(true);
+    }
+
+    private void OnLocalPlayerRespawned()
+    {
+        if (deathOverlay != null) deathOverlay.SetActive(false);
     }
 
     // ────────── Health ──────────
